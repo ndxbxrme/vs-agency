@@ -1,0 +1,19 @@
+{
+  "name": "vs-agency",
+  "description": "",
+  "main": "server/app.js",
+  "authors": [
+    "ndxbxrme"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ndxbxrme/vs-agency",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "bower",
+    "test",
+    "tests"
+  ]
+}

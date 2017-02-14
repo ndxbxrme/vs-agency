@@ -1,0 +1,16 @@
+node_modules
+bower
+data
+backup
+.tmp
+build
+env.bat
+server
+!src/server
+dist
+Dockerfile
+env.sh
+init-all.sh
+init-client.sh
+key.pem
+cert.pem
