@@ -1,0 +1,31 @@
+.cases
+  h1 cases
+  .controls
+    .left
+      .sort Order By:
+      .show Show:
+    .right
+      .search
+        input(type='text', ng-model='search')
+  table
+    thead
+      tr
+        th Milestone Status
+        th Property Address
+        th Vendor
+        th Purchaser
+        th Options
+    tbody
+      tr
+        td.milestone icon
+        td
+          .address 9 Walton Road
+          .dates
+            .date Last Updated: 1 week ago
+            .date Date added to the Case: 1 week ago
+            .date Start Date: 11th Jan 2017
+        td.vendor Matthew West
+        td.purchaser Richard Sheeran
+        td.options
+          a.button(href='123456/case') View Case
+  

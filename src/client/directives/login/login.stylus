@@ -1,0 +1,21 @@
+.login
+  display flex
+  justify-content center
+  margin-top 3em
+  .login-holder
+    text-align center
+    input
+      margin-bottom 0.7rem
+    input[type=text], input[type=email], input[type=password]
+        width 320px
+        padding 10px
+    .button
+      padding 5px 30px
+      width 135px
+      color white
+      &.twitter
+        background #55acee
+      &.facebook
+        background #3b5998
+      &:hover
+        background #464e53

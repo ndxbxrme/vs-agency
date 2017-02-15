@@ -1,0 +1,16 @@
+.header
+  .container
+    .branding
+      a.logo(href="/")
+        img.logo(src="public/img/VitalSpaceLogo-2016.svg")
+    nav.main-menu
+      ul.menu
+        li(ng-class="{selected:isSelected('dashboard')}")
+          a(href='/')
+            span Dashboard
+        li(ng-class="{selected:isSelected('cases')}")
+          a(ui-sref='cases')
+            span Cases
+        li(ng-class="{selected:isSelected('setup')}")
+          a(ui-sref='setup')
+            span Setup

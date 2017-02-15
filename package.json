@@ -36,5 +36,20 @@
     "grunt-usemin": "^3.1.1",
     "grunt-wiredep": "^3.0.1",
     "load-grunt-tasks": "^3.5.2"
+  },
+  "dependencies": {
+    "ndx-auth": "0.0.4",
+    "ndx-connect": "0.0.3",
+    "ndx-database-backup": "0.0.6",
+    "ndx-keep-awake": "0.0.4",
+    "ndx-memory-check": "0.0.3",
+    "ndx-passport": "^0.1.8",
+    "ndx-passport-facebook": "0.0.4",
+    "ndx-passport-twitter": "0.0.5",
+    "ndx-server": "^0.2.24",
+    "ndx-socket": "0.0.3",
+    "ndx-static-routes": "0.0.9",
+    "ndx-superadmin": "0.0.6",
+    "ndx-user-roles": "0.0.8"
   }
 }
