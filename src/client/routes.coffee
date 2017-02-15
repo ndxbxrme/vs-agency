@@ -15,7 +15,7 @@ angular.module 'vsAgency'
       user: (auth) ->
         auth.getPromise false
   .state 'case',
-    url: '/:propertyID/case'
+    url: '/:roleId/case'
     templateUrl: 'routes/cases/case.html'
     controller: 'CaseCtrl'
     resolve:

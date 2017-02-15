@@ -7,7 +7,7 @@
     .right
       .search
         input(type='text', ng-model='search')
-  table
+  table.table.table-responsive
     thead
       tr
         th Milestone Status
@@ -15,17 +15,19 @@
         th Vendor
         th Purchaser
         th Options
-    tbody
-      tr
+    tbody(ng-repeat='property in getProperties() | filter:search')
+      tr(ng-click='property.open = !property.open')
         td.milestone icon
         td
-          .address 9 Walton Road
-          .dates
-            .date Last Updated: 1 week ago
+          .address {{property.Address.Number}} {{property.Address.Street }}, {{property.Address.Locality }}, {{property.Address.Town}}
+          .dates(ng-show='property.open')
+            .date Last Updated: 
+              strong {{property.LastUpdated | timeAgo}} 
+              | -- {{property.LastUpdated | date:'mediumDate'}}, {{property.LastUpdated | date:'mediumTime'}}
             .date Date added to the Case: 1 week ago
             .date Start Date: 11th Jan 2017
-        td.vendor Matthew West
-        td.purchaser Richard Sheeran
+        td.vendor {{property.case.vendor}}
+        td.purchaser {{property.case.purchaser}}
         td.options
-          a.button(href='123456/case') View Case
+          a.button(href='{{property.RoleId}}/case') View Case
   

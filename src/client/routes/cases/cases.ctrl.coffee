@@ -1,5 +1,7 @@
 'use strict'
 
 angular.module 'vsAgency'
-.controller 'CasesCtrl', ($scope) ->
-  console.log 'cases'
+.controller 'CasesCtrl', ($scope, dezrez) ->
+  dezrez.refresh()
+  $scope.getProperties = dezrez.getProperties
+    

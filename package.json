@@ -50,6 +50,7 @@
     "ndx-socket": "0.0.3",
     "ndx-static-routes": "0.0.9",
     "ndx-superadmin": "0.0.6",
-    "ndx-user-roles": "0.0.8"
+    "ndx-user-roles": "0.0.8",
+    "superagent": "^3.4.3"
   }
 }

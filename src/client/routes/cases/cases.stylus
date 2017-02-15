@@ -1,0 +1,13 @@
+@import '../../variables'
+
+.cases
+  .controls
+    display flex
+    justify-content space-between
+  table
+    td
+      .address
+        color vs-orange
+        font-weight bold
+      .dates
+        font-size 1.1rem
