@@ -1,0 +1,41 @@
+@import '../../variables'
+
+.progression-item
+  width 60px
+  display flex
+  flex-direction column
+  align-items center
+  text-align center
+  text-transform uppercase
+  font-size 1rem
+  cursor pointer
+  .icon
+    height 40px
+    width 40px
+    background #ccc
+    border-radius 50%
+    margin-bottom 0.5rem
+    position relative
+    transition transform $transition $bounce
+    &:hover
+      transform scale(1.1)
+    &:before
+      position absolute
+      top 10px
+      left 10px
+      width 20px
+      height 20px
+      background #fff
+      content ''
+      border-radius 50%
+    &:after
+      position absolute
+      top 5px
+      left 5px
+      width 30px
+      height 30px
+      content ''
+      background url('/public/img/icons/cathead.png')
+      background-size cover
+  .title
+    min-height 3rem

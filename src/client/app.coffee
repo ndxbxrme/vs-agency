@@ -3,6 +3,7 @@
 angular.module 'vsAgency', [
   'ui.router'
   'ui.gravatar'
+  'date-swiper'
 ]
 .config (gravatarServiceProvider) ->
   gravatarServiceProvider.defaults =

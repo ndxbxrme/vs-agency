@@ -5,3 +5,6 @@ angular.module 'vsAgency'
   restrict: 'AE'
   templateUrl: 'directives/contact-details/contact-details.html'
   replace: true
+  scope:
+    title: '@'
+  link: (scope, elem, attrs) ->

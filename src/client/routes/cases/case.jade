@@ -4,11 +4,11 @@
   progression-buyer
   progression-seller
   a.button.view-chain View Chain
-  .contacts
-    contact-details
-    contact-details
-    contact-details
-    contact-details
+  .contacts.row
+    contact-details(title="Vendor's Solicitor")
+    contact-details(title="Vendor's Contact")
+    contact-details(title="Purchasers's Solicitor")
+    contact-details(title="Purchasers's Contact")
   .case-notes
     .heading Case Notes
     table
@@ -20,3 +20,4 @@
       form(ng-submit='addNote()')
         textarea
         a.button +
+  date-swiper(config='config', date='date.date')

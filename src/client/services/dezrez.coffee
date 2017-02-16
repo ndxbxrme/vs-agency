@@ -10,6 +10,10 @@ angular.module 'vsAgency'
     .then (response) ->
       if response.data
         property.case = response.data
+        if response.data.lastUpdated
+          property.LastUpdated = response.data.lastUpdated
+        property.case.progressionBuyer = property.case.progressionBuyer or {}
+        property.case.progressionSeller = property.case.progressionSeller or {}
     , (err) ->
       false
   fetchProperties = ->

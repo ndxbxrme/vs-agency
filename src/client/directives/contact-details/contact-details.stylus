@@ -1,0 +1,4 @@
+.contact-details
+  .card
+    height 90px
+    background #ddd

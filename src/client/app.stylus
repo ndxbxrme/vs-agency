@@ -6,5 +6,6 @@ body
   display flex
   flex-direction column
   background #fff!important
+  position relative
   .body
     flex 1

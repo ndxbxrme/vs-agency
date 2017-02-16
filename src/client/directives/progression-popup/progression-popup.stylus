@@ -1,0 +1,23 @@
+@import '../../variables'
+
+.progression-popup
+  box-sizing border-box
+  position absolute
+  background #fff
+  border 2px solid #666
+  padding 1rem
+  border-radius 1rem
+  box-shadow 0 0 20px greenyellow
+  width 400px
+  transition all $transition $bounce
+  .pointer
+    position absolute
+    top -0.5rem
+    left 20px
+    width 3rem
+    height 3rem
+    content ''
+    background darkgreen
+    transform rotate(45deg)
+    z-index -1 
+    transition left $transition $bounce
