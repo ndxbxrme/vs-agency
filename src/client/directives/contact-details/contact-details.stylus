@@ -2,3 +2,15 @@
   .card
     height 90px
     background #ddd
+    position relative
+    .edit-btn
+      position absolute
+      top 0
+      right 0
+      padding 0.5rem
+      display none
+    .communication
+      display flex
+    &:hover
+      .edit-btn
+        display block

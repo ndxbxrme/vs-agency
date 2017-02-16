@@ -5,12 +5,12 @@ module.exports = (ndx) ->
     pageSize =
       pageSize: 2000
     ndx.app.get '/api/property/:roleId', (req, res, next) ->
-      property = ndx.database.exec 'SELECT * FROM properties WHERE roleId=?', [req.params.roleId]
+      property = ndx.database.exec 'SELECT * FROM properties WHERE roleId=?', [+req.params.roleId]
       if property and property.length
         res.json property[0]
       else
         property =
-          roleId: req.params.roleId
+          roleId: +req.params.roleId
         ndx.dezrez.get 'role/{id}/vendors', null, id:req.params.roleId, (err, body) ->
           if not err
             property.vendors = body
@@ -31,3 +31,12 @@ module.exports = (ndx) ->
                 return next(err)
           else
             return next(err)
+    ndx.app.post '/api/property/:roleId', (req, res, next) ->
+      console.log 'wham'
+      if req.body
+        console.log req.body
+        ndx.database.exec 'DELETE FROM properties WHERE roleId=?', [req.body.roleId]
+        ndx.database.exec 'INSERT INTO properties VALUES ?', [req.body]
+        res.send 'OK'
+      else
+        next('No body')

@@ -14,6 +14,7 @@ angular.module 'vsAgency'
           property.LastUpdated = response.data.lastUpdated
         property.case.progressionBuyer = property.case.progressionBuyer or {}
         property.case.progressionSeller = property.case.progressionSeller or {}
+        property.case.notes = property.case.notes or []
     , (err) ->
       false
   fetchProperties = ->
@@ -24,6 +25,14 @@ angular.module 'vsAgency'
         fetchPropertyCase property
     , (err) ->
       properties = []
+  updatePropertyCase = ->
+    if current
+      current.case.roleId = current.RoleId
+      $http.post "/api/property/#{current.RoleId}", current.case
+      .then (response) ->
+        console.log 'done'
+      , (err) ->
+        console.log 'nope'
   
   properties = []
   getProperties: ->
@@ -35,5 +44,6 @@ angular.module 'vsAgency'
       if property.RoleId is +roleId
         current = property
         return property
+  updatePropertyCase: updatePropertyCase
   refresh: ->
     fetchProperties()

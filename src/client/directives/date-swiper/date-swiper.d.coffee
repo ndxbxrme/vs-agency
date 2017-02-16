@@ -202,6 +202,7 @@
               value: -200
             _setMonths scope.snap
           scope.done = ->
+            $rootScope.$emit 'set-date', scope.date
             scope.config.show = false
 
           # HAMMER TIME

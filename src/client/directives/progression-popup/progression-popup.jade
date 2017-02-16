@@ -1,3 +1,28 @@
-.progression-popup
+.progression-popup(ng-hide='getHidden()')
   .pointer
   h4 {{getTitle()}}
+  a.close(href='', ng-click='hide()') X
+  .progressing(ng-show='getProgressing() && !getCompleted()')
+    .default(ng-hide='addingNote()')
+      .dates
+        .date Proposed Task Duration: 
+          strong {{getDateDiff()}}
+        .date Estimated End Date: 
+          strong {{getDate() | date:'mediumDate'}}
+      div(ng-repeat='note in getNotes()') {{note.text}}
+      button(ng-click='addNote()') Add Note
+      button(ng-click='setCompleted()') Mark as Completed
+    .note-add(ng-show='addingNote()')
+      textarea(ng-model='note')
+      button(ng-click='doAddNote()') OK
+      button(ng-click='cancelAddNote()') Cancel
+  .completed(ng-show='getCompleted()')
+    h3 Completed
+  .awaiting(ng-show='!getCompleted() && !getProgressing()')
+    .dates(ng-show='getDate()')
+      .date Proposed Task Duration: 
+        strong {{getDateDiff()}}
+      .date Estimated End Date: 
+        strong {{getDate() | date:'mediumDate'}}
+    button(ng-click='setDate()') {{getDate() ? 'Change' : 'Set'}} Estimated Completion Date
+    button(ng-click='setProgressing()', ng-show='getDate()') Confirm

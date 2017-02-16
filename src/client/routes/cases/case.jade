@@ -1,23 +1,24 @@
 .case
   h1 case
   .address {{getProperty().Address.Number}} {{getProperty().Address.Street }}, {{getProperty().Address.Locality }}, {{getProperty().Address.Town}}
-  progression-buyer
-  progression-seller
+  progression-buyer(property='getProperty()')
+  progression-seller(property='getProperty()')
   a.button.view-chain View Chain
   .contacts.row
     contact-details(title="Vendor's Solicitor")
     contact-details(title="Vendor's Contact")
-    contact-details(title="Purchasers's Solicitor")
-    contact-details(title="Purchasers's Contact")
+    contact-details(title="Purchaser's Solicitor")
+    contact-details(title="Purchaser's Contact")
   .case-notes
     .heading Case Notes
     table
-      thead
+      tbody(ng-repeat='note in getNotes() | orderBy:"date"')
         tr
-          td.date 18-01-17
-          td.notes Case created.  Documents sent to all parties
+          td.date {{note.date | date:'mediumDate'}}
+          td.note 
+            h6 {{note.item}} {{note.side}}
+            p {{note.text}}
     .add-note
-      form(ng-submit='addNote()')
-        textarea
-        a.button +
-  date-swiper(config='config', date='date.date')
+        textarea(ng-model='note')
+        button(ng-click='addNote()') +
+  date-swiper(config='config')

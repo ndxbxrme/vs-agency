@@ -9,8 +9,24 @@ angular.module 'vsAgency'
     title: '@'
   link: (scope, elem, attrs) ->
     scope.cleanTitle = scope.title.replace(/\d+/g, '')
-    elem[0].className += ' ' + _.str.slugify(scope.title)
+    propName = _.str.camelize(_.str.slugify(scope.title))
+    elem[0].className += ' ' + propName
+    scope.getClass = ->
+      progression = scope.$parent.getProgression()
+      if progression and progression[propName]
+        return {
+          completed: progression[propName].completed
+          progressing: progression[propName].progressing
+        }
     scope.itemClick = ->
-      progressionPopup.show elem[0], scope.cleanTitle
+      progression = scope.$parent.getProgression()
+      if progression
+        if not progression[propName]
+          progression[propName] =
+            title: scope.cleanTitle
+            progressing: false
+            date: ''
+            notes: []
+      progressionPopup.show elem[0], progression[propName], scope.$parent.getSide()
       #$rootScope.$emit 'swiper:show' 
     

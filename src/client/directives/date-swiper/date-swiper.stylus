@@ -6,6 +6,7 @@ $base = #00bcd4
 $alert = #f06292
 // structural/functional
 .date-swiper-holder
+  z-index 100
   display flex
   align-items center
   justify-content center

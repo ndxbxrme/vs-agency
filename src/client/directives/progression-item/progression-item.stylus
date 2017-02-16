@@ -39,3 +39,9 @@
       background-size cover
   .title
     min-height 3rem
+  &.progressing
+    .icon
+      background red
+  &.completed
+    .icon
+      background greenyellow
