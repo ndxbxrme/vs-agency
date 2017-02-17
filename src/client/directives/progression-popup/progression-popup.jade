@@ -17,7 +17,7 @@
       button(ng-click='doAddNote()') OK
       button(ng-click='cancelAddNote()') Cancel
   .completed(ng-show='getCompleted()')
-    h3 Completed, {{getCompletedTime() | date:'mediumDate'}}
+    h5 Completed: {{getCompletedTime() | date:'mediumDate'}}, {{getCompletedTime() | date:'shortTime'}}
   .awaiting(ng-show='!getCompleted() && !getProgressing()')
     .dates(ng-show='getDate()')
       .date Proposed Task Duration: 
