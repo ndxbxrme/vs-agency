@@ -39,9 +39,16 @@
       background-size cover
   .title
     min-height 3rem
+    background rgba(255,255,255,0.8)
   &.progressing
     .icon
       background red
   &.completed
     .icon
       background greenyellow
+@media screen and (max-width:992px)
+  .progression-item
+    width 40px
+    margin-right 1.5rem
+    .title
+      font-size 0.8rem
