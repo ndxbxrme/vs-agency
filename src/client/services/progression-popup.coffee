@@ -21,14 +21,17 @@ angular.module 'vsAgency'
       elemLeft = offset.left
       offset.top += elem.clientHeight
       popupWidth = $('.progression-popup').width()
-      if offset.left + (popupWidth + 30) > window.innerWidth
-        offset.left = window.innerWidth - (popupWidth + 60)
+      if offset.left + (popupWidth + 0) > window.innerWidth
+        offset.left = window.innerWidth - (popupWidth + 0)
       if offset.left < 0
         offset.left = 0
+      offset.left -= 15
+      if window.innerWidth < 400
+        offset.left = 0
       $('.progression-popup').css offset
-      pointerLeft = elemLeft - offset.left + 15
+      pointerLeft = elemLeft - offset.left
       pointerDisplay = 'block'
-      if pointerLeft + 20 > popupWidth
+      if pointerLeft + 40 > popupWidth
         pointerDisplay = 'none'
       $('.progression-popup .pointer').css
         left: pointerLeft
