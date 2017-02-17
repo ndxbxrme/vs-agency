@@ -7,12 +7,15 @@
   .container
     position relative
     display flex
+    justify-content space-between
     align-items center
     height 72px
     .branding
+      flex 1
       img
         width 195px
     nav.main-menu 
+      flex 1
       ul.menu
         display flex
         margin 0
@@ -26,3 +29,8 @@
           &.selected
             a
               text-decoration underline
+    .user
+      flex 2
+      text-align right
+      a
+        color #fff

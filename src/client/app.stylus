@@ -9,3 +9,19 @@ body
   position relative
   .body
     flex 1
+    transition 0.4s
+    z-index 10
+    background #fff
+    transform translateX(0px)
+    &.mobile-menu-out
+      transform translateX(-180px)
+.desktop-hide
+  display none
+@media screen and (max-width: 992px)
+  .mobile-hide
+    display none
+  .desktop-hide
+    display block
+.lt-1024
+  body
+    background vs-grey!important

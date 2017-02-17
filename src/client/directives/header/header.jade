@@ -3,7 +3,7 @@
     .branding
       a.logo(href="/")
         img.logo(src="public/img/VitalSpaceLogo-2016.svg")
-    nav.main-menu(ng-show='getUser()')
+    nav.main-menu.mobile-hide(ng-show='getUser()')
       ul.menu
         li(ng-class="{selected:isSelected('dashboard')}")
           a(href='/')
@@ -14,3 +14,9 @@
         li(ng-class="{selected:isSelected('setup')}")
           a(ui-sref='setup')
             span Setup
+    .user.mobile-hide
+      a(href='/api/logout', target='_self') {{getUser().displayName || getUser().local.email}} 
+        img.logo(src="public/img/icons/logout.svg")
+    button#click-me.lines-button.x2.desktop-hide(type='button', role='button', aria-label='Toggle Navigation', ng-show='getUser()', ng-click='mobileMenuOut=!mobileMenuOut; $event.stopPropagation()')
+      span.lines
+    

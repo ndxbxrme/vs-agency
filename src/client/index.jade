@@ -32,7 +32,8 @@ html
     // endinjector 
   body(ng-app='vsAgency', ng-click='mobileMenuOut=false').property-hub
     header
-    .body
+    mobile-menu
+    .body(ng-class='{"mobile-menu-out":mobileMenuOut}')
       .container
         login
         .view(ui-view='')
