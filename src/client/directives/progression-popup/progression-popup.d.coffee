@@ -10,6 +10,7 @@ angular.module 'vsAgency'
     scope.getTitle = progressionPopup.getTitle
     scope.setCompleted = progressionPopup.setCompleted
     scope.getCompleted = progressionPopup.getCompleted
+    scope.getCompletedTime = progressionPopup.getCompletedTime
     scope.getProgressing = progressionPopup.getProgressing
     scope.getHidden = progressionPopup.getHidden
     scope.getNotes = progressionPopup.getNotes

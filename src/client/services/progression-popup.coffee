@@ -38,8 +38,14 @@ angular.module 'vsAgency'
     elem = _elem
     data = _data
     side = _side
-    moveToElem()
-    hidden = false
+    if data.title is 'Start' and not data.completed
+      data.completed = true
+      data.startTime = new Date().valueOf()
+      data.completedTime = new Date().valueOf()
+      dezrez.updatePropertyCase auth.getUser(), true
+    else
+      moveToElem()
+      hidden = false
   hide: ->
     hidden = true
   getHidden: ->
@@ -56,6 +62,9 @@ angular.module 'vsAgency'
     data.completedTime = new Date().valueOf()
     hidden = true
     dezrez.updatePropertyCase auth.getUser(), true
+  getCompletedTime: ->
+    if data
+      data.completedTime
   getProgressing: ->
     if data
       data.progressing
