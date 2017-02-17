@@ -19,6 +19,8 @@ angular.module 'vsAgency'
           property['milestone' + side] =
             index: -1
           for key of property.case['progression' + side]
+            if key is 'start'
+              property['startDate' + side] = property.case['progression' + side][key].startTime
             if property.case['progression' + side][key].index > property['milestone' + side].index
               if property.case['progression' + side][key].completed or property.case['progression' + side][key].progressing
                 property['milestone' + side] = property.case['progression' + side][key]

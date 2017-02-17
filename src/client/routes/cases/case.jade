@@ -15,7 +15,8 @@
       .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}}
       .note 
         .details
-          h6 {{note.item}} {{note.side}}
+          h6 {{note.item}} 
+            span(ng-show='note.side') - {{note.side}}
           h6 {{note.user.displayName || note.user.local.email}}
         p {{note.text}}
     .add-note

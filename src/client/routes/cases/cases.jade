@@ -15,11 +15,11 @@
   table.table.table-responsive
     thead
       tr
-        th Milestone Status
+        th(width='1%') Milestone Status
         th Property Address
         th Vendor
         th Purchaser
-        th Options
+        th(width='1%') Options
     tbody(ng-repeat='property in getProperties() | filter:search | filter:{milestoneBuyerStatus:filter} | orderBy:sort')
       tr(ng-click='property.open = !property.open')
         td.milestone
@@ -31,9 +31,9 @@
           .dates(ng-show='property.open')
             .date Last Updated: 
               strong {{property.LastUpdated | timeAgo}} 
-              | -- {{property.LastUpdated | date:'mediumDate'}}, {{property.LastUpdated | date:'mediumTime'}}
+              | -- {{property.LastUpdated | date:'mediumDate'}}, {{property.LastUpdated | date:'shortTime'}}
             .date Date added to the Case: 1 week ago
-            .date Start Date: 11th Jan 2017
+            .date(ng-show='property.startDateBuyer') Start Date: {{property.startDateBuyer | date:'mediumDate'}}
         td.vendor {{property.case.vendor}}
         td.purchaser {{property.case.purchaser}}
         td.options
