@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vsAgency'
-.factory 'progressionPopup', ($timeout, dezrez) ->
+.factory 'progressionPopup', ($timeout, dezrez, auth) ->
   elem = null
   data = null
   side = null
@@ -16,22 +16,23 @@ angular.module 'vsAgency'
       elm = elm.offsetParent
     offset
   moveToElem = ->
-    offset = getOffset(elem)
-    elemLeft = offset.left
-    offset.top += elem.clientHeight
-    popupWidth = $('.progression-popup').width()
-    if offset.left + (popupWidth + 30) > window.innerWidth
-      offset.left = window.innerWidth - (popupWidth + 60)
-    if offset.left < 0
-      offset.left = 0
-    $('.progression-popup').css offset
-    pointerLeft = elemLeft - offset.left + 15
-    pointerDisplay = 'block'
-    if pointerLeft + 20 > popupWidth
-      pointerDisplay = 'none'
-    $('.progression-popup .pointer').css
-      left: pointerLeft
-      display: pointerDisplay
+    if elem
+      offset = getOffset(elem)
+      elemLeft = offset.left
+      offset.top += elem.clientHeight
+      popupWidth = $('.progression-popup').width()
+      if offset.left + (popupWidth + 30) > window.innerWidth
+        offset.left = window.innerWidth - (popupWidth + 60)
+      if offset.left < 0
+        offset.left = 0
+      $('.progression-popup').css offset
+      pointerLeft = elemLeft - offset.left + 15
+      pointerDisplay = 'block'
+      if pointerLeft + 20 > popupWidth
+        pointerDisplay = 'none'
+      $('.progression-popup .pointer').css
+        left: pointerLeft
+        display: pointerDisplay
   window.addEventListener 'resize', moveToElem
   show: (_elem, _data, _side) ->
     elem = _elem
@@ -51,9 +52,10 @@ angular.module 'vsAgency'
       data.completed
   setCompleted: ->
     data.completed = true
+    data.progressing = false
     data.completedTime = new Date().valueOf()
     hidden = true
-    dezrez.updatePropertyCase()
+    dezrez.updatePropertyCase auth.getUser(), true
   getProgressing: ->
     if data
       data.progressing
@@ -62,7 +64,7 @@ angular.module 'vsAgency'
       data.progressing = true
       data.startTime = new Date().valueOf()
       hidden = true
-      dezrez.updatePropertyCase()
+      dezrez.updatePropertyCase auth.getUser(), true
   getDate: ->
     if data
       data.date
@@ -77,12 +79,14 @@ angular.module 'vsAgency'
         return new Date()
   addNote: (note) ->
     if data and note
+      console.log 'adding note'
       data.notes.push
         date: new Date()
         text: note
         item: data.title
         side: side
-      dezrez.updatePropertyCase()
+        user: auth.getUser()
+      dezrez.updatePropertyCase auth.getUser()
   getNotes: ->
     if data
       data.notes

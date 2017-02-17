@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vsAgency'
-.factory 'dezrez', ($http) ->
+.factory 'dezrez', ($http, alert) ->
   loading = false
   properties = []
   current = null
@@ -15,6 +15,24 @@ angular.module 'vsAgency'
         property.case.progressionBuyer = property.case.progressionBuyer or {}
         property.case.progressionSeller = property.case.progressionSeller or {}
         property.case.notes = property.case.notes or []
+        fetchMilestone = (side) ->
+          property['milestone' + side] =
+            index: -1
+          for key of property.case['progression' + side]
+            if property.case['progression' + side][key].index > property['milestone' + side].index
+              if property.case['progression' + side][key].completed or property.case['progression' + side][key].progressing
+                property['milestone' + side] = property.case['progression' + side][key]
+          if property['milestone' + side].index > -1
+            property['milestone' + side + 'Status'] = if property['milestone' + side].completed then 'completed' else 'progressing'
+            property['cssMilestone' + side] =
+              completed: property['milestone' + side].completed
+              progressing: property['milestone' + side].progressing
+            cssName = _.str.camelize(_.str.slugify(property['milestone' + side].title))
+            property['cssMilestone' + side][cssName] = true
+          else
+            property['milestone' + side + 'Status'] = ''
+        fetchMilestone 'Buyer'
+        fetchMilestone 'Seller'
     , (err) ->
       false
   fetchProperties = ->
@@ -25,12 +43,16 @@ angular.module 'vsAgency'
         fetchPropertyCase property
     , (err) ->
       properties = []
-  updatePropertyCase = ->
-    if current
+  updatePropertyCase = (user, setLastUpdated) ->
+    if current and current.case
+      console.log 'got current and case'
+      if setLastUpdated
+        current.case.lastUpdated = new Date()
+        current.case.lastUpdatedBy = user
       current.case.roleId = current.RoleId
       $http.post "/api/property/#{current.RoleId}", current.case
       .then (response) ->
-        console.log 'done'
+        alert.log 'Case updated'
       , (err) ->
         console.log 'nope'
   

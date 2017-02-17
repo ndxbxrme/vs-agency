@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vsAgency'
-.controller 'CaseCtrl', ($scope, dezrez, $stateParams, progressionPopup) ->
+.controller 'CaseCtrl', ($scope, dezrez, $stateParams, auth, progressionPopup) ->
   dezrez.refresh()
   $scope.getProperty = ->
     dezrez.getProperty $stateParams.roleId
@@ -23,6 +23,7 @@ angular.module 'vsAgency'
           text: $scope.note
           item: 'Case Note'
           side: ''
+          user: auth.getUser()
         dezrez.updatePropertyCase()
   $scope.getNotes = ->
     property = $scope.getProperty()

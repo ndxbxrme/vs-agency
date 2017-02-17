@@ -1,16 +1,69 @@
 .contact-details
   .card
-    height 90px
-    background #ddd
+    height 110px
+    background #eee
+    padding 1rem 
     position relative
-    .edit-btn
+    border-radius 1rem
+    box-shadow 1px 1px 0px #ccc
+    .edit-btn, .controls
       position absolute
       top 0
       right 0
       padding 0.5rem
+    .edit-btn
       display none
     .communication
       display flex
+    .role
+      font-size 1.3rem
+      padding-left 3.5rem
+    .name
+      font-size 2rem
+      position relative
+      padding-left 3.5rem
+      &:before
+        position absolute
+        top 0px
+        left 0px
+        width 30px
+        height 30px
+        content ''
+        background url('/public/img/icons/cathead.png')
+        background-size cover
+    .telephone
+      flex 1
+      font-size 1.7rem
+      line-height 3rem
+      position relative
+      padding-left 3.5rem
+      &:before
+        position absolute
+        top 0px
+        left 0px
+        width 30px
+        height 30px
+        content ''
+        background url('/public/img/icons/cathead.png')
+        background-size cover
+    .email
+      flex 1
+      margin-left 2rem
+      font-size 1.7rem
+      line-height 3rem
+      position relative
+      padding-left 3.5rem
+      &:before
+        position absolute
+        top 0px
+        left 0px
+        width 30px
+        height 30px
+        content ''
+        background url('/public/img/icons/cathead.png')
+        background-size cover
+    input
+      font-size 1.3rem!important
     &:hover
       .edit-btn
         display block

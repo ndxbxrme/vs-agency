@@ -3,7 +3,7 @@
     .branding
       a.logo(href="/")
         img.logo(src="public/img/VitalSpaceLogo-2016.svg")
-    nav.main-menu
+    nav.main-menu(ng-show='getUser()')
       ul.menu
         li(ng-class="{selected:isSelected('dashboard')}")
           a(href='/')

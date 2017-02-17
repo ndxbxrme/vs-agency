@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vsAgency'
-.directive 'contactDetails', ->
+.directive 'contactDetails', (dezrez) ->
   restrict: 'AE'
   templateUrl: 'directives/contact-details/contact-details.html'
   replace: true
@@ -20,5 +20,6 @@ angular.module 'vsAgency'
         return property.case[fieldName]
     scope.confirm = ->
       #save to database
+      dezrez.updatePropertyCase()
       scope.editing = false
         

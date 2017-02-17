@@ -18,6 +18,7 @@ angular.module 'vsAgency'
           completed: progression[propName].completed
           progressing: progression[propName].progressing
         }
+    index = scope.$parent.getIndex()
     scope.itemClick = ->
       progression = scope.$parent.getProgression()
       if progression
@@ -27,6 +28,7 @@ angular.module 'vsAgency'
             progressing: false
             date: ''
             notes: []
+            index: index
       progressionPopup.show elem[0], progression[propName], scope.$parent.getSide()
       #$rootScope.$emit 'swiper:show' 
     

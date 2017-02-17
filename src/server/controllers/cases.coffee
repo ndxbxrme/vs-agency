@@ -32,9 +32,7 @@ module.exports = (ndx) ->
           else
             return next(err)
     ndx.app.post '/api/property/:roleId', (req, res, next) ->
-      console.log 'wham'
       if req.body
-        console.log req.body
         ndx.database.exec 'DELETE FROM properties WHERE roleId=?', [req.body.roleId]
         ndx.database.exec 'INSERT INTO properties VALUES ?', [req.body]
         res.send 'OK'

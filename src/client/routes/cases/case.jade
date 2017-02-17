@@ -1,8 +1,8 @@
 .case
   h1 case
   .address {{getProperty().Address.Number}} {{getProperty().Address.Street }}, {{getProperty().Address.Locality }}, {{getProperty().Address.Town}}
-  progression-buyer(property='getProperty()')
-  progression-seller(property='getProperty()')
+  progression-buyer
+  progression-seller
   a.button.view-chain View Chain
   .contacts.row
     contact-details(title="Vendor's Solicitor")
@@ -11,13 +11,13 @@
     contact-details(title="Purchaser's Contact")
   .case-notes
     .heading Case Notes
-    table
-      tbody(ng-repeat='note in getNotes() | orderBy:"date"')
-        tr
-          td.date {{note.date | date:'mediumDate'}}
-          td.note 
-            h6 {{note.item}} {{note.side}}
-            p {{note.text}}
+    .case-note(ng-repeat='note in getNotes() | orderBy:"date"')
+      .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}}
+      .note 
+        .details
+          h6 {{note.item}} {{note.side}}
+          h6 {{note.user.displayName || note.user.local.email}}
+        p {{note.text}}
     .add-note
         textarea(ng-model='note')
         button(ng-click='addNote()') +

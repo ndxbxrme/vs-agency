@@ -8,9 +8,12 @@ angular.module 'vsAgency'
   scope: {}
   link: (scope, elem) ->
     scope.getProgression = ->
-      property = scope.$parent.getProperty()
-      if property and property.case
-        property.case.progressionSeller
+      scope.property = scope.$parent.getProperty()
+      if scope.property and scope.property.case
+        scope.property.case.progressionSeller
+    index = 0
+    scope.getIndex = ->
+      index++
     scope.getSide = ->
       'Seller'
     resize = ->

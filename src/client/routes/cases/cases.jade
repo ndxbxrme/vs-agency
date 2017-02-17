@@ -3,7 +3,12 @@
   .controls
     .left
       .sort Order By:
+        a.order-item(href='', ng-click='sort="-LastUpdated"', ng-class='{selected:sort==="-LastUpdated"}') Last updated
+        a.order-item(href='', ng-click='sort="-case.offer.DateTime"', ng-class='{selected:sort==="-case.offer.DateTime"}') Offer accepted date
       .show Show:
+        a.filter-item.icon-green(href='', ng-click='filter="completed"', ng-class='{selected:filter==="completed"}') Up-to-date
+        a.filter-item.icon-red(href='', ng-click='filter="progressing"', ng-class='{selected:filter==="progressing"}') Needs updating
+        a.filter-item(href='', ng-click='filter=""', ng-class='{selected:!filter}') All
     .right
       .search
         input(type='text', ng-model='search')
@@ -15,9 +20,12 @@
         th Vendor
         th Purchaser
         th Options
-    tbody(ng-repeat='property in getProperties() | filter:search')
+    tbody(ng-repeat='property in getProperties() | filter:search | filter:{milestoneBuyerStatus:filter} | orderBy:sort')
       tr(ng-click='property.open = !property.open')
-        td.milestone icon
+        td.milestone
+          .progression-item(ng-class='property.cssMilestoneBuyer', title='{{property.milestoneBuyer.title}}')
+            .icon
+            .title {{property.milestoneBuyer.title}}
         td
           .address {{property.Address.Number}} {{property.Address.Street }}, {{property.Address.Locality }}, {{property.Address.Town}}
           .dates(ng-show='property.open')

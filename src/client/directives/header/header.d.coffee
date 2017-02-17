@@ -6,13 +6,7 @@ angular.module 'vsAgency'
   templateUrl: 'directives/header/header.html'
   replace: true
   link: (scope, elem) ->
-    scope.getUser = auth.getDezrezUser
-    scope.getDezrezUser = ->
-      user = auth.getDezrezUser()
-      if not user
-        return dezrez: ContactName: 'My VitalSpace'
-      else
-        return user
+    scope.getUser = auth.getUser
     scope.isSelected = (route) ->
       if $state and $state.current
         if Object.prototype.toString.call(route) is '[object Array]'

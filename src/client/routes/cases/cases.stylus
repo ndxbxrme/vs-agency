@@ -4,6 +4,26 @@
   .controls
     display flex
     justify-content space-between
+    .order-item, .filter-item
+      display inline-block
+      position relative
+      color vs-orange
+      margin-left 2rem
+      &.icon-green, &.icon-red
+        padding-left 2rem
+        &:before
+          content ''
+          position absolute
+          top 0.5rem
+          left 0.5rem
+          width 1rem
+          height 1rem
+          background greenyellow
+          border-radius 50%
+      &.icon-red:before
+        background red
+      &.selected
+        text-decoration underline
   table
     td
       .address
@@ -11,3 +31,10 @@
         font-weight bold
       .dates
         font-size 1.1rem
+    td.options
+      vertical-align middle
+      a.button
+        white-space nowrap
+        padding 1rem
+        border 1px solid #ccc
+        border-radius 0.5rem
