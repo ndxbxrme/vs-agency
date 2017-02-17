@@ -34,3 +34,35 @@
       text-align right
       a
         color #fff
+    #click-me
+      display inline-block
+      width 3rem
+      height 3rem
+      border none
+      background none
+      cursor pointer
+      outline none
+      user-select none
+      .lines
+        display inline-block
+        width 3rem
+        height 0.37rem
+        background #f1f1f1
+        border-radius 0.28rem
+        position relative
+        &:before, &:after
+          display inline-block
+          width 3rem
+          height 0.37rem
+          background #f1f1f1
+          border-radius 0.28rem
+          position absolute
+          left 0
+          content ''
+          transform-origin 0.28rem center
+        &:before
+          top .8rem
+        &:after
+          top -.8rem
+          
+      
