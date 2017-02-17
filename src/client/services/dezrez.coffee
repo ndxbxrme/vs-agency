@@ -38,7 +38,10 @@ angular.module 'vsAgency'
     , (err) ->
       false
   fetchProperties = ->
-    $http.post 'https://myproperty.vitalspace.co.uk/api/search', RoleStatus:'OfferAccepted'
+    $http.post 'https://myproperty.vitalspace.co.uk/api/search', 
+      RoleStatus:'OfferAccepted'
+      RoleType: 'Selling'
+      IncludeStc: true
     .then (response) ->
       properties = response.data.Collection
       for property in properties

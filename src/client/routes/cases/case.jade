@@ -20,6 +20,6 @@
           h6 {{note.user.displayName || note.user.local.email}}
         p {{note.text}}
     .add-note
-        textarea(ng-model='note')
+        textarea(ng-model='note', placeholder='Add a note...')
         button(ng-click='addNote()') +
   date-swiper(config='config')

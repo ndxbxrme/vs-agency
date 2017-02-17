@@ -38,3 +38,17 @@
         padding 1rem
         border 1px solid #ccc
         border-radius 0.5rem
+        color vs-orange
+  .pagination-holder
+    display flex
+    justify-content center
+    .pagination
+      a
+        color vs-orange
+      a:hover
+        color vs-orange
+      li.active
+        a
+          background vs-orange
+          border-color vs-orange
+          color #fff

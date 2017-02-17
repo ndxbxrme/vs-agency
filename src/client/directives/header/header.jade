@@ -8,7 +8,7 @@
         li(ng-class="{selected:isSelected('dashboard')}")
           a(href='/')
             span Dashboard
-        li(ng-class="{selected:isSelected('cases')}")
+        li(ng-class="{selected:isSelected(['cases', 'case'])}")
           a(ui-sref='cases')
             span Cases
         li(ng-class="{selected:isSelected('setup')}")

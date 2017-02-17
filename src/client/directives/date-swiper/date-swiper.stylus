@@ -1,8 +1,10 @@
+@import '../../variables'
+
 $dark = #23292c
 $darker = mix($dark, black, 50%)
 $light = #e2e4e6
 $lighter = mix($light, white, 40%)
-$base = #00bcd4
+$base = vs-orange
 $alert = #f06292
 // structural/functional
 .date-swiper-holder
