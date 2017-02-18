@@ -4,8 +4,9 @@ angular.module 'vsAgency'
 .factory 'progression', ($timeout) ->
   drawConnection = (ctx, item, prev) ->
     ctx.beginPath()
-    ctx.moveTo item.offsetLeft + (item.clientWidth / 2) - 20, item.offsetTop + 20
-    ctx.lineTo prev.offsetLeft + (prev.clientWidth / 2) + 20, prev.offsetTop + 20
+    if item.offsetLeft > prev.offsetLeft
+      ctx.moveTo item.offsetLeft + (item.clientWidth / 2) - 20, item.offsetTop + 20
+      ctx.lineTo prev.offsetLeft + (prev.clientWidth / 2) + 20, prev.offsetTop + 20
     ctx.strokeStyle = '#999999'
     ctx.stroke()
   resize: (elem) ->      

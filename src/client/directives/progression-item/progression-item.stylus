@@ -12,7 +12,8 @@
   .icon
     height 40px
     width 40px
-    background #ccc
+    background vs-lightgrey
+    border 1px solid black
     border-radius 50%
     margin-bottom 0.5rem
     position relative
@@ -42,10 +43,10 @@
     background rgba(255,255,255,0.8)
   &.progressing
     .icon
-      background red
+      background vs-red
   &.completed
     .icon
-      background greenyellow
+      background vs-green
 @media screen and (max-width:992px)
   .progression-item
     width 40px

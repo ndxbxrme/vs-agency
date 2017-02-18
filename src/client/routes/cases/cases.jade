@@ -12,7 +12,7 @@
     .right
       .search
         input(type='text', ng-model='search')
-      .showing Showing {{filterData.length}} of {{totalProps = getProperties().length}}
+      .showing Showing {{filterData.length}} of {{totalProps = getProperties().length}} case{{totalProps!==1?'s':''}}
   table.table.table-responsive(ng-show='filterData.length > 0')
     thead
       tr

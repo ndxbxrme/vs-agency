@@ -1,6 +1,6 @@
 .contact-details
   .card
-    height 110px
+    min-height 110px
     background #eee
     padding 1rem 
     position relative
@@ -15,53 +15,25 @@
       display none
     .communication
       display flex
+      flex-wrap wrap
     .role
       font-size 1.3rem
       padding-left 3.5rem
+    .name, .telephone, .email
+      font-size 3rem
+      position relative
+      padding-left 3.5rem
+      &:before
+        position absolute
+        top 0px
+        left 0px
+        width 30px
+        height 30px
+        content ''
+        background url('/public/img/icons/cathead.png')
+        background-size cover
     .name
       font-size 2rem
-      position relative
-      padding-left 3.5rem
-      &:before
-        position absolute
-        top 0px
-        left 0px
-        width 30px
-        height 30px
-        content ''
-        background url('/public/img/icons/cathead.png')
-        background-size cover
-    .telephone
-      flex 1
-      font-size 1.7rem
-      line-height 3rem
-      position relative
-      padding-left 3.5rem
-      &:before
-        position absolute
-        top 0px
-        left 0px
-        width 30px
-        height 30px
-        content ''
-        background url('/public/img/icons/cathead.png')
-        background-size cover
-    .email
-      flex 1
-      margin-left 2rem
-      font-size 1.7rem
-      line-height 3rem
-      position relative
-      padding-left 3.5rem
-      &:before
-        position absolute
-        top 0px
-        left 0px
-        width 30px
-        height 30px
-        content ''
-        background url('/public/img/icons/cathead.png')
-        background-size cover
     input
       font-size 1.3rem!important
     &:hover

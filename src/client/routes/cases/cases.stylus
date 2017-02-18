@@ -18,12 +18,14 @@
           left 0.5rem
           width 1rem
           height 1rem
-          background greenyellow
+          background vs-green
           border-radius 50%
       &.icon-red:before
-        background red
+        background vs-red
       &.selected
         text-decoration underline
+    .showing
+        text-align right
   table
     td
       .address
