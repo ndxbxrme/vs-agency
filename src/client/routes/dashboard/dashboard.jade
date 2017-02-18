@@ -2,33 +2,33 @@
   h1 dashboard
   .overview
     .heading Overview of Live Cases
-    table
+    table.table.table-responsive
       thead
         tr
-          th.status Status
+          th.status(width='33%') Status
           th.position Sale Position
       tbody
         tr
-          td.status Pre Survey
+          th.status Pre Survey
           td.position 24
       tbody.blank
         tr
           td(colspan='2') &nbsp;
       tbody.total
         tr
-          td.status Total
+          th.status Total
           td.position 62
   .income
     .heading &pound; Income
-    table
+    table.table.table-responsive
       thead
         tr
-          th.month Month
+          th.month(width='33%') Month
           th.due Exchanges due
           th.completions Completions
       tbody
         tr
-          td.month March
+          th.month March
           td.due 13
           td.completions 13
       tbody.blank
@@ -36,6 +36,6 @@
           td(colspan='3') &nbsp;
       tbody.total
         tr
-          td.month.total Total
+          th.month.total Total
           td.due.total 62
           td.completions.total

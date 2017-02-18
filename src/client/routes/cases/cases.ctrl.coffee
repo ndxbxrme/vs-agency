@@ -5,4 +5,4 @@ angular.module 'vsAgency'
   dezrez.refresh()
   $scope.getProperties = dezrez.getProperties
   $scope.page = 1
-    
+  $scope.limit = 15

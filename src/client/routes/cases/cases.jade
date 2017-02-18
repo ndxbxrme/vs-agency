@@ -12,7 +12,8 @@
     .right
       .search
         input(type='text', ng-model='search')
-  table.table.table-responsive
+      .showing Showing {{filterData.length}} of {{totalProps = getProperties().length}}
+  table.table.table-responsive(ng-show='filterData.length > 0')
     thead
       tr
         th(width='1%') Milestone Status
@@ -20,7 +21,7 @@
         th Vendor
         th Purchaser
         th(width='1%') Options
-    tbody(ng-repeat='property in filterData =(getProperties() | filter:search | filter:{milestoneBuyerStatus:filter} | orderBy:sort) | limitTo:20:20*(page-1)')
+    tbody(ng-repeat='property in filterData =(getProperties() | filter:search | filter:{milestoneBuyerStatus:filter} | orderBy:sort) | limitTo:limit:limit*(page-1)')
       tr(ng-click='property.open = !property.open')
         td.milestone
           .progression-item(ng-class='property.cssMilestoneBuyer', title='{{property.milestoneBuyer.title}}')
@@ -38,6 +39,8 @@
         td.purchaser {{property.case.purchaser}}
         td.options
           a.button(href='{{property.RoleId}}/case') View Case
-  .pagination-holder(ng-show='filterData.length > 20')
-    uib-pagination.pagination-sm.pagination(total-items='filterData.length', ng-model='page', previous-text='<', next-text='>', items-per-page=20)
+  .pagination-holder(ng-show='filterData.length > limit')
+    uib-pagination.pagination-sm.pagination(total-items='filterData.length', ng-model='page', previous-text='<', next-text='>', items-per-page='{{limit}}')
+  .nothing-to-show(ng-show='filterData.length===0')
+    h3 Nothing to show
   

@@ -17,12 +17,12 @@ body
     &.mobile-menu-out
       transform translateX(-180px)
 .desktop-hide
-  display none
+  display none!important
 @media screen and (max-width: 992px)
   .mobile-hide
     display none
   .desktop-hide
-    display block
+    display block!important
 .lt-1024
   body
     background vs-grey!important
