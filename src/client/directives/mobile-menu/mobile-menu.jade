@@ -1,5 +1,5 @@
 .mobile-menu(ng-click='mobileMenuOut=false')
-  nav(ng-show='getUser()')
+  nav(ng-show='getUser() && mobileMenuOut')
     ul.menu
       li(ng-class="{selected:isSelected('dashboard')}")
         a(href='/')

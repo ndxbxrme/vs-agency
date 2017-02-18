@@ -13,7 +13,7 @@
       .search
         input(type='text', ng-model='search')
       .showing Showing {{filterData.length}} of {{totalProps = getProperties().length}} case{{totalProps!==1?'s':''}}
-  table.table.table-responsive(ng-show='filterData.length > 0')
+  table.table.table-responsive.small-mobile-hide(ng-show='filterData.length > 0')
     thead
       tr
         th(width='1%') Milestone Status
@@ -39,8 +39,22 @@
         td.purchaser {{property.case.purchaser}}
         td.options
           a.button(href='{{property.RoleId}}/case') View Case
+  .mobile-table.small-mobile-show
+    .case-card(ng-repeat='property in filterData | limitTo:limit:limit*(page-1)')
+      .milestone
+        .progression-item(ng-class='property.cssMilestoneBuyer', title='{{property.milestoneBuyer.title}}')
+          .icon
+          .title {{property.milestoneBuyer.title}}
+      .address-row
+        .address {{property.Address.Number}} {{property.Address.Street }}, {{property.Address.Locality }}, {{property.Address.Town}}
+        .vendor Vendor:
+          strong {{property.case.vendor}}
+        .purchaser Purchaser:
+          strong {{property.case.purchaser}}
+        .options
+          a.button(href='{{property.RoleId}}/case') View Case
   .pagination-holder(ng-show='filterData.length > limit')
-    uib-pagination.pagination-sm.pagination(total-items='filterData.length', ng-model='page', previous-text='<', next-text='>', items-per-page='{{limit}}')
+    uib-pagination.pagination-sm.pagination(total-items='filterData.length', ng-model='page', previous-text='<', next-text='>', items-per-page='{{limit}}', ng-change='pageChange()')
   .nothing-to-show(ng-show='filterData.length===0')
     h3 Nothing to show
   

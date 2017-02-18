@@ -1,6 +1,6 @@
 @import '../../variables'
 .mobile-menu
-  position absolute
+  position fixed
   top 71px
   width 180px
   right 0

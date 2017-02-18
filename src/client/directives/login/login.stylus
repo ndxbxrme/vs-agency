@@ -8,6 +8,7 @@
       margin-bottom 0.7rem
     input[type=text], input[type=email], input[type=password]
         width 320px
+        max-width 90%
         padding 10px
     .button
       padding 5px 30px

@@ -7,6 +7,10 @@ angular.module 'vsAgency'
     if item.offsetLeft > prev.offsetLeft
       ctx.moveTo item.offsetLeft + (item.clientWidth / 2) - 20, item.offsetTop + 20
       ctx.lineTo prev.offsetLeft + (prev.clientWidth / 2) + 20, prev.offsetTop + 20
+    else
+      ctx.moveTo prev.offsetLeft + (prev.clientWidth / 2) + 20, prev.offsetTop + 20
+      ctx.lineTo prev.offsetLeft + (prev.clientWidth / 2) + 40, prev.offsetTop + 20
+    
     ctx.strokeStyle = '#999999'
     ctx.stroke()
   resize: (elem) ->      

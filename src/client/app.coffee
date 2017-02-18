@@ -11,7 +11,11 @@ angular.module 'vsAgency', [
     size: 16
     "default": 'mm'
     rating: 'pg'
-.run (auth) ->
+.run ($rootScope, auth) ->
+  $rootScope.$on '$stateChangeSuccess', ->
+    $('html, body').animate
+      scrollTop: 0
+    , 200
   auth.getPromise false
   .then ->
     true

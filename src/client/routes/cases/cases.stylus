@@ -3,12 +3,15 @@
 .cases
   .controls
     display flex
+    flex-wrap wrap
     justify-content space-between
+    margin-bottom 1rem
     .order-item, .filter-item
       display inline-block
       position relative
       color vs-orange
       margin-left 2rem
+      margin-bottom 1rem
       &.icon-green, &.icon-red
         padding-left 2rem
         &:before
@@ -34,13 +37,31 @@
       .dates
         font-size 1.1rem
     td.options
-      vertical-align middle
-      a.button
-        white-space nowrap
-        padding 1rem
-        border 1px solid #ccc
-        border-radius 0.5rem
-        color vs-orange
+      //vertical-align middle
+  .mobile-table
+    border 1px solid #ccc
+    .case-card
+      border-bottom 1px solid #ccc
+      padding 1rem
+      display flex
+      .address-row
+        display flex
+        flex-direction column
+        .address
+          color vs-orange
+          font-weight bold
+        .progression-item
+          flex 0
+          .title
+            min-height 0!important
+  .options
+    a.button
+      display inline-block
+      white-space nowrap
+      padding 1rem
+      border 1px solid #ccc
+      border-radius 0.5rem
+      color vs-orange
   .pagination-holder
     display flex
     justify-content center
