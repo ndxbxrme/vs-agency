@@ -3,7 +3,7 @@
 ndx = require 'ndx-server'
 .config
   database: 'vsa'
-  tables: ['users', 'properties']
+  tables: ['users', 'properties', 'progressions']
   localStorage: './data'
 .use 'ndx-passport'
 .use 'ndx-passport-twitter'
@@ -17,6 +17,7 @@ ndx = require 'ndx-server'
 .use 'ndx-superadmin'
 .use 'ndx-connect'
 .use 'ndx-memory-check'
+.use require './services/invite'
 .use require './services/dezrez'
 .controller require './controllers/dezrez'
 .controller require './controllers/cases'

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vsAgency'
-.factory 'auth', ($http, $q, $timeout, $location, dezrez) ->
+.factory 'auth', ($http, $q, $timeout, $location, $state, dezrez) ->
   user = null
   loading = false
   getUserPromise = (needsDezrez) ->
@@ -25,26 +25,63 @@ angular.module 'vsAgency'
         user = null
         defer.reject {}
     defer.promise
-  getPromise: (needsDezrez) ->
+  hasRole = (role) ->
+    getKey = (root, key) ->
+      root[key]
+    keys = role.split /\./g
+    allgood = false
+    if user.roles
+      root = user.roles
+      for key in keys
+        root = getKey root, key
+        if root
+          allgood = true
+        else
+          allgood = false
+          break
+    allgood
+  checkRoles = (role) ->
+    rolesToCheck = []
+    getRole = (role) ->
+      type = Object.prototype.toString.call role
+      if type is '[object Array]'
+        for r in role
+          getRole r
+      else if type is '[object Function]'
+        r = role req
+        getRole r
+      else if type is '[object String]'
+        if rolesToCheck.indexOf(role) is -1
+          rolesToCheck.push role
+    getRole role
+    truth = false
+    for r in rolesToCheck
+      truth = truth or hasRole(r)
+    truth
+  getPromise: (role) ->
     defer = $q.defer()
-    getUserPromise needsDezrez
+    getUserPromise()
     .then ->
-      defer.resolve user
+      if role
+        truth = checkRoles role
+        if truth
+          defer.resolve user
+        else
+          $state.go 'dashboard'
+          defer.reject {}
+      else
+        defer.resolve user
     , ->
-      defer.reject {}
-      $location.path '/'
-    defer.promise
-  getDezrezPromise: (email) ->
-    defer = $q.defer()
-    getDezrezPromise defer, true, email
+      if not role
+        defer.resolve {}
+      else
+        defer.reject {}
+        $state.go 'dashboard'
     defer.promise
   getUser: ->
     user
-  getDezrezUser: ->
-    if user and user.dezrez then user else null
-  getPotentialUsers: ->
-    potentialUsers
-  clearPotentialUsers: ->
-    potentialUsers = []
   loading: ->
     loading
+  checkRoles: (role) ->
+    if user
+      checkRoles role

@@ -11,7 +11,7 @@
         li(ng-class="{selected:isSelected(['cases', 'case'])}")
           a(ui-sref='cases')
             span Cases
-        li(ng-class="{selected:isSelected('setup')}")
+        li(ng-class="{selected:isSelected('setup')}", ng-show="checkRoles(['admin', 'superadmin'])")
           a(ui-sref='setup')
             span Setup
     .user.mobile-hide

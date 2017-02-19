@@ -20,7 +20,7 @@
       font-size 1.3rem
       padding-left 3.5rem
     .name, .telephone, .email
-      font-size 3rem
+      font-size 2.2rem
       position relative
       padding-left 3.5rem
       &:before
@@ -37,5 +37,10 @@
     input
       font-size 1.3rem!important
     &:hover
+      .edit-btn
+        display block
+.mobile
+  .contact-details
+    .card
       .edit-btn
         display block

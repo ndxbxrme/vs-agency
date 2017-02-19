@@ -7,6 +7,7 @@ angular.module 'vsAgency'
   replace: true
   link: (scope, elem) ->
     scope.getUser = auth.getUser
+    scope.checkRoles = auth.checkRoles
     scope.isSelected = (route) ->
       if $state and $state.current
         if Object.prototype.toString.call(route) is '[object Array]'

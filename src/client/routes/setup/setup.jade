@@ -1,2 +1,10 @@
 .setup
   h1 setup
+  .add-user
+    form(name='addUserForm', ng-submit='addUser()')
+      input(type='email', ng-model='newUser.email', placeholder='Email address')
+      select(ng-model='newUser.role')
+        option(value='agency', selected) Agency
+        option(value='admin') Admin
+      input(type='submit', value='Invite')
+    .invite-url {{inviteUrl}}

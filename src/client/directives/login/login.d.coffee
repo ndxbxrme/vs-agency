@@ -1,14 +1,15 @@
 'use strict'
 
 angular.module 'vsAgency'
-.directive 'login', (auth, $http, $location, dezrez) ->
+.directive 'login', (auth, $http, $location, $state, dezrez) ->
   restrict: 'AE'
   templateUrl: 'directives/login/login.html'
   replace: true
   scope: {}
   link: (scope, elem) ->
     scope.getUser = auth.getUser
-    
+    scope.hideLogin = ->
+      $state.current.name is 'invited'
     scope.login = ->
       scope.submitted = true
       if scope.loginForm.$valid
@@ -18,8 +19,6 @@ angular.module 'vsAgency'
         .then (response) ->
           auth.getPromise()
           .then ->
-            if auth.getDezrezUser()
-              dezrez.refresh()
             $location.path '/loggedin'
         , (err) ->
           scope.message = err.data
@@ -33,8 +32,6 @@ angular.module 'vsAgency'
         .then (response) ->
           auth.getPromise()
           .then ->
-            if auth.getDezrezUser()
-              dezrez.refresh()
             $location.path '/loggedin'
         , (err) ->
           scope.message = err.data

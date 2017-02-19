@@ -75,3 +75,13 @@
           background vs-orange
           border-color vs-orange
           color #fff
+.mobile
+  .cases
+    .controls
+      .order-item, .filter-item
+        margin-left 1rem
+    .mobile-table
+      .address-row
+        flex 1
+      .milestone
+        margin-right 1rem

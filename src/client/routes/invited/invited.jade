@@ -1,0 +1,13 @@
+h1 you've been invited
+form(name='inviteForm', ng-submit='acceptInvite()')
+  label
+    span Display Name
+    input(type='text', ng-model='newUser.displayName')
+  label
+    span Choose a password
+    input(type='password', ng-model='newUser.password')
+  label
+    span Repeat password
+    input(type='password', ng-model='newUser.repeatPassword')
+  .controls
+    input(type='submit', value='OK')
