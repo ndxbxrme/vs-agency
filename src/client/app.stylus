@@ -28,6 +28,17 @@ body
       justify-content center
       content "y'allright there?"
       background linear-gradient(0deg, white, vs-orange, black)
+  .has-dropdown
+    position relative
+  .dropdown
+    list-style-type none
+    margin 0
+    padding 1rem
+    position absolute
+    min-width 160px
+    border-radius 4px
+    background #fff
+    z-index 10
 .desktop-hide
   display none!important
 .small-mobile-show

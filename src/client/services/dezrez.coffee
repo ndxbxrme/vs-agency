@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vsAgency'
-.factory 'dezrez', ($http, alert) ->
+.factory 'dezrez', ($http, alert, users, progressions) ->
   loading = false
   properties = []
   current = null
@@ -15,26 +15,18 @@ angular.module 'vsAgency'
         property.case.progressionBuyer = property.case.progressionBuyer or {}
         property.case.progressionSeller = property.case.progressionSeller or {}
         property.case.notes = property.case.notes or []
-        fetchMilestone = (side) ->
-          property['milestone' + side] =
-            index: -1
-          for key of property.case['progression' + side]
-            if key is 'start'
-              property['startDate' + side] = property.case['progression' + side][key].startTime
-            if property.case['progression' + side][key].index > property['milestone' + side].index
-              if property.case['progression' + side][key].completed or property.case['progression' + side][key].progressing
-                property['milestone' + side] = property.case['progression' + side][key]
-          if property['milestone' + side].index > -1
-            property['milestone' + side + 'Status'] = if property['milestone' + side].completed then 'completed' else 'progressing'
-            property['cssMilestone' + side] =
-              completed: property['milestone' + side].completed
-              progressing: property['milestone' + side].progressing
-            cssName = _.str.camelize(_.str.slugify(property['milestone' + side].title))
-            property['cssMilestone' + side][cssName] = true
-          else
-            property['milestone' + side + 'Status'] = ''
-        fetchMilestone 'Buyer'
-        fetchMilestone 'Seller'
+        if property.case.progressions and property.case.progressions.length
+          for branch in property.case.progressions[0].milestones
+            for milestone in branch
+              if milestone.completed or milestone.progressing
+                property.milestone = milestone
+          if property.milestone
+            property.milestoneStatus = if property.milestone.completed then 'completed' else 'progressing'
+            property.cssMilestone = 
+              completed: property.milestone.completed
+              progressing: property.milestone.progressing
+        else
+          property.milestoneStatus = ''
     , (err) ->
       false
   fetchProperties = ->
@@ -74,3 +66,5 @@ angular.module 'vsAgency'
   updatePropertyCase: updatePropertyCase
   refresh: ->
     fetchProperties()
+    users.refresh()
+    progressions.refresh()

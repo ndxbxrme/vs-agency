@@ -1,10 +1,11 @@
 'use strict'
 
 angular.module 'vsAgency'
-.controller 'CaseCtrl', ($scope, dezrez, $stateParams, auth, progressionPopup) ->
+.controller 'CaseCtrl', ($scope, dezrez, $stateParams, $timeout, auth, progressions, progressionPopup) ->
   dezrez.refresh()
   $scope.getProperty = ->
     dezrez.getProperty $stateParams.roleId
+  $scope.getProgressions = progressions.getProgressions
   $scope.config =
     prefix: 'swiper'
     modifier: 1.5
@@ -40,5 +41,16 @@ angular.module 'vsAgency'
         for note in property.case.notes
           notes.push note
       return notes
+  $scope.addProgression = (progression) ->
+    property = $scope.getProperty()
+    if property and property.case
+      if not property.case.progressions
+        property.case.progressions = []
+      property.case.progressions.push JSON.parse(JSON.stringify(progression)) 
+      dezrez.updatePropertyCase()
+  $scope.hideDropdown = (dropdown) ->
+    $timeout ->
+      $scope[dropdown] = false
+    , 200
   $scope.$on '$destroy', ->
     progressionPopup.hide()

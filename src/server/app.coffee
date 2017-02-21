@@ -21,4 +21,9 @@ ndx = require 'ndx-server'
 .use require './services/dezrez'
 .controller require './controllers/dezrez'
 .controller require './controllers/cases'
+.controller require './controllers/users'
+.controller require './controllers/progressions'
+.controller (ndx) ->
+  ndx.database.on 'ready', ->
+    #ndx.database.exec 'DELETE FROM progressions'
 .start()

@@ -16,19 +16,19 @@ angular.module 'vsAgency'
   resize: (elem) ->      
     $timeout ->
       c = $('canvas', elem)
-      p = $('.progression', elem)
+      p = $('.milestones', elem)
       ctx = c[0].getContext '2d'
       c[0].width = p[0].clientWidth
       c[0].height = p[0].clientHeight
-      items = $('.progression-item', elem)
+      items = $('.milestone', elem)
       for item in items
         prev = $(item).prev()[0]
         if $(item).parent().hasClass('branch')
           prev = $(item).parent().prev()[0]
         if prev
-          if $(prev).hasClass('progression-item')
+          if $(prev).hasClass('milestone')
             drawConnection ctx, item, prev
           else if $(prev).hasClass('branch')
-            branchItems = $('.progression-item', prev)
+            branchItems = $('.milestone', prev)
             for branchItem in branchItems
               drawConnection ctx, item, branchItem

@@ -7,4 +7,9 @@
         option(value='agency', selected) Agency
         option(value='admin') Admin
       input(type='submit', value='Invite')
+    .invite-error {{inviteError}}
     .invite-url {{inviteUrl}}
+    h2 Progressions
+    progression(ng-repeat='progression in getProgressions()', data='progression')
+    button.add-progression(ng-click='addProgression()') Add Progression
+    

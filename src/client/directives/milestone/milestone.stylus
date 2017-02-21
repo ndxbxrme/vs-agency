@@ -1,6 +1,6 @@
 @import '../../variables'
 
-.progression-item
+.milestone
   width 60px
   display flex
   flex-direction column
@@ -48,8 +48,7 @@
     .icon
       background vs-green
 @media screen and (max-width:992px)
-  .progression-item
+  .milestone
     width 40px
-    margin-right 1.5rem
     .title
       font-size 0.8rem

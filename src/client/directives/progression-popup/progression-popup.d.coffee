@@ -7,6 +7,7 @@ angular.module 'vsAgency'
   replace: true
   link: (scope, elem) ->
     addingNote = false
+    scope.getData = progressionPopup.getData
     scope.getTitle = progressionPopup.getTitle
     scope.setCompleted = progressionPopup.setCompleted
     scope.getCompleted = progressionPopup.getCompleted

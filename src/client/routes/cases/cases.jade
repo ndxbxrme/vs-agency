@@ -21,12 +21,12 @@
         th Vendor
         th Purchaser
         th(width='1%') Options
-    tbody(ng-repeat='property in filterData =(getProperties() | filter:search | filter:{milestoneBuyerStatus:filter} | orderBy:sort) | limitTo:limit:limit*(page-1)')
+    tbody(ng-repeat='property in filterData =(getProperties() | filter:search | filter:{milestoneStatus:filter} | orderBy:sort) | limitTo:limit:limit*(page-1)')
       tr(ng-click='property.open = !property.open')
-        td.milestone
-          .progression-item(ng-class='property.cssMilestoneBuyer', title='{{property.milestoneBuyer.title}}')
+        td
+          .milestone(ng-class='property.cssMilestone')
             .icon
-            .title {{property.milestoneBuyer.title}}
+            .title {{property.milestone.title}}
         td
           .address {{property.Address.Number}} {{property.Address.Street }}, {{property.Address.Locality }}, {{property.Address.Town}}
           .dates(ng-show='property.open')
@@ -41,10 +41,9 @@
           a.button(href='{{property.RoleId}}/case') View Case
   .mobile-table.small-mobile-show
     .case-card(ng-repeat='property in filterData | limitTo:limit:limit*(page-1)')
-      .milestone
-        .progression-item(ng-class='property.cssMilestoneBuyer', title='{{property.milestoneBuyer.title}}')
-          .icon
-          .title {{property.milestoneBuyer.title}}
+      .milestone(ng-class='property.cssMilestone', title='{{property.milestone.title}}')
+        .icon
+        .title {{property.milestone.title}}
       .address-row
         .address {{property.Address.Number}} {{property.Address.Street }}, {{property.Address.Locality }}, {{property.Address.Town}}
         .vendor Vendor: 

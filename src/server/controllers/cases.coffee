@@ -4,7 +4,7 @@ module.exports = (ndx) ->
   if process.env.REZI_ID and process.env.REZI_SECRET
     pageSize =
       pageSize: 2000
-    ndx.app.get '/api/property/:roleId', (req, res, next) ->
+    ndx.app.get '/api/property/:roleId', ndx.authenticate(), (req, res, next) ->
       property = ndx.database.exec 'SELECT * FROM properties WHERE roleId=?', [+req.params.roleId]
       if property and property.length
         res.json property[0]
@@ -23,7 +23,7 @@ module.exports = (ndx) ->
                       if not err
                         property.offer = body
                         property.purchaser = body.ApplicantGroup.Name
-                        ndx.database.exec 'INSERT INTO properties VALUES ?', [property]
+                        ndx.database.insert 'properties', property
                         res.json property
                       else
                         return next(err)
@@ -31,10 +31,9 @@ module.exports = (ndx) ->
                 return next(err)
           else
             return next(err)
-    ndx.app.post '/api/property/:roleId', (req, res, next) ->
+    ndx.app.post '/api/property/:roleId', ndx.authenticate(), (req, res, next) ->
       if req.body
-        ndx.database.exec 'DELETE FROM properties WHERE roleId=?', [req.body.roleId]
-        ndx.database.exec 'INSERT INTO properties VALUES ?', [req.body]
+        ndx.database.update 'properties', req.body, 'roleId=?', [req.body.roleId]
         res.send 'OK'
       else
         next('No body')

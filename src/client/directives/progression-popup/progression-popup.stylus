@@ -30,3 +30,12 @@
     top 0
     right 0
     padding 0.6rem
+  .todo
+    display flex
+    justify-content space-between
+.setup-page
+  .content
+    display none
+.case-page
+  .editor
+    display none

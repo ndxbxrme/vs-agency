@@ -4,7 +4,6 @@ angular.module 'vsAgency'
 .factory 'progressionPopup', ($timeout, dezrez, auth) ->
   elem = null
   data = null
-  side = null
   hidden = true
   getOffset = (elm) ->
     offset =
@@ -37,18 +36,19 @@ angular.module 'vsAgency'
         left: pointerLeft
         display: pointerDisplay
   window.addEventListener 'resize', moveToElem
-  show: (_elem, _data, _side) ->
+  show: (_elem, _data) ->
     elem = _elem
     data = _data
-    side = _side
+    ###
     if data.title is 'Start' and not data.completed
       data.completed = true
       data.startTime = new Date().valueOf()
       data.completedTime = new Date().valueOf()
       dezrez.updatePropertyCase auth.getUser(), true
     else
-      moveToElem()
-      hidden = false
+    ###
+    moveToElem()
+    hidden = false
   hide: ->
     hidden = true
   getHidden: ->
@@ -96,9 +96,11 @@ angular.module 'vsAgency'
         date: new Date()
         text: note
         item: data.title
-        side: side
+        side: data.side
         user: auth.getUser()
       dezrez.updatePropertyCase auth.getUser()
   getNotes: ->
     if data
       data.notes
+  getData: ->
+    data

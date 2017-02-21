@@ -1,0 +1,16 @@
+.progression
+  .heading
+    h5 Case - {{progression.side}}'s side - {{progression.name}} - {{getProperty().Address.Number}} {{getProperty().Address.Street }}, {{getProperty().Address.Locality }}, {{getProperty().Address.Town}}
+    .controls
+      a(href='', ng-click='moveUp()') &#9650;
+      a(href='', ng-click='moveDown()') &#9660;
+      a(href='', ng-click='remove()') X
+  .milestones
+    canvas
+    .branch(ng-repeat='branch in progression.milestones')
+      milestone(ng-repeat='milestone in branch', data='milestone')
+      a.new-milestone(href='', ng-click='addMilestone(branch)') +
+    .branch.new
+      a.new-milestone(href='', ng-click='addMilestone()') +
+  .save
+    button(ng-click='saveProgression()') Save Progression

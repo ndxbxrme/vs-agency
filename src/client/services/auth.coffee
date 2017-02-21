@@ -1,10 +1,10 @@
 'use strict'
 
 angular.module 'vsAgency'
-.factory 'auth', ($http, $q, $timeout, $location, $state, dezrez) ->
+.factory 'auth', ($http, $q, $timeout, $location, $state) ->
   user = null
   loading = false
-  getUserPromise = (needsDezrez) ->
+  getUserPromise = () ->
     loading = true
     defer = $q.defer()
     if user

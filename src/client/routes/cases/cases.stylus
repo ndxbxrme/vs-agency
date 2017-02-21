@@ -50,7 +50,7 @@
         .address
           color vs-orange
           font-weight bold
-        .progression-item
+        .milestone
           flex 0
           .title
             min-height 0!important
@@ -83,5 +83,3 @@
     .mobile-table
       .address-row
         flex 1
-      .milestone
-        margin-right 1rem

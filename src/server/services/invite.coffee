@@ -10,7 +10,7 @@ module.exports = (ndx) ->
     decrypted.replace /(.*)\|\|(\d+$)/, (all, json, date) ->
       #check date
       if +date < new Date().valueOf() - (3 * 24 * 60 * 60 * 1000)
-        throw 'out of date'
+        throw 'Token has expired'
       user = JSON.parse json
     user
   ndx.app.post '/invite/accept', (req, res, next) ->
@@ -18,6 +18,9 @@ module.exports = (ndx) ->
       user = parseCode req.body.code
     catch e
       return next e
+    userCheck = ndx.database.exec "SELECT * FROM #{ndx.settings.USER_TABLE} WHERE local->email=?", [user.email]
+    if userCheck and userCheck.length
+      return next 'User already exists'
     newUser = 
       displayName: req.body.user.displayName
       local:
@@ -33,7 +36,10 @@ module.exports = (ndx) ->
     catch e
       return next e
     res.redirect "/invited?#{encodeURIComponent(req.params.code)}"
-  ndx.app.post '/api/get-invite-code', (req, res, next) ->
+  ndx.app.post '/api/get-invite-code', ndx.authenticate(['admin', 'superadmin']), (req, res, next) ->
+    userCheck = ndx.database.exec "SELECT * FROM #{ndx.settings.USER_TABLE} WHERE local->email=?", [req.body.email]
+    if userCheck and userCheck.length
+      return next 'User already exists'
     text = JSON.stringify req.body
     text += '||' + new Date().valueOf()
     text = encodeURIComponent(crypto.Rabbit.encrypt(text, ndx.settings.SESSION_SECRET).toString())
