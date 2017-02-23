@@ -5,6 +5,7 @@ ndx = require 'ndx-server'
   database: 'vsa'
   tables: ['users', 'properties', 'progressions']
   localStorage: './data'
+.use 'ndx-cors'
 .use 'ndx-passport'
 .use 'ndx-passport-twitter'
 .use 'ndx-passport-facebook'
