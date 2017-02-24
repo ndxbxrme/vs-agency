@@ -20,20 +20,19 @@
       font-size 1.3rem
       padding-left 3.5rem
     .name, .telephone, .email
-      font-size 2.2rem
+      font-size 1.7rem
       position relative
       padding-left 3.5rem
+      margin-right 1rem
       &:before
         position absolute
-        top 0px
+        top -1px
         left 0px
-        width 30px
-        height 30px
+        width 25px
+        height 25px
         content ''
         background url('/public/img/icons/cathead.png')
         background-size cover
-    .name
-      font-size 2rem
     input
       font-size 1.3rem!important
     &:hover

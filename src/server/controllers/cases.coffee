@@ -11,22 +11,32 @@ module.exports = (ndx) ->
       else
         property =
           roleId: +req.params.roleId
-        ndx.dezrez.get 'role/{id}/vendors', null, id:req.params.roleId, (err, body) ->
+        ndx.dezrez.get 'role/{id}', null, id:req.params.roleId, (err, body) ->
           if not err
-            property.vendors = body
-            property.vendor = body.Name
-            ndx.dezrez.get 'role/{id}/offers', pageSize, id:req.params.roleId, (err, body) ->
+            ndx.dezrez.get 'role/{id}', null, id:body.PurchasingRoleId, (err, body) ->
               if not err
-                for offer in body.Collection
-                  if offer.Response.ResponseType.SystemName is 'Accepted'
-                    ndx.dezrez.get 'offer/{id}', null, id:offer.Id, (err, body) ->
-                      if not err
-                        property.offer = body
-                        property.purchaser = body.ApplicantGroup.Name
-                        ndx.database.insert 'properties', property
-                        res.json property
-                      else
-                        return next(err)
+                property.role = body
+                property.offer = body.AcceptedOffer
+                property.purchaser = body.AcceptedOffer.ApplicantGroup.Name
+                property.purchasersContact =
+                  role: ''
+                  name: body.AcceptedOffer.ApplicantGroup.PrimaryMember.ContactName
+                  email: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryEmail?.Value
+                  telephone: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryTelephone?.Value
+                for contact in body.Contacts
+                  property["#{contact.ProgressionRoleType.SystemName.toLowerCase()}sSolicitor"] =
+                    role: contact.GroupName
+                    name: contact.CaseHandler.ContactName
+                    email: contact.CaseHandler.PrimaryEmail?.Value
+                    telephone: contact.CaseHandler.PrimaryTelephone?.Value
+                property.vendor = body.AcceptedOffer.VendorGroup.Name
+                property.vendorsContact =
+                  role: ''
+                  name: body.AcceptedOffer.VendorGroup.PrimaryMember.ContactName
+                  email: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryEmail?.Value
+                  telephone: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryTelephone?.Value
+                ndx.database.insert 'properties', property
+                res.json property
               else
                 return next(err)
           else
