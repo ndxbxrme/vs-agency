@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
+    "grunt": "^1.0.1",
     "ndx-auth": "0.0.4",
     "ndx-connect": "0.0.3",
     "ndx-cors": "0.0.4",
