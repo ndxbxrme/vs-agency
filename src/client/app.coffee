@@ -11,9 +11,10 @@ angular.module 'vsAgency', [
     size: 16
     "default": 'mm'
     rating: 'pg'
-.run ($rootScope, $state, auth) ->
+.run ($rootScope, $state, auth, progressionPopup) ->
   $rootScope.$on '$stateChangeStart', ->
     if $state.current.name
+      progressionPopup.hide()
       $('body').removeClass "#{$state.current.name}-page"
   $rootScope.$on '$stateChangeSuccess', ->
     if $state.current.name

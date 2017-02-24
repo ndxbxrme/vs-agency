@@ -89,6 +89,9 @@ angular.module 'vsAgency'
         return new Date(data.startTime)
       else
         return new Date()
+  getEstDays: ->
+    if data
+      data.estDays
   addNote: (note) ->
     if data and note
       console.log 'adding note'

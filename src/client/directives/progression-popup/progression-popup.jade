@@ -3,11 +3,13 @@
     a.close(href='', ng-click='hide()') X
     .content
       h4 {{getTitle()}}
-      .progressing(ng-show='getProgressing() && !getCompleted()')
+      .start(ng-show='isStart()')
+        button(ng-click='setCompleted()') Start
+      .progressing(ng-show='getProgressing() && !getCompleted() && !isStart()')
         .default(ng-hide='addingNote()')
           .dates
             .date Proposed Task Duration: 
-              strong {{getDateDiff()}}
+              strong {{getEstDays()}}
             .date Estimated End Date: 
               strong {{getDate() | date:'mediumDate'}}
           div(ng-repeat='note in getNotes()') {{note.text}}
@@ -19,14 +21,14 @@
           button(ng-click='cancelAddNote()') Cancel
       .completed(ng-show='getCompleted()')
         h5 Completed: {{getCompletedTime() | date:'mediumDate'}}, {{getCompletedTime() | date:'shortTime'}}
-      .awaiting(ng-show='!getCompleted() && !getProgressing()')
-        .dates(ng-show='getDate()')
+      .awaiting(ng-show='!getCompleted() && !getProgressing() && !isStart()')
+        .dates
           .date Proposed Task Duration: 
-            strong {{getDateDiff()}}
+            strong {{getEstDays()}}
           .date Estimated End Date: 
             strong {{getDate() | date:'mediumDate'}}
         button(ng-click='setDate()') {{getDate() ? 'Change' : 'Set'}} Estimated Completion Date
-        button(ng-click='setProgressing()', ng-show='getDate()') Confirm
+        button(ng-click='setProgressing()', ng-show='getDate()') Start
     .editor
       label
         span Title
@@ -34,6 +36,11 @@
       label
         span Est no days
         input(type='number', ng-model='getData().estDays')
+      h4 Icon
+      .icons
+        .milestone(ng-repeat='icon in icons', ng-click='getData().icon = icon')
+          .icon(class='{{icon}}')
+      h4 Todos
       .todo(ng-repeat='todo in getData().todos') {{todo.text}}
         .controls
           a(href='', ng-click='getData().todos.moveUp(todo)') &#9650;

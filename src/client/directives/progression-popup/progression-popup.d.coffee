@@ -7,6 +7,10 @@ angular.module 'vsAgency'
   replace: true
   link: (scope, elem) ->
     addingNote = false
+    scope.icons = [
+      'cathead'
+      'house'
+    ]
     scope.getData = progressionPopup.getData
     scope.getTitle = progressionPopup.getTitle
     scope.setCompleted = progressionPopup.setCompleted
@@ -21,11 +25,25 @@ angular.module 'vsAgency'
       $rootScope.$emit 'swiper:show', progressionPopup.getDate()
     scope.setProgressing = ->
       progressionPopup.setProgressing()
-    scope.getDateDiff = ->
-      end = moment(progressionPopup.getDate())
-      start = moment(progressionPopup.getStartDate()).startOf('day')
+    getDateDiff = (startDate, endDate) ->
+      end = moment(endDate)
+      start = moment(startDate).startOf('day')
       nodays = end.diff start, 'days'
       nodays + if nodays is 1 then ' day' else ' days'
+    scope.getEstDays = ->
+      date = progressionPopup.getDate()
+      start = progressionPopup.getStartDate()
+      estDays = progressionPopup.getEstDays()
+      if date
+        getDateDiff start, date
+      else
+        date = moment().startOf('day').add(estDays, 'day')._d
+        progressionPopup.setDate date
+        getDateDiff start, date
+      
+    scope.isStart = ->
+      title = progressionPopup.getTitle()
+      title is 'Start'
     scope.addNote = ->
       addingNote = true
     scope.addingNote = ->

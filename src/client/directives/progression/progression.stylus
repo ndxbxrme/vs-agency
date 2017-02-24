@@ -37,12 +37,15 @@
         text-align center
         background vs-lightgrey
         border-radius 50%
-.case
-  .progression
+        margin-bottom 30px
+        opacity 0.2
+      &:hover
+        .new-milestone
+          opacity 1
+  .save, .new-milestone, .branch.new
+    display none
+  &.editing
     .save, .new-milestone, .branch.new
-      display none
-.setup
-  .progression
-    .heading
-      .controls
-        display none
+      display block
+    .branch
+      margin-right 2rem

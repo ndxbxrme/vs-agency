@@ -1,15 +1,28 @@
-.progression
-  .heading
-    h5 Case - {{progression.side}}'s side - {{progression.name}} - {{getProperty().Address.Number}} {{getProperty().Address.Street }}, {{getProperty().Address.Locality }}, {{getProperty().Address.Town}}
-    .controls
-      a(href='', ng-click='moveUp()') &#9650;
-      a(href='', ng-click='moveDown()') &#9660;
-      a(href='', ng-click='remove()') X
+.progression(ng-class='{editing:editing}')
+  div(ng-hide='$parent.editor')
+    .heading
+      h5 Case - {{progression.side}}'s side - {{progression.name}} - {{getProperty().Address.Number}} {{getProperty().Address.Street }}, {{getProperty().Address.Locality }}, {{getProperty().Address.Town}}
+      .controls
+        a(href='', ng-click='moveUp()') &#9650;
+        a(href='', ng-click='moveDown()') &#9660;
+        a(href='', ng-click='remove()') X
+  div(ng-show='$parent.editor')
+    .heading(ng-hide='editing')
+      h5 {{progression.name}}, {{progression.side}}
+      .controls
+        a(href='', ng-click='editing=true;resize()') Edit
+    .heading(ng-show='editing')
+      label
+        span Name
+        input(type='text', ng-model='progression.name', placeholder='Name')
+      .btn-group
+        label.btn.btn-primary(ng-model='progression.side', uib-btn-radio="'Buyer'") Buyer
+        label.btn.btn-primary(ng-model='progression.side', uib-btn-radio="'Seller'") Seller
   .milestones
     canvas
     .branch(ng-repeat='branch in progression.milestones')
-      milestone(ng-repeat='milestone in branch', data='milestone')
-      a.new-milestone(href='', ng-click='addMilestone(branch)') +
+      milestone(ng-repeat='milestone in branch', data='milestone', disabled='{{$parent.$parent.$parent.editor && !$parent.$parent.editing}}')
+      a.new-milestone(href='', ng-click='addMilestone(branch)', ng-show='$index>0') +
     .branch.new
       a.new-milestone(href='', ng-click='addMilestone()') +
   .save

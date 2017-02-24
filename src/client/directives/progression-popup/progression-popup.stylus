@@ -33,6 +33,8 @@
   .todo
     display flex
     justify-content space-between
+  .icons
+    display flex
 .setup-page
   .content
     display none

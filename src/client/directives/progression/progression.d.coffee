@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vsAgency'
-.directive 'progression', (progression, dezrez, $http, alert) ->
+.directive 'progression', (progression, progressionPopup, dezrez, $http, alert) ->
   restrict: 'AE'
   templateUrl: 'directives/progression/progression.html'
   replace: true
@@ -24,11 +24,14 @@ angular.module 'vsAgency'
         notes: []
         todos: []
         estDays: 0
-      resize()
+      scope.resize()
     scope.saveProgression = ->
+      progressionPopup.hide()
       $http.post '/api/progression', scope.progression
       .then (response) ->
         alert.log 'Progression saved'
+        scope.editing = false
+        scope.resize()
       , (err) ->
         false
     scope.remove = ->
@@ -40,9 +43,9 @@ angular.module 'vsAgency'
     scope.moveDown = ->
       scope.$parent.getProperty().case.progressions.moveDown scope.progression
       dezrez.updatePropertyCase()
-    resize = ->
+    scope.resize = ->
       progression.resize elem
-    resize()
-    window.addEventListener 'resize', resize
+    scope.resize()
+    window.addEventListener 'resize', scope.resize
     scope.$on '$destroy', ->
-      window.removeEventListener 'resize', resize
+      window.removeEventListener 'resize', scope.resize

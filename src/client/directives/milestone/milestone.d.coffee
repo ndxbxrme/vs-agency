@@ -7,11 +7,13 @@ angular.module 'vsAgency'
   replace: true
   scope:
     milestone: '=data'
+    disabled: '@'
   link: (scope, elem, attrs) ->
     scope.getClass = ->
       completed: scope.milestone.completed
       progressing: scope.milestone.progressing
     scope.itemClick = ->
-      progressionPopup.show elem[0], scope.milestone
+      if scope.disabled is 'false'
+        progressionPopup.show elem[0], scope.milestone
       #$rootScope.$emit 'swiper:show' 
     

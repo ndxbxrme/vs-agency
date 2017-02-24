@@ -3,6 +3,9 @@
 angular.module 'vsAgency'
 .controller 'SetupCtrl', ($scope, $http, progressions) ->
   progressions.refresh()
+  $scope.editor = true
+  $scope.newUser =
+    role: 'agency'
   $scope.getProgressions = progressions.getProgressions
   $scope.getProperty = ->
     Address:

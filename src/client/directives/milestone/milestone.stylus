@@ -38,6 +38,10 @@
       content ''
       background url('/public/img/icons/cathead.png')
       background-size cover
+    &.house
+      &:after
+        background url('/public/img/icons/house.png')
+        background-size cover
   .title
     min-height 3rem
     background rgba(255,255,255,0.8)
