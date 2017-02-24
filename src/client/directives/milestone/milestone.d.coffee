@@ -13,7 +13,7 @@ angular.module 'vsAgency'
       completed: scope.milestone.completed
       progressing: scope.milestone.progressing
     scope.itemClick = ->
-      if scope.disabled is 'false'
+      if scope.disabled isnt 'true'
         progressionPopup.show elem[0], scope.milestone
       #$rootScope.$emit 'swiper:show' 
     
