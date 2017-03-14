@@ -12,7 +12,7 @@ html
       .body
         .container
           login
-          .view(ui-view='', ng-show='auth.getUser()')
+          .view(ui-view='', ng-show='auth.getUser() || state("invited")')
     footer
     progression-popup
     date-swiper(config='{prefix:"swiper", modifier:1.5, show:false}')
