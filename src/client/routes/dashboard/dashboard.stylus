@@ -1,16 +1,1 @@
 @import '../../variables'
-
-.dashboard
-  .overview, .income
-    border 1px solid #ccc
-    border-radius 1rem!important
-    margin-bottom 2rem
-    .heading
-      text-transform uppercase
-      background vs-orange
-      color #fff
-      text-align center
-      padding 1rem
-      border-radius 1rem 1rem 0 0
-    .table
-      margin-bottom 0

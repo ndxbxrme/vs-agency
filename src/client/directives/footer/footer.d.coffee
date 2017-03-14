@@ -1,7 +1,9 @@
 'use strict'
 
-angular.module 'vsAgency'
+angular.module 'vs-agency'
 .directive 'footer', ->
-  restrict: 'AE'
+  restrict: 'EA'
   templateUrl: 'directives/footer/footer.html'
   replace: true
+  link: (scope, elem, attrs) ->
+    console.log 'footer directive'

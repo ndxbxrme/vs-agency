@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module 'vsAgency'
+angular.module 'vs-agency'
 .controller 'InvitedCtrl', ($scope, $state, $http) ->
   code = window.location.search.replace(/^\?/, '')
   $scope.acceptInvite = ->

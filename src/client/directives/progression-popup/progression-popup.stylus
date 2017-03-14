@@ -4,7 +4,7 @@
   box-sizing border-box
   position absolute
   width 400px
-  max-width 90%
+  max-width calc(100vw - 20px)
   transition all $transition $bounce
   z-index 30
   .pointer
@@ -12,8 +12,8 @@
     position absolute
     top -0.5rem
     left 20px
-    width 3rem
-    height 3rem
+    width 2rem
+    height 2rem
     content ''
     background darkgreen
     transform rotate(45deg) translate3D(0,0,0)

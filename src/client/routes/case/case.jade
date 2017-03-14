@@ -1,10 +1,10 @@
 .case
   h1 case
-  .address {{getProperty().Address.Number}} {{getProperty().Address.Street }}, {{getProperty().Address.Locality }}, {{getProperty().Address.Town}}
-  progression(ng-repeat='progression in getProperty().case.progressions', data='progression')
+  .address {{property.item.displayAddress}}
+  progression(ng-repeat='progression in property.item.$case.item.progressions', data='progression')
   button.has-dropdown(ng-focus='progBtnFocussed=true', ng-blur='hideDropdown("progBtnFocussed")') Add Progression
   ul.dropdown(ng-show='progBtnFocussed')
-    li(ng-repeat='progression in getProgressions()')
+    li(ng-repeat='progression in progressions.items')
       a(href='', ng-click='addProgression(progression)') {{progression.name}}, {{progression.side}}
   h2 Chain
   button.view-chain View Chain
@@ -13,8 +13,8 @@
     contact-details(title="Vendor's Contact")
     contact-details(title="Purchaser's Solicitor")
     contact-details(title="Purchaser's Contact")
+  h2 Case Notes
   .case-notes
-    .heading Case Notes
     .case-note(ng-repeat='note in getNotes() | orderBy:"date"')
       .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}}
       .note 

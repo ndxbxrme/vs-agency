@@ -1,7 +1,7 @@
 .progression(ng-class='{editing:editing}')
   div(ng-hide='$parent.editor')
     .heading
-      h5 Case - {{progression.side}}'s side - {{progression.name}} - {{getProperty().Address.Number}} {{getProperty().Address.Street }}, {{getProperty().Address.Locality }}, {{getProperty().Address.Town}}
+      h5 Case - {{progression.side}}'s side - {{progression.name}} - {{property.item.displayAddress}}
       .controls
         a(href='', ng-click='moveUp()') &#9650;
         a(href='', ng-click='moveDown()') &#9660;
@@ -16,14 +16,17 @@
         span Name
         input(type='text', ng-model='progression.name', placeholder='Name')
       .btn-group
-        label.btn.btn-primary(ng-model='progression.side', uib-btn-radio="'Buyer'") Buyer
-        label.btn.btn-primary(ng-model='progression.side', uib-btn-radio="'Seller'") Seller
+        input(type='radio', id='side-buyer', name='side', ng-model='progression.side', value='Buyer')
+        label(for='side-buyer') Buyer
+        input(type='radio', id='side-seller', name='side', ng-model='progression.side', value='Seller')
+        label(for='side-seller') Seller
   .milestones
     canvas
     .branch(ng-repeat='branch in progression.milestones')
       milestone(ng-repeat='milestone in branch', data='milestone', disabled='{{$parent.$parent.$parent.editor && !$parent.$parent.editing}}')
-      a.new-milestone(href='', ng-click='addMilestone(branch)', ng-show='$index>0') +
+      a.new-milestone(href='', ng-click='addMilestone(branch)', ng-class='{hidden:$first}') +
     .branch.new
       a.new-milestone(href='', ng-click='addMilestone()') +
   .save
     button(ng-click='saveProgression()') Save Progression
+    button(ng-click='cancel()') Cancel

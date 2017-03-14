@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module 'vsAgency'
+angular.module 'vs-agency'
 .directive 'milestone', ($rootScope, progressionPopup) ->
   restrict: 'AE'
   templateUrl: 'directives/milestone/milestone.html'
@@ -13,6 +13,7 @@ angular.module 'vsAgency'
       completed: scope.milestone.completed
       progressing: scope.milestone.progressing
     scope.itemClick = ->
+      console.log scope.disabled
       if scope.disabled isnt 'true'
         progressionPopup.show elem[0], scope.milestone
       #$rootScope.$emit 'swiper:show' 

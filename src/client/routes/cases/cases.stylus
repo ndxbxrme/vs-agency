@@ -50,10 +50,11 @@
         .address
           color vs-orange
           font-weight bold
-        .milestone
-          flex 0
-          .title
-            min-height 0!important
+      .milestone
+        flex 0
+        margin-right 2rem
+        .title
+          min-height 0!important
   .options
     a.button
       display inline-block

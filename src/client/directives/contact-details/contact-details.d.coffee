@@ -1,8 +1,8 @@
 'use strict'
 
-angular.module 'vsAgency'
-.directive 'contactDetails', (dezrez) ->
-  restrict: 'AE'
+angular.module 'vs-agency'
+.directive 'contactDetails', ->
+  restrict: 'EA'
   templateUrl: 'directives/contact-details/contact-details.html'
   replace: true
   scope:
@@ -13,13 +13,12 @@ angular.module 'vsAgency'
     scope.edit = ->
       scope.editing = true
     scope.data = ->
-      property = scope.$parent.getProperty()
-      if property and property.case
-        if not property.case[fieldName]
-          property.case[fieldName] = {}
-        return property.case[fieldName]
+      property = scope.$parent.property
+      if property and property.item and property.item.$case and property.item.$case.item
+        if not property.item.$case.item[fieldName]
+          property.item.$case.item[fieldName] = {}
+        return property.item.$case.item[fieldName]
     scope.confirm = ->
       #save to database
-      dezrez.updatePropertyCase()
+      scope.$parent.property.item.$case.save()
       scope.editing = false
-        

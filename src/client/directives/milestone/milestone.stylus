@@ -44,6 +44,7 @@
         background-size cover
   .title
     min-height 3rem
+    line-height 1rem
     background rgba(255,255,255,0.8)
   &.progressing
     .icon

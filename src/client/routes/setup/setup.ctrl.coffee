@@ -1,12 +1,12 @@
 'use strict'
 
-angular.module 'vsAgency'
-.controller 'SetupCtrl', ($scope, $http, progressions) ->
-  progressions.refresh()
+angular.module 'vs-agency'
+.controller 'SetupCtrl', ($scope, $http) ->
   $scope.editor = true
   $scope.newUser =
     role: 'agency'
-  $scope.getProgressions = progressions.getProgressions
+  console.log 'heeey'
+  $scope.progressions = $scope.list 'progressions'
   $scope.getProperty = ->
     Address:
       Number: 123
@@ -20,7 +20,7 @@ angular.module 'vsAgency'
     , (err) ->
       $scope.inviteError = err.data
   $scope.addProgression = ->
-    progressions.saveProgression
+    $scope.progressions.save
       name: 'New progression'
       side: 'Buyer'
       milestones: [
@@ -28,4 +28,3 @@ angular.module 'vsAgency'
           title: 'Start'
         }]
       ]
-    progressions.refresh()

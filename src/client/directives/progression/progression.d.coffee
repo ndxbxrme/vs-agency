@@ -1,17 +1,41 @@
 'use strict'
 
-angular.module 'vsAgency'
-.directive 'progression', (progression, progressionPopup, dezrez, $http, alert) ->
+angular.module 'vs-agency'
+.directive 'progression', (progressionPopup, $timeout, $http) ->
   restrict: 'AE'
   templateUrl: 'directives/progression/progression.html'
   replace: true
-  scope: 
-    progression: '=data'
   link: (scope, elem) ->
-    scope.getProgression = ->
-      scope.progression
-    scope.getProperty = ->
-      scope.$parent.getProperty()
+    drawConnection = (ctx, item, prev) ->
+      ctx.beginPath()
+      if item.offsetLeft > prev.offsetLeft
+        ctx.moveTo item.offsetLeft + (item.clientWidth / 2) - 20, item.offsetTop + 20
+        ctx.lineTo prev.offsetLeft + (prev.clientWidth / 2) + 20, prev.offsetTop + 20
+      else
+        ctx.moveTo prev.offsetLeft + (prev.clientWidth / 2) + 20, prev.offsetTop + 20
+        ctx.lineTo prev.offsetLeft + (prev.clientWidth / 2) + 40, prev.offsetTop + 20
+
+      ctx.strokeStyle = '#999999'
+      ctx.stroke()
+    resize = (elem) ->      
+      $timeout ->
+        c = $('canvas', elem)
+        p = $('.milestones', elem)
+        ctx = c[0].getContext '2d'
+        c[0].width = p[0].clientWidth
+        c[0].height = p[0].clientHeight
+        items = $('.milestone', elem)
+        for item in items
+          prev = $(item).prev()[0]
+          if $(item).parent().hasClass('branch')
+            prev = $(item).parent().prev()[0]
+          if prev
+            if $(prev).hasClass('milestone')
+              drawConnection ctx, item, prev
+            else if $(prev).hasClass('branch')
+              branchItems = $('.milestone', prev)
+              for branchItem in branchItems
+                drawConnection ctx, item, branchItem
     index = 0
     scope.getIndex = ->
       index++
@@ -27,24 +51,25 @@ angular.module 'vsAgency'
       scope.resize()
     scope.saveProgression = ->
       progressionPopup.hide()
-      $http.post '/api/progression', scope.progression
-      .then (response) ->
-        alert.log 'Progression saved'
-        scope.editing = false
-        scope.resize()
-      , (err) ->
-        false
+      scope.progressions.save(scope.progression)
+      scope.editing = false
+      scope.resize()
+    scope.cancel = ->
+      progressionPopup.hide()
+      scope.progressions.refreshFn()
+      scope.editing = false
+      scope.resize()
     scope.remove = ->
-      scope.$parent.getProperty().case.progressions.remove scope.progression
-      dezrez.updatePropertyCase()
+      scope.property.item.$case.item.progressions.remove scope.progression
+      scope.property.item.$case.save()
     scope.moveUp = ->
-      scope.$parent.getProperty().case.progressions.moveUp scope.progression
-      dezrez.updatePropertyCase()
+      scope.property.item.$case.item.progressions.moveUp scope.progression
+      scope.property.item.$case.save()
     scope.moveDown = ->
-      scope.$parent.getProperty().case.progressions.moveDown scope.progression
-      dezrez.updatePropertyCase()
+      scope.property.item.$case.item.progressions.moveDown scope.progression
+      scope.property.item.$case.save()
     scope.resize = ->
-      progression.resize elem
+      resize elem
     scope.resize()
     window.addEventListener 'resize', scope.resize
     scope.$on '$destroy', ->

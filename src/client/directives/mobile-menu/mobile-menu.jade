@@ -1,13 +1,13 @@
 .mobile-menu(ng-click='mobileMenuOut=false')
-  nav(ng-show='getUser() && mobileMenuOut')
+  nav(ng-show='auth.getUser()')
     ul.menu
-      li(ng-class="{selected:isSelected('dashboard')}")
+      li(ng-class="{selected:state('dashboard')}")
         a(href='/')
           span Dashboard
-      li(ng-class="{selected:isSelected(['cases', 'case'])}")
+      li(ng-class="{selected:state(['cases', 'case'])}")
         a(ui-sref='cases')
           span Cases
-      li(ng-class="{selected:isSelected('setup')}", ng-show="checkRoles(['admin', 'superadmin'])")
+      li(ng-class="{selected:state('setup')}", ng-show="auth.checkRoles(['admin', 'superadmin'])")
         a(ui-sref='setup')
           span Setup
       li

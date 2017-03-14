@@ -1,0 +1,12 @@
+{
+  "generator-ndx": {
+    "filters": {
+      "appType": "web",
+      "undefined": true,
+      "appName": "vs-agency",
+      "gitname": "ndxbxrme",
+      "gitemail": "lewis_the_cat@hotmail.com"
+    },
+    "appname": "14"
+  }
+}

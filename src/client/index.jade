@@ -2,47 +2,18 @@ html
   head
     base(href='/')
     meta(charset='utf-8')
-    title VitalSpace Agency
+    title vs-agency
     meta(name='description', content='')
     meta(name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1")
-    link(rel='profile', href='http://gmpg.org/xfn/11')
-    link(rel='apple-touch-icon', sizes='57x57', href='/public/favicons/apple-touch-icon-57x57.png')
-    link(rel='apple-touch-icon', sizes='114x114', href='/public/favicons/apple-touch-icon-114x114.png')
-    link(rel='apple-touch-icon', sizes='72x72', href='/public/favicons/apple-touch-icon-72x72.png')
-    link(rel='apple-touch-icon', sizes='144x144', href='/public/favicons/apple-touch-icon-144x144.png')
-    link(rel='apple-touch-icon', sizes='60x60', href='/public/favicons/apple-touch-icon-60x60.png')
-    link(rel='apple-touch-icon', sizes='120x120', href='/public/favicons/apple-touch-icon-120x120.png')
-    link(rel='apple-touch-icon', sizes='76x76', href='/public/favicons/apple-touch-icon-76x76.png')
-    link(rel='apple-touch-icon', sizes='152x152', href='/public/favicons/apple-touch-icon-152x152.png')
-    link(rel='apple-touch-icon', sizes='180x180', href='/public/favicons/apple-touch-icon-180x180.png')
-    link(rel='icon', type='image/png', href='/public/favicons/favicon-192x192.png', sizes='192x192')
-    link(rel='icon', type='image/png', href='/public/favicons/favicon-160x160.png', sizes='160x160')
-    link(rel='icon', type='image/png', href='/public/favicons/favicon-96x96.png', sizes='96x96')
-    link(rel='icon', type='image/png', href='/public/favicons/favicon-16x16.png', sizes='16x16')
-    link(rel='icon', type='image/png', href='/public/favicons/favicon-32x32.png', sizes='32x32')
-    meta(name='msapplication-TileColor', content='#da532c')
-    meta(name='msapplication-TileImage', content='/public/favicons/mstile-144x144.png')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
-    meta(name='apple-itunes-app', content='app-id=410605435')
-    meta(name='google-play-app', content='app-id=com.vitalspace.main')
-    link(rel='stylesheet', href='../../bower/humane-js/themes/libnotify.css')
-    // bower:css 
-    // endbower 
-    // injector:css 
-    // endinjector 
-  body(ng-app='vsAgency', ng-click='mobileMenuOut=false').property-hub
+  body.property-hub(ng-app='vs-agency', tap='mobileMenuOut=false')
     header
     mobile-menu
-    .body(ng-class='{"mobile-menu-out":mobileMenuOut}')
-      .container
-        login
-        .view(ui-view='')
+    .holder(ng-class='{"mobile-menu-out":mobileMenuOut}')
+      .body
+        .container
+          login
+          .view(ui-view='', ng-show='auth.getUser()')
     footer
     progression-popup
     date-swiper(config='{prefix:"swiper", modifier:1.5, show:false}')
-    // bower:js 
-    // endbower 
-    script(src='//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.0.3.js')
     script(src='https://use.fontawesome.com/7cf3591d99.js')
-    // injector:js 
-    // endinjector 

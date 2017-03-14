@@ -1,17 +1,18 @@
 'use strict'
 
-angular.module 'vsAgency', [
+angular.module 'vs-agency', [
+  'ndx'
   'ui.router'
-  'ui.gravatar'
-  'ui.bootstrap'
   'date-swiper'
 ]
-.config (gravatarServiceProvider) ->
-  gravatarServiceProvider.defaults =
-    size: 16
-    "default": 'mm'
-    rating: 'pg'
-.run ($rootScope, $state, auth, progressionPopup) ->
+.run ($rootScope, $state, progressionPopup) ->
+  $rootScope.state = (route) ->
+    if $state and $state.current
+      if Object.prototype.toString.call(route) is '[object Array]'
+        return route.indexOf($state.current.name) isnt -1
+      else
+        return route is $state.current.name
+    false
   $rootScope.$on '$stateChangeStart', ->
     if $state.current.name
       progressionPopup.hide()
@@ -19,9 +20,6 @@ angular.module 'vsAgency', [
   $rootScope.$on '$stateChangeSuccess', ->
     if $state.current.name
       $('body').addClass "#{$state.current.name}-page"
-    $('html, body').animate
-      scrollTop: 0
-    , 200
   #some useful array functions
   Array.prototype.remove = (thing) ->
     @splice @.indexOf(thing), 1
@@ -35,3 +33,10 @@ angular.module 'vsAgency', [
     if index > -1 and index < this.length - 1
       @splice index, 1
       @splice index + 1, null, thing
+.config ($locationProvider, $urlRouterProvider) ->
+  $urlRouterProvider.otherwise '/'
+  $locationProvider.html5Mode true
+try
+  angular.module 'ndx'
+catch e
+  angular.module 'ndx', [] #ndx module stub

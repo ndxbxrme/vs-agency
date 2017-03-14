@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module 'vsAgency'
+angular.module 'vs-agency'
 .filter 'timeAgo', ->
   #time: the time
   #local: compared to what time? default: now

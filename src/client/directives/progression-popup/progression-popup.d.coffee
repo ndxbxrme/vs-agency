@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module 'vsAgency'
+angular.module 'vs-agency'
 .directive 'progressionPopup', ($rootScope, progressionPopup) ->
   restrict: 'AE'
   templateUrl: 'directives/progression-popup/progression-popup.html'

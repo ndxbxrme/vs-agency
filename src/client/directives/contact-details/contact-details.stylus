@@ -1,6 +1,8 @@
+@import '../../variables'
 .contact-details
+  width 49%
   .card
-    min-height 110px
+    display flex
     background #eee
     padding 1rem 
     position relative
@@ -17,12 +19,10 @@
       display flex
       flex-wrap wrap
     .role
-      font-size 1.3rem
-      padding-left 3.5rem
+      padding-left 2.5rem
     .name, .telephone, .email
-      font-size 1.7rem
       position relative
-      padding-left 3.5rem
+      padding-left 2.5rem
       margin-right 1rem
       &:before
         position absolute
@@ -33,11 +33,11 @@
         content ''
         background url('/public/img/icons/cathead.png')
         background-size cover
-    input
-      font-size 1.3rem!important
     &:hover
       .edit-btn
         display block
+  @media screen and (max-width: 620px)
+    width 100%
 .mobile
   .contact-details
     .card

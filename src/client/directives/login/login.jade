@@ -1,4 +1,4 @@
-.login(ng-hide='getUser() || hideLogin()')
+.login(ng-hide='auth.getUser() || hideLogin()')
   .login-holder
     .login-form
       h2 Log in or Sign up
@@ -13,14 +13,3 @@
         div
           .error {{message}}
           input.button.medium.orange(type='submit', value='Login')
-          //input.button.medium.purple(type='button', ng-click='signup()', value='Sign Up')
-        //div
-          p or use one of these...
-        //.social
-          a.button.medium.twitter(href='/api/twitter', target='_self')
-            i.fa.fa-twitter
-            | &nbsp;Twitter
-          | &nbsp;
-          a.button.medium.facebook(href='/api/facebook', target='_self')
-            i.fa.fa-facebook
-            | &nbsp;Facebook
