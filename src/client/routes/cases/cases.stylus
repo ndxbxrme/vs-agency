@@ -29,13 +29,37 @@
         text-decoration underline
     .showing
         text-align right
+  .search
+    input
+      padding 10px 15px
+      width 300px
+      border-radius 5px
+      border 1px solid vs-lightgrey
+      font-size 1.6rem
   table
+    border-collapse: collapse;
+    thead
+      tr
+        th
+          padding 10px
+          background vs-orange
+          text-align left
+          color white
+          font-size 2rem
+          font-weight 100
+          border-bottom 1px solid vs-grey
     td
+      border-bottom 1px solid vs-lightgrey
+      vertical-align middle
+      padding 15px
       .address
         color vs-orange
         font-weight bold
       .dates
         font-size 1.1rem
+      &.offer
+        font-weight bold
+        font-size 1.8rem
     td.options
       //vertical-align middle
   .mobile-table
@@ -63,6 +87,10 @@
       border 1px solid #ccc
       border-radius 0.5rem
       color vs-orange
+      transition all 0.4s ease-in-out
+      &:hover
+        background vs-orange
+        color white
   .pagination-holder
     display flex
     justify-content center
@@ -76,6 +104,27 @@
           background vs-orange
           border-color vs-orange
           color #fff
+  .pagination
+    justify-content center
+    margin 20px 0
+    text-align center
+    .page
+      padding 5px 10px 3px 10px
+      border 1px solid vs-lightgrey
+      border-left none
+      transition all 0.4s ease-in-out
+      &:first-of-type 
+        border-left: 1px solid vs-lightgrey
+        border-bottom-left-radius 5px
+        border-top-left-radius 5px
+      &:last-of-type 
+        border-bottom-right-radius 5px
+        border-top-right-radius 5px
+      &.last, &.first 
+        padding 5px 20px 3px 20px
+      &.selected, &:hover
+        background vs-orange
+        color white
 .mobile
   .cases
     .controls

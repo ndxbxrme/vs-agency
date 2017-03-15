@@ -1,5 +1,5 @@
 .cases
-  h1 cases
+  h1 Cases
   .controls
     .left
       .sort Order By:
@@ -11,16 +11,17 @@
         a.filter-item(href='', ng-click='filter=""', ng-class='{selected:!filter}') All
     .right
       .search
-        input(type='text', ng-model='search')
+        input(type='text', ng-model='search', placeholder='Search Cases')
       .showing Showing {{filterData.length}} of {{totalProps = properties.items.length}} case{{totalProps!==1?'s':''}}
   table.table.table-responsive.small-mobile-hide(ng-show='filterData.length > 0')
     thead
       tr
-        th(width='1%') Milestone Status
-        th Property Address
-        th Vendor
-        th Purchaser
-        th(width='1%') Options
+        th(width='5%') Status
+        th(width='30%') Property Address
+        th(width='20%') Vendor
+        th(width='20%') Purchaser
+        th(width='10%') Offer
+        th(width='5%') Options
     tbody(ng-repeat='property in filterData =(properties.items | filter:{"search":search} | filter:{"milestoneStatus":filter}  | orderBy:sort) | limitTo:limit:limit*(page-1)')
       tr(ng-click='property.open = !property.open')
         td
@@ -37,6 +38,7 @@
             .date(ng-show='property.$case.item.offer.DateTime') Start Date: {{property.$case.item.offer.DateTime | date:'mediumDate'}}
         td.vendor {{property.$case.item.vendor}}
         td.purchaser {{property.$case.item.purchaser}}
+        td.offer {{property.$case.item.offer.Value | currency : "£" : 0}}
         td.options
           a.button(ui-sref='case({roleId:property.RoleId})') View Case
   .mobile-table.small-mobile-show

@@ -12,7 +12,7 @@
   .icon
     height 40px
     width 40px
-    background vs-orange
+    background vs-lightgrey
     border 1px solid vs-grey
     border-radius 50%
     margin-bottom 0.5rem
