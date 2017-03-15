@@ -10,9 +10,14 @@ angular.module 'vs-agency'
     property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}"
     property.$case = $scope.single 'properties', property.RoleId, (item) ->
       item.parent.search = "#{item.parent.displayAddress}||#{item.vendor}||#{item.purchaser}"
+      checkProgressions()
     property.$case.parent = property
     Property.set property
-  $scope.progressions = $scope.list 'progressions'
+  $scope.progressions = $scope.list 'progressions', null, checkProgressions
+  checkProgressions = ->
+    if $scope.property.$case.item.progressions.length < 1
+      $scope.property.$case.item.progressions = JSON.parse JSON.stringify $scope.progressions.items
+      $scope.property.$case.save()
   $scope.config =
     prefix: 'swiper'
     modifier: 1.5

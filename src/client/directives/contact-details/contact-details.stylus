@@ -29,21 +29,16 @@
     .name, .telephone, .email
       position relative
       margin-right 1rem
+      &:before
+        font-family FontAwesome
+        background none
+        margin-right 5px
     .name:before
-      font-family FontAwesome
       content '\f007'
-      background none
-      margin-right 5px
     .telephone:before
-      font-family FontAwesome
       content '\f095'
-      background none
-      margin-right 5px
     .email:before
-      font-family FontAwesome
       content '\f003'
-      background none
-      margin-right 5px
     &:hover
       .edit-btn
         display block
