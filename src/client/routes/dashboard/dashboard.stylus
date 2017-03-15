@@ -1,1 +1,32 @@
 @import '../../variables'
+
+.dashboard
+  table
+    width 100%
+    border 1px solid vs-grey
+    border-spacing 0
+    border-radius 3px
+    margin-bottom 30px
+    thead
+      tr
+        th
+          padding 20px
+          background vs-orange
+          text-align center
+          color white
+          font-size 2rem
+          font-weight 100
+          border-bottom 1px solid vs-grey
+    tbody
+      tr
+        td
+          padding 15px
+          text-align center
+          font-size: 1.6rem
+          border-bottom 1px solid vs-grey
+        &:last-child td
+          border-bottom none
+        &.head-two, &.total
+          background #f1f1f1
+          td 
+            font-weight 600

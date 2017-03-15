@@ -10,6 +10,20 @@ angular.module 'vs-agency'
     scope.icons = [
       'cathead'
       'house'
+      'epc'
+      'instruction'
+      'draft'
+      'fandf'
+      'survey'
+      'offer'
+      'raised'
+      'satisfied'
+      'applied'
+      'complete'
+      'report'
+      'exchange'
+      'invoice'
+      'completion'
     ]
     scope.getData = progressionPopup.getData
     scope.getTitle = progressionPopup.getTitle

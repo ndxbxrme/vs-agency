@@ -12,8 +12,8 @@
   .icon
     height 40px
     width 40px
-    background vs-lightgrey
-    border 1px solid black
+    background vs-orange
+    border 1px solid vs-grey
     border-radius 50%
     margin-bottom 0.5rem
     position relative
@@ -26,21 +26,76 @@
       left 10px
       width 20px
       height 20px
-      background #fff
       content ''
       border-radius 50%
     &:after
       position absolute
-      top 5px
-      left 5px
-      width 30px
-      height 30px
+      top 0px
+      left 0px
+      width 40px
+      height 40px
       content ''
       background url('/public/img/icons/cathead.png')
       background-size cover
     &.house
       &:after
-        background url('/public/img/icons/house.png')
+        background url('/public/img/icons/enquiries-raised.png')
+        background-size cover
+    &.epc
+      &:after
+        background url('/public/img/icons/epc.png')
+        background-size cover
+    &.instruction
+      &:after
+        background url('/public/img/icons/solicitor-instruction.png')
+        background-size cover
+    &.draft
+      &:after
+        background url('/public/img/icons/draft-contract.png')
+        background-size cover
+    &.fandf
+      &:after
+        background url('/public/img/icons/F&F-forms.png')
+        background-size cover
+    &.survey
+      &:after
+        background url('/public/img/icons/survey.png')
+        background-size cover
+    &.offer
+      &:after
+        background url('/public/img/icons/mortgage-offer.png')
+        background-size cover
+    &.raised
+      &:after
+        background url('/public/img/icons/enquiries-raised.png')
+        background-size cover
+    &.satisfied
+      &:after
+        background url('/public/img/icons/enquiries-satisfied.png')
+        background-size cover
+    &.applied
+      &:after
+        background url('/public/img/icons/searches-applied.png')
+        background-size cover
+    &.complete
+      &:after
+        background url('/public/img/icons/searches-complete.png')
+        background-size cover
+    &.report
+      &:after
+        background url('/public/img/icons/report-client.png')
+        background-size cover
+    &.exchange
+      &:after
+        background url('/public/img/icons/exchange.png')
+        background-size cover
+    &.invoice
+      &:after
+        background url('/public/img/icons/vs-invoice.png')
+        background-size cover
+    &.completion
+      &:after
+        background url('/public/img/icons/completion.png')
         background-size cover
   .title
     min-height 3rem

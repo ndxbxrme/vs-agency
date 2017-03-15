@@ -3,7 +3,7 @@
 .progression-popup
   box-sizing border-box
   position absolute
-  width 400px
+  width auto
   max-width calc(100vw - 20px)
   transition all $transition $bounce
   z-index 30
@@ -15,7 +15,7 @@
     width 2rem
     height 2rem
     content ''
-    background darkgreen
+    background #666
     transform rotate(45deg) translate3D(0,0,0)
     transition left $transition $bounce
   .popup
@@ -23,8 +23,7 @@
     background #fff
     border 2px solid #666
     padding 1rem
-    border-radius 1rem
-    box-shadow 0 0 20px greenyellow
+    border-radius 2px
   .close
     position absolute
     top 0

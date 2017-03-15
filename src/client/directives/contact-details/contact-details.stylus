@@ -33,6 +33,10 @@
         content ''
         background url('/public/img/icons/cathead.png')
         background-size cover
+    .name:before
+      font-family FontAwesome
+      content '\f2c0'
+      background none
     &:hover
       .edit-btn
         display block
