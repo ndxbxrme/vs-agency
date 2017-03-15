@@ -20,6 +20,6 @@
     .user.mobile-hide
       a(href='/api/logout', target='_self') {{auth.getUser().displayName || auth.getUser().local.email}} 
         img.logo(src="public/img/icons/logout.svg")
-    button#click-me.lines-button.x2.desktop-hide(type='button', role='button', aria-label='Toggle Navigation', ng-show='auth.getUser()', ng-click='mobileMenuOut=!mobileMenuOut; hide(); $event.stopPropagation()')
+    button#click-me.lines-button.x2.desktop-hide(type='button', role='button', aria-label='Toggle Navigation', ng-show='auth.getUser()', ng-click='toggle(); hide();')
       span.lines
     

@@ -54,6 +54,6 @@
       background vs-green
 @media screen and (max-width:992px)
   .milestone
-    width 40px
+    width 50px
     .title
       font-size 0.8rem

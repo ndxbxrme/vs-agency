@@ -1,6 +1,5 @@
 .progression-popup(ng-hide='getHidden()')
   .popup
-    a.close(href='', ng-click='hide()') X
     .content
       h4 {{getTitle()}}
       .start(ng-show='isStart()')
@@ -49,4 +48,5 @@
       form(ng-submit='getData().todos.push({text:todo});todo=""')
         input(type='text', ng-model='todo')
         input(type='submit', value='Add todo')
+    a.close(href='', ng-click='hide()') X
   .pointer

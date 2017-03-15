@@ -34,7 +34,7 @@
               strong {{property.$case.item.modifiedAt | timeAgo}} 
               | -- {{property.$case.item.modifiedAt | date:'mediumDate'}}, {{property.$case.item.modifiedAt | date:'shortTime'}}
             .date Date added to the Case: 1 week ago
-            .date(ng-show='property.startDateBuyer') Start Date: {{property.startDateBuyer | date:'mediumDate'}}
+            .date(ng-show='property.$case.item.offer.DateTime') Start Date: {{property.$case.item.offer.DateTime | date:'mediumDate'}}
         td.vendor {{property.$case.item.vendor}}
         td.purchaser {{property.$case.item.purchaser}}
         td.options

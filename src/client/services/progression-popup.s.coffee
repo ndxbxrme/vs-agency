@@ -6,15 +6,14 @@ angular.module 'vs-agency'
   data = null
   hidden = true
   getOffset = (elm) ->
-    if elm
-      offset =
-        left: 0
-        top: 0
-      while elm.tagName isnt 'BODY'
-        offset.left += elm.offsetLeft
-        offset.top += elm.offsetTop
-        elm = elm.offsetParent
-      offset
+    offset =
+      left: 0
+      top: 0
+    while elm and elm.tagName isnt 'BODY'
+      offset.left += elm.offsetLeft
+      offset.top += elm.offsetTop
+      elm = elm.offsetParent
+    offset
   moveToElem = ->
     if elem
       offset = getOffset(elem)
