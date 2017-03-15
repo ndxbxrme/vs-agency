@@ -15,9 +15,10 @@ angular.module 'vs-agency'
     Property.set property
   $scope.progressions = $scope.list 'progressions', null, checkProgressions
   checkProgressions = ->
-    if $scope.property.$case.item.progressions.length < 1
-      $scope.property.$case.item.progressions = JSON.parse JSON.stringify $scope.progressions.items
-      $scope.property.$case.save()
+    if $scope.property and $scope.property.$case and $scope.progressions.items and $scope.progressions.items.length
+      if $scope.property.$case.item.progressions.length < 1
+        $scope.property.$case.item.progressions = JSON.parse JSON.stringify $scope.progressions.items
+        $scope.property.$case.save()
   $scope.config =
     prefix: 'swiper'
     modifier: 1.5
