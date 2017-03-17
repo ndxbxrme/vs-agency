@@ -1,8 +1,9 @@
 'use strict'
 
 angular.module 'vs-agency'
-.factory 'progressionPopup', ($timeout, Property) ->
+.factory 'progressionPopup', ($timeout, Property, auth) ->
   elem = null
+  progressions = []
   data = null
   hidden = true
   getOffset = (elm) ->
@@ -27,7 +28,6 @@ angular.module 'vs-agency'
         offset.left = 2
       if window.innerWidth < 410
         offset.left = 2
-      console.log offset.left
       $('.progression-popup').css offset
       pointerLeft = elemLeft - offset.left + 10
       pointerDisplay = 'block'
@@ -109,3 +109,7 @@ angular.module 'vs-agency'
       data.notes
   getData: ->
     data
+  setProgressions: (_progressions) ->
+    progressions = _progressions
+  getProgressions: ->
+    progressions

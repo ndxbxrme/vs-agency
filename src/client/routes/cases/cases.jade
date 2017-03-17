@@ -26,7 +26,7 @@
       tr(ng-click='property.open = !property.open')
         td
           .milestone(ng-class='property.cssMilestone')
-            .icon
+            .icon(class='{{ property.milestone.icon || "house"}}')
             .title {{property.milestone.title}}
         td
           .address {{property.displayAddress}}
@@ -44,10 +44,11 @@
   .mobile-table.small-mobile-show
     .case-card(ng-repeat='property in filterData | limitTo:limit:limit*(page-1)')
       .milestone(ng-class='property.cssMilestone', title='{{property.milestone.title}}')
-        .icon
+        .icon(class='{{ property.milestone.icon || "house"}}')
         .title {{property.milestone.title}}
       .address-row
         .address {{property.displayAddress}}
+        .offer {{property.$case.item.offer.Value | currency : "£" : 0}}
         .vendor Vendor: 
           strong {{property.$case.item.vendor}}
         .purchaser Purchaser: 

@@ -44,9 +44,11 @@ angular.module 'vs-agency'
         branch = []
         scope.progression.milestones.push branch
       branch.push
+        _id: scope.generateId 8
         title: 'New Milestone'
         notes: []
         todos: []
+        actions: []
         estDays: 0
       scope.resize()
     scope.saveProgression = ->

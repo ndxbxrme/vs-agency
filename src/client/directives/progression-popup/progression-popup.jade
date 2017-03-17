@@ -1,4 +1,4 @@
-.progression-popup(ng-hide='getHidden()')
+.progression-popup(ng-hide='getHidden()', ng-click='$event.stopPropagation()')
   .popup
     .content
       h4 {{getTitle()}}
@@ -29,24 +29,104 @@
         button(ng-click='setDate()') {{getDate() ? 'Change' : 'Set'}} Estimated Completion Date
         button(ng-click='setProgressing()', ng-show='getDate()') Start
     .editor
-      label
-        span Title
+      .title
+        label Title
         input(type='text', ng-model='getData().title')
-      label
-        span Est no days
-        input(type='number', ng-model='getData().estDays')
-      h4 Icon
-      .icons
+      .est-days
+        label Est no days
+        input.num(type='number', ng-model='getData().estDays')
+        span &nbsp;days after 
+        select(ng-model='getData().estAfter')
+          option(value='') this milestone
+          optgroup(ng-repeat='progression in getProgressions()', label='{{progression.name}}, {{progression.side}}')
+            option(ng-repeat='milestone in getMilestones(progression)', value='{{milestone._id}}') {{milestone.title}}
+        select(ng-model='getData().estType')
+          option(value='') started
+          option(value='completed') completed
+      .tabs(ng-click='reset()')
+        .tab(ng-click='editorState="icon"', ng-class='{selected:editorState==="icon"}')
+          h4 Icon
+          .milestone
+            .icon(class='{{ getData().icon || "house"}}')
+        .tab(ng-click='editorState="actions"', ng-class='{selected:editorState==="actions"}')
+          h4 Actions
+          h5 {{getData().actions.length}}
+        .tab(ng-click='editorState="todos"', ng-class='{selected:editorState==="todos"}')
+          h4 Todos
+          h5 {{getData().todos.length}}
+      .icons(ng-show='editorState==="icon"')
         .milestone(ng-repeat='icon in icons', ng-click='getData().icon = icon')
-          .icon(class='{{icon}}')
-      h4 Todos
-      .todo(ng-repeat='todo in getData().todos') {{todo.text}}
-        .controls
-          a(href='', ng-click='getData().todos.moveUp(todo)') &#9650;
-          a(href='', ng-click='getData().todos.moveDown(todo)') &#9660;
-          a(href='', ng-click='getData().todos.remove(todo)') X
-      form(ng-submit='getData().todos.push({text:todo});todo=""')
-        input(type='text', ng-model='todo')
-        input(type='submit', value='Add todo')
+          .icon(class='{{icon}}', ng-class='{selected:getData().icon===icon}')
+      .actions(ng-show='editorState==="actions"')
+        table(ng-show='getData().actions.length')
+          thead
+            tr
+              th.shrink On
+              th.shrink Type
+              th Name
+              th.shrink
+          tbody
+            tr(ng-repeat='action in getData().actions', ng-click='editAction(action);$event.stopPropagation()')
+              td {{action.on}}
+              td {{action.type}}
+              td {{action.name}}
+              td
+                a.delete(href='', ng-click='getData().actions.remove(action)') Delete
+            
+        form(name='actionForm', ng-show='editingAction', ng-submit='addAction(action)')
+          span On
+          select(ng-model='action.on')
+            option Start
+            option Complete
+            option Overdue
+          span Type
+          select(ng-model='action.type')
+            option Trigger
+            option Email
+            option Sms
+          .trigger(ng-show='action.type==="Trigger"')
+            h5 Trigger
+            .trigger-opts
+              .trigger-opt
+                label Milestone
+                select(ng-model='action.milestone')
+                  option(value='') this milestone
+                  optgroup(ng-repeat='progression in getProgressions()', label='{{progression.name}}, {{progression.side}}')
+                    option(ng-repeat='milestone in getMilestones(progression)', value='{{milestone._id}}') {{milestone.title}}
+              .trigger-opt
+                label Action
+                select(ng-model='action.triggerAction')
+                  option(value='') Start milestone
+                  option(value='complete') Complete milestone
+            
+          .email(ng-show='action.type==="Email"')
+            h5 Email
+            label Send to
+            multi-check(ng-model='action.to')
+              multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
+            label Template
+            select(ng-model='action.template')
+              option(ng-repeat='template in emailTemplates', value='{{template.id}}') {{template.name}}
+          .sms(ng-show='action.type==="Sms"')
+            h5 Sms
+            label Send to
+            multi-check(ng-model='action.to')
+              multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
+            label Template
+            select(ng-model='action.template')
+              option(ng-repeat='template in smsTemplates', value='{{template.id}}') {{template.name}}
+          .div
+            input(type='submit', value='Save')
+            button(ng-click='cancelAction()') Cancel
+        button(ng-click='editingAction=true', ng-hide='editingAction') Add Action
+      .todos(ng-show='editorState==="todos"')
+        .todo(ng-repeat='todo in getData().todos') {{todo.text}}
+          .controls
+            a(href='', ng-click='getData().todos.moveUp(todo)') &#9650;
+            a(href='', ng-click='getData().todos.moveDown(todo)') &#9660;
+            a(href='', ng-click='getData().todos.remove(todo)') X
+        form(ng-submit='getData().todos.push({text:todo});todo=""')
+          input(type='text', ng-model='todo')
+          input(type='submit', value='Add todo')
     a.close(href='', ng-click='hide()') X
   .pointer

@@ -31,6 +31,8 @@
     "underscore.string": "^2.4.0",
     "ndx-socket": "^0.0.4",
     "ndx-scroll-top": "^0.0.6",
-    "ndx-rest": "^0.0.18"
+    "ndx-rest": "^0.0.18",
+    "angular-multi-check": "*",
+    "normalize-css": "normalize.css#^5.0.0"
   }
 }

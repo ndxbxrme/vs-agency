@@ -1,12 +1,12 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'SetupCtrl', ($scope, $http) ->
+.controller 'SetupCtrl', ($scope, $http, progressionPopup) ->
   $scope.editor = true
   $scope.newUser =
     role: 'agency'
-  console.log 'heeey'
-  $scope.progressions = $scope.list 'progressions'
+  $scope.progressions = $scope.list 'progressions', null, (progressions) ->
+    progressionPopup.setProgressions progressions.items
   $scope.getProperty = ->
     Address:
       Number: 123
@@ -26,5 +26,7 @@ angular.module 'vs-agency'
       milestones: [
         [{
           title: 'Start'
+          _id: $scope.generateId 8
+          actions: []
         }]
       ]

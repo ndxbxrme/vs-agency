@@ -26,12 +26,9 @@ angular.module 'vs-agency'
   $scope.date = 
     date: 'today'
   $scope.addNote = ->
-    console.log 'add note'
     if $scope.note
-      console.log 'got note'
       property = $scope.property.item
       if property and property.$case and property.$case.item
-        console.log 'got property'
         property.$case.item.notes.push
           date: new Date()
           text: $scope.note
@@ -43,13 +40,14 @@ angular.module 'vs-agency'
     property = $scope.property.item
     if property and property.$case and property.$case.item
       notes = []
-      fetchProgressionNotes = (elem) ->
-        for item of elem
-          if elem[item].notes and elem[item].notes.length
-            for note in elem[item].notes
-              notes.push note
-      fetchProgressionNotes property.$case.item.progressionBuyer
-      fetchProgressionNotes property.$case.item.progressionSeller
+      fetchProgressionNotes = (milestones) ->
+        for branch in milestones
+          for milestone in branch
+            if milestone.notes and milestone.notes.length
+              for note in milestone.notes
+                notes.push note
+      for progression in property.$case.item.progressions
+        fetchProgressionNotes progression.milestones
       if property.$case.item.notes and property.$case.item.notes.length
         for note in property.$case.item.notes
           notes.push note

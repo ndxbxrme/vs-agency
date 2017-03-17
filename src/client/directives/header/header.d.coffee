@@ -6,5 +6,8 @@ angular.module 'vs-agency'
   templateUrl: 'directives/header/header.html'
   replace: true
   link: (scope, elem, attrs) ->
-    toggle = ->
-      console.log 'menu out', scope.mobileMenuOut
+    scope.toggle = ->
+      if not scope.mobileMenuOut
+        scope.mobileMenuOut = true
+      else
+        scope.mobileMenuOut = false

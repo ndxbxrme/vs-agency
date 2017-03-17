@@ -4,6 +4,7 @@ angular.module 'vs-agency', [
   'ndx'
   'ui.router'
   'date-swiper'
+  'multi-check'
 ]
 .run ($rootScope, $state, progressionPopup) ->
   $rootScope.state = (route) ->
@@ -20,6 +21,18 @@ angular.module 'vs-agency', [
   $rootScope.$on '$stateChangeSuccess', ->
     if $state.current.name
       $('body').addClass "#{$state.current.name}-page"
+      
+  root = Object.getPrototypeOf $rootScope
+  root.generateId = (len) ->
+    letters = "abcdefghijklmnopqrstuvwxyz0123456789"
+    output = ''
+    i = 0
+    while i++ < len
+      output += letters[Math.floor(Math.random() * letters.length)]
+    output
+  root.hidePopup = (ev) ->
+    progressionPopup.hide()
+    
   #some useful array functions
   Array.prototype.remove = (thing) ->
     @splice @.indexOf(thing), 1
