@@ -1,7 +1,7 @@
 .setup
-  h1 setup
-  h2 Invite user
+  h1 Setup
   .add-user
+    h2 Invite user
     form(name='addUserForm', ng-submit='addUser()')
       input(type='email', ng-model='newUser.email', placeholder='Email address')
       select(ng-model='newUser.role')
@@ -10,6 +10,7 @@
       input(type='submit', value='Invite')
     .invite-error {{inviteError}}
     .invite-url {{inviteUrl}}
+  .progressions
     h2 Progressions
     progression(ng-repeat='progression in progressions.items', data='progression')
     button.add-progression(ng-click='addProgression()') Add Progression

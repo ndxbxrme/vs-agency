@@ -9,12 +9,29 @@
     display flex
     justify-content space-between
     color vs-orange
+    margin-bottom 20px
     h5
       margin-top 0
+      margin-bottom 0
       font-weight 100
       font-size 1.6rem
     a
-      color vs-grey
+      padding 10px 15px
+      width 100px
+      color white
+      background vs-orange
+      border none
+      border-radius 3px
+      i 
+        margin-left 5px
+    label
+      font-weight 800
+    input[type=text]
+      width 320px
+      max-width 90%
+      padding 10px
+      border-radius 3px
+      border 1px solid vs-lightgrey
   .milestones
     display flex
     flex-wrap wrap
@@ -59,3 +76,24 @@
       display block
     .branch
       margin-right 2rem
+      
+.progressions
+  button
+    display inline-block
+    white-space nowrap
+    padding 1rem
+    border 1px solid #ccc
+    border-radius 0.5rem
+    color vs-orange
+    background white
+    transition all 0.4s ease-in-out
+    &:hover
+      background vs-orange
+      color white
+  .save button:first-of-type
+    color white
+    background vs-orange
+    border none
+    border-radius 3px
+    &:hover
+      background vs-grey

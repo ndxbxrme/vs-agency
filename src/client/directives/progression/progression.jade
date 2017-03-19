@@ -10,7 +10,9 @@
     .heading(ng-hide='editing')
       h5 {{progression.name}}, {{progression.side}}
       .controls
-        a(href='', ng-click='editing=true;resize()') Edit
+        a(href='', ng-click='editing=true;resize()') 
+          | Edit
+          i.fa.fa-pencil-square-o(aria-hidden='true')
     .heading(ng-show='editing')
       label
         span Name

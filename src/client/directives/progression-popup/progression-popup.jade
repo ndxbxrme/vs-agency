@@ -101,18 +101,18 @@
             
           .email(ng-show='action.type==="Email"')
             h5 Email
-            label Send to
+            label.large Send to
             multi-check(ng-model='action.to')
               multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
-            label Template
+            label.large Template
             select(ng-model='action.template')
               option(ng-repeat='template in emailTemplates', value='{{template.id}}') {{template.name}}
           .sms(ng-show='action.type==="Sms"')
             h5 Sms
-            label Send to
+            label.large Send to
             multi-check(ng-model='action.to')
               multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
-            label Template
+            label.large Template
             select(ng-model='action.template')
               option(ng-repeat='template in smsTemplates', value='{{template.id}}') {{template.name}}
           .div
@@ -122,9 +122,12 @@
       .todos(ng-show='editorState==="todos"')
         .todo(ng-repeat='todo in getData().todos') {{todo.text}}
           .controls
-            a(href='', ng-click='getData().todos.moveUp(todo)') &#9650;
-            a(href='', ng-click='getData().todos.moveDown(todo)') &#9660;
-            a(href='', ng-click='getData().todos.remove(todo)') X
+            a(href='', ng-click='getData().todos.moveUp(todo)')
+              i.fa.fa-arrow-circle-o-up(aria-hidden='true')
+            a(href='', ng-click='getData().todos.moveDown(todo)')
+              i.fa.fa-arrow-circle-o-down(aria-hidden='true')
+            a(href='', ng-click='getData().todos.remove(todo)')
+              i.fa.fa-times-circle-o(aria-hidden='true')
         form(ng-submit='getData().todos.push({text:todo});todo=""')
           input(type='text', ng-model='todo')
           input(type='submit', value='Add todo')

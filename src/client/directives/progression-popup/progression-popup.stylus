@@ -21,9 +21,10 @@
   .popup
     z-index 1
     background #fff
-    border 2px solid #666
-    padding 1rem
-    border-radius 2px
+    border 1px solid #666
+    padding 20px
+    border-radius 3px
+    box-shadow 2px 2px 35px rgba(200,200,200,0.6)
   .close
     position absolute
     top 0
@@ -32,36 +33,73 @@
   h4
     margin 0
   .editor
+    input[type=text]
+      width 320px
+      padding 10px
+      margin-bottom 10px
+      border-radius 3px
+      border 1px solid vs-lightgrey
     h5
       margin 0
+      font-size 3rem
     label
       display block
+      font-size: 1.8rem
     .est-days
       .num
         width 5rem
+        padding 10px
+        margin-bottom 10px
+        border-radius 3px
+        border 1px solid vs-lightgrey
+      select
+        height 37px
     .tabs
       margin-top 1rem
       display flex
       justify-content space-between
       .tab
         flex 1
-        padding 0.5rem
+        padding 10px
         border 1px solid #ccc
         cursor pointer
         display flex
         justify-content space-between
-        box-shadow inset -2px -2px 20px rgba(0,0,0,0.15)
+        margin-right 5px
+        background vs-orange
+        color white
+        &:last-child
+          margin-right 0
         &:hover
           background darken(white, 10%)
         &.selected
           color white
-          background slategrey
+          background vs-grey
     .icons, .actions, .todos
-      padding 1rem
-      box-shadow inset 0 0 0.5rem rgba(0,0,0,0.2)
+      padding 20px
+      border 1px solid #ccc
+      border-top none
+      border-bottom-left-radius 3px
+      border-bottom-right-radius 3px
+      background #f1f1f1
+      input[type=submit]
+        padding 10px 15px
+        border none
+        border-radius 0.5rem
+        color white
+        background vs-orange
+        transition all 0.4s ease-in-out
+        &:hover
+          background vs-grey
+          color white
     .todo
       display flex
       justify-content space-between
+      .controls a
+        i
+          font-size 1.8rem
+          margin-left 3px
+          color vs-orange
     .icons
       display flex
       flex-wrap wrap
@@ -75,6 +113,36 @@
           display flex
           .trigger-opt
             flex 1
+      .trigger, .email, .sms
+        h5
+          font-size 2rem
+          color vs-orange
+        label
+          font-size 1.6rem
+          &.large
+            font-weight 600
+            margin-top 10px
+      button
+        color white
+        padding 10px 15px
+        background vs-orange
+        border none
+        border-radius 3px
+        &:hover
+          background vs-grey
+      select
+        height 37px
+        margin 0 10px 10px 0
+      input[type=submit]
+        padding 10px 15px
+        border 1px solid #ccc
+        border-radius 0.5rem
+        color vs-orange
+        background white
+        transition all 0.4s ease-in-out
+        &:hover
+          background vs-orange
+          color white
 .multi-check ng-transclude
   display flex
   flex-flow row wrap
@@ -89,6 +157,7 @@
       cursor pointer
     input[type='checkbox']
       cursor pointer
+      margin-right 6px
 .setup-page
   .content
     display none

@@ -1,2 +1,24 @@
 @import '../../variables'
-  
+.setup
+  .add-user
+    width 100%
+    border 1px solid vs-lightgrey
+    border-radius 5px
+    background #f1f1f1
+    padding 15px
+    input[type=email]
+      width 320px
+      max-width 90%
+      padding 10px
+      border-radius 3px
+      border 1px solid vs-lightgrey
+    select
+      height 37px
+      width 100px
+    input[type=submit]
+      padding 10px 30px
+      width 100px
+      color white
+      background vs-orange
+      border none
+      border-radius 3px
