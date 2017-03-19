@@ -39,6 +39,8 @@
       text-align right
       a
         color #fff
+        img 
+          width 10px
     #click-me
       display inline-block
       width 3rem

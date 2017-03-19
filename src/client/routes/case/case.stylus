@@ -19,3 +19,34 @@
       &:hover
         background vs-orange
         color white
+  .orange
+    color vs-orange
+    font-weight 500
+  .case-notes
+    border 1px solid vs-lightgrey
+    border-radius 5px
+    margin 20px 0
+    padding 10px 20px 20px 20px
+    .case-note
+      border 1px solid #f1f1f1
+      padding 10px
+      border-radius 5px
+      margin-bottom 10px
+      .date 
+        font-weight 600
+      p
+        margin 0 0 10px 0
+  .add-note
+    textarea 
+      width 100%
+      border 1px solid vs-lightgrey
+      border-radius 5px
+      background #f1f1f1
+      padding 15px
+    button
+      margin-top 15px
+      background vs-orange
+      color white
+      border vs-orange
+      &:hover
+        background vs-grey

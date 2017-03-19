@@ -14,16 +14,14 @@
     contact-details(title="Vendor's Contact")
     contact-details(title="Purchaser's Solicitor")
     contact-details(title="Purchaser's Contact")
-  h2 Case Notes
   .case-notes
+    h2.orange Case Notes
     .case-note(ng-repeat='note in getNotes() | orderBy:"date"')
-      .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}}
+      .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}} | {{note.user.displayName || note.user.local.email}}
       .note 
         .details
-          h6 {{note.item}} 
-            span(ng-show='note.side') - {{note.side}}
-          h6 {{note.user.displayName || note.user.local.email}}
-        p {{note.text}}
+          span(ng-show='note.side') - {{note.side}}
+          p {{note.text}}
     .add-note
         textarea(ng-model='note', placeholder='Add a note...')
-        button(ng-click='addNote()') +
+        button(ng-click='addNote()') Add Note

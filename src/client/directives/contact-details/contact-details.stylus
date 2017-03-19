@@ -12,20 +12,17 @@
     border-radius 3px
     .edit-btn, .controls
       position absolute
-      top 0
-      right 0
-      padding 0.5rem
+      top 20px
+      right 20px
     .edit-btn
       display none
     .communication
       display flex
       flex-wrap wrap
     .role
-      &:before
-        font-family FontAwesome
-        content '\f19c'
-        background none
+      i
         margin-right 5px
+        color #999
     .name, .telephone, .email
       position relative
       margin-right 1rem
@@ -33,6 +30,9 @@
         font-family FontAwesome
         background none
         margin-right 5px
+        display inline-block
+        width 15px
+        color #999
     .name:before
       content '\f007'
     .telephone:before
@@ -42,6 +42,7 @@
     &:hover
       .edit-btn
         display block
+        color vs-orange
   @media screen and (max-width: 620px)
     width 100%
 .mobile

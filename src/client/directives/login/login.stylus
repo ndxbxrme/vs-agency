@@ -8,16 +8,22 @@
     input
       margin-bottom 0.7rem
     input[type=text], input[type=email], input[type=password]
-        width 320px
-        max-width 90%
-        padding 10px
+      width 320px
+      max-width 90%
+      padding 10px
+      border-radius 3px
+      border 1px solid vs-lightgrey
     .button
-      padding 5px 30px
+      padding 10px 30px
       width 135px
       color white
+      background vs-orange
       &.twitter
         background #55acee
       &.facebook
         background #3b5998
       &:hover
         background #464e53
+      &.orange
+        border none
+        border-radius 3px

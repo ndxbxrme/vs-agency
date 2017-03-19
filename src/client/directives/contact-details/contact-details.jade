@@ -1,9 +1,11 @@
 .contact-details.col-sm-6
   h4 {{title}}
   .card
-    a.edit-btn(href='', ng-click='edit()', ng-hide='editing') &#9998;
+    a.edit-btn(href='', ng-click='edit()', ng-hide='editing')
+      i.fa.fa-pencil-square-o(aria-hidden='true')
     div(ng-show='data().name || editing')
       .role
+        i.fa.fa-university(aria-hidden='true', ng-show='data().role')
         span(ng-hide='editing') {{data().role}}
         input(type='text', ng-model='data().role', ng-show='editing', placeholder='Role')
       .name
