@@ -1,5 +1,9 @@
 @import '../../variables'
 .case
+  .dropdown
+    box-shadow 2px 2px 25px rgba(200,200,200,0.8)
+    a
+      color vs-grey
   .address
     font-size 1.8rem
     font-weight 100
