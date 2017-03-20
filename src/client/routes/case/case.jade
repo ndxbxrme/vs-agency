@@ -1,7 +1,7 @@
 .case
   h1 Case 
     span.address - {{property.item.displayAddress}}
-    span.right {{property.item.offer.Value}}
+      span.right {{property.item.$case.item.offer.Value | currency : "£" : 0}}
   progression(ng-repeat='progression in property.item.$case.item.progressions', data='progression')
   button.has-dropdown(ng-focus='progBtnFocussed=true', ng-blur='hideDropdown("progBtnFocussed")') Add Progression
   ul.dropdown(ng-show='progBtnFocussed')

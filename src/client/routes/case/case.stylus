@@ -7,6 +7,11 @@
   .address
     font-size 1.8rem
     font-weight 100
+    span.right
+      float right
+      font-size 2rem
+      font-weight 800
+      color #999
   .contacts
     display flex
     flex-wrap wrap

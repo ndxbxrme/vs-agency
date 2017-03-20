@@ -2,7 +2,7 @@
   div(ng-hide='$parent.editor')
     .heading
       h5 Case - {{progression.side}}'s side - {{progression.name}} - {{property.item.displayAddress}}
-      .controls
+      .controls(ng-show='auth.getUser("superadmin")')
         a(href='', ng-click='moveUp()')
           i.fa.fa-arrow-circle-o-up(aria-hidden='true')
         a(href='', ng-click='moveDown()')
