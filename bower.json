@@ -33,6 +33,8 @@
     "ndx-scroll-top": "^0.0.6",
     "ndx-rest": "^0.0.18",
     "angular-multi-check": "*",
-    "normalize-css": "normalize.css#^5.0.0"
+    "normalize-css": "normalize.css#^5.0.0",
+    "ndx-codemirror": "^0.0.6",
+    "ndx-markdown": "^0.0.3"
   }
 }

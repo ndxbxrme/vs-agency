@@ -15,7 +15,7 @@
           button(ng-click='addNote()') Add Note
           button(ng-click='setCompleted()') Mark as Completed
         .note-add(ng-show='addingNote()')
-          textarea(ng-model='note')
+          code-mirror(ng-model='note', options='{mode:"markdown"}')
           button(ng-click='doAddNote()') OK
           button(ng-click='cancelAddNote()') Cancel
       .completed(ng-show='getCompleted()')
@@ -106,7 +106,7 @@
               multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
             label.large Template
             select(ng-model='action.template')
-              option(ng-repeat='template in emailTemplates', value='{{template.id}}') {{template.name}}
+              option(ng-repeat='template in emailTemplates.items', value='{{template.filename}}') {{template.name}}
           .sms(ng-show='action.type==="Sms"')
             h5 Sms
             label.large Send to

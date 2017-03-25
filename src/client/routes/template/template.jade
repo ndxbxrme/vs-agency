@@ -1,0 +1,13 @@
+.template
+  h1 {{type==='email'?'Email':'Sms'}} template
+  form(name='myForm', ng-submit='save()')
+    section
+      label Name
+      input(type='text', ng-model='template.item.name')
+      label Subject
+      input(type='text', ng-model='template.item.subject')
+      input(type='submit', value='Save')
+    section
+      label Body
+      code-mirror(ng-model='template.item.body', options='{mode:lang, lineWrapping:true}')
+      small(ng-show="type==='sms'") {{template.item.body.length || 0}}/130

@@ -1,16 +1,31 @@
 .setup
   h1 Setup
-  .add-user
-    h2 Invite user
-    form(name='addUserForm', ng-submit='addUser()')
-      input(type='email', ng-model='newUser.email', placeholder='Email address')
-      select(ng-model='newUser.role')
-        option(value='agency', selected) Agency
-        option(value='admin') Admin
-      input(type='submit', value='Invite')
-    .invite-error {{inviteError}}
-    .invite-url {{inviteUrl}}
   .progressions
     h2 Progressions
     progression(ng-repeat='progression in progressions.items', data='progression')
     button.add-progression(ng-click='addProgression()') Add Progression
+  .row
+    .email-templates
+      h2 Email templates
+      a.email-template(ng-repeat='template in emailTemplates.items', ui-sref="template({id:template._id,type:'email'})") {{template.name}}
+      a.add-email-template(ui-sref="template({id:'new',type:'email'})") Add email template
+    .sms-templates
+      h2 Sms templates
+      .sms-template(ng-repeat='template in smsTemplates.items') {{template.name}}
+      a.add-sms-template(ui-sref="template({id:'new',type:'sms'})") Add sms template
+  .users
+    h2 Users
+    .row
+      .users
+        .user(ng-repeat='user in users.items') {{user.displayName || user.local.email}}
+      .add-user
+        h3 Invite user
+        form(name='addUserForm', ng-submit='addUser()')
+          input(type='email', ng-model='newUser.email', placeholder='Email address')
+          select(ng-model='newUser.role')
+            option(value='agency', selected) Agency
+            option(value='admin') Admin
+          input(type='submit', value='Invite')
+        .invite-error {{inviteError}}
+        .invite-url {{inviteUrl}}
+    

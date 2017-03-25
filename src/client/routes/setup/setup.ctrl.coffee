@@ -7,6 +7,9 @@ angular.module 'vs-agency'
     role: 'agency'
   $scope.progressions = $scope.list 'progressions', null, (progressions) ->
     progressionPopup.setProgressions progressions.items
+  $scope.users = $scope.list 'users'
+  $scope.emailTemplates = $scope.list 'emailtemplates'
+  $scope.smsTemplates = $scope.list 'smstemplates'
   $scope.getProperty = ->
     Address:
       Number: 123

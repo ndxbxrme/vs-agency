@@ -36,6 +36,7 @@ angular.module 'vs-agency'
           side: ''
           user: auth.getUser()
         property.$case.save()
+        $scope.note = ''
   $scope.getNotes = ->
     property = $scope.property.item
     if property and property.$case and property.$case.item
