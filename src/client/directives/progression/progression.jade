@@ -1,4 +1,4 @@
-.progression(ng-class='{editing:editing}')
+.progression(ng-class='{editing:editing()}')
   div(ng-hide='$parent.editor')
     .heading
       h5 Case - {{progression.side}}'s side - {{progression.name}} - {{property.item.displayAddress}}
@@ -10,25 +10,25 @@
         a(href='', ng-click='remove()')
           i.fa.fa-times-circle-o(aria-hidden='true')
   div(ng-show='$parent.editor')
-    .heading(ng-hide='editing')
+    .heading(ng-hide='editing()')
       h5 {{progression.name}}, {{progression.side}}
       .controls
-        a(href='', ng-click='editing=true;resize()') 
+        a(href='', ng-click='edit();') 
           | Edit
           i.fa.fa-pencil-square-o(aria-hidden='true')
-    .heading(ng-show='editing')
+    .heading(ng-show='editing()')
       label
         span Name
         input(type='text', ng-model='progression.name', placeholder='Name')
       .btn-group
-        input(type='radio', id='side-buyer', name='side', ng-model='progression.side', value='Buyer')
-        label(for='side-buyer') Buyer
-        input(type='radio', id='side-seller', name='side', ng-model='progression.side', value='Seller')
-        label(for='side-seller') Seller
+        input(type='radio', name='side{{$index}}', id='side-buyer{{$index}}', ng-model='progression.side', value='Buyer')
+        label(for='side-buyer{{$index}}') Buyer
+        input(type='radio', name='side{{$index}}', id='side-seller{{$index}}', ng-model='progression.side', value='Seller')
+        label(for='side-seller{{$index}}') Seller
   .milestones
     canvas
     .branch(ng-repeat='branch in progression.milestones')
-      milestone(ng-repeat='milestone in branch', data='milestone', disabled='{{$parent.$parent.$parent.editor && !$parent.$parent.editing}}')
+      milestone(ng-repeat='milestone in branch', data='milestone', disabled='{{$parent.$parent.$parent.editor && !$parent.$parent.editing()}}')
       a.new-milestone(href='', ng-click='addMilestone(branch)', ng-class='{hidden:$first}') +
     .branch.new
       a.new-milestone(href='', ng-click='addMilestone()') +

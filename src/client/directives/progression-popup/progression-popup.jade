@@ -11,7 +11,9 @@
               strong {{getEstDays()}}
             .date Estimated End Date: 
               strong {{getDate() | date:'mediumDate'}}
-          div(ng-repeat='note in getNotes()') {{note.text}}
+          .no-notes(ng-show='getNotes().length') 
+            span {{getNotes().length}} 
+            | {{getNotes().length===1?'Note':'Notes'}}
           button(ng-click='addNote()') Add Note
           button(ng-click='setCompleted()') Mark as Completed
         .note-add(ng-show='addingNote()')

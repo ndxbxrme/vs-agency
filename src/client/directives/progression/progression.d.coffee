@@ -6,6 +6,13 @@ angular.module 'vs-agency'
   templateUrl: 'directives/progression/progression.html'
   replace: true
   link: (scope, elem) ->
+    lastEditing = false
+    scope.editing = ->
+      editing = scope.progressions.$editing is scope.progression._id
+      if editing isnt lastEditing
+        lastEditing = editing
+        scope.resize()
+      editing
     drawConnection = (ctx, item, prev) ->
       ctx.beginPath()
       if item.offsetLeft > prev.offsetLeft
@@ -54,12 +61,16 @@ angular.module 'vs-agency'
     scope.saveProgression = ->
       progressionPopup.hide()
       scope.progressions.save(scope.progression)
-      scope.editing = false
+      scope.progressions.$editing = null
       scope.resize()
     scope.cancel = ->
       progressionPopup.hide()
       scope.progressions.refreshFn()
-      scope.editing = false
+      scope.progressions.$editing = null
+      scope.resize()
+    scope.edit = ->
+      scope.progressions.refreshFn()
+      scope.progressions.$editing = scope.progression._id
       scope.resize()
     scope.remove = ->
       scope.property.item.$case.item.progressions.remove scope.progression

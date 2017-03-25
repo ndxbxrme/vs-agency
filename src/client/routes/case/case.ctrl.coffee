@@ -2,6 +2,8 @@
 
 angular.module 'vs-agency'
 .controller 'CaseCtrl', ($scope, $stateParams, $timeout, auth, progressionPopup, Property) ->
+  $scope.notesLimit = 10
+  $scope.notesPage = 1
   $scope.property = $scope.single
     route: 'https://myproperty.vitalspace.co.uk/api/property'
   , $stateParams.roleId
