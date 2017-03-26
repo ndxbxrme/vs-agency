@@ -16,7 +16,9 @@
           span(ng-hide='editing') {{data().telephone}}
           input(type='text', ng-model='data().telephone', ng-show='editing', placeholder='Telephone')
         .email(ng-show='data().email || editing')
-          span(ng-hide='editing') {{data().email}}
+          span(ng-hide='editing') 
+            a.mail-link(href='mailto:{{data().email}}')
+              {{data().email}}
           input(type='email', ng-model='data().email', ng-show='editing', placeholder='Email')
       .controls(ng-show='editing')
         button(ng-click='confirm()') OK
