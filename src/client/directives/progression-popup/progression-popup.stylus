@@ -46,6 +46,13 @@
         &:hover
           background vs-grey
           color white
+      .CodeMirror
+        border 1px solid vs-lightgrey
+        border-radius 5px
+        background #f1f1f1
+        padding-left 10px
+        height 120px
+        margin-bottom 1rem
   .close
     position absolute
     top 0

@@ -5,8 +5,13 @@ angular.module 'vs-agency'
   $scope.editor = true
   $scope.newUser =
     role: 'agency'
+  $scope.progressionsClone = null
   $scope.progressions = $scope.list 'progressions', null, (progressions) ->
     progressionPopup.setProgressions progressions.items
+    $scope.progressionsClone = JSON.parse JSON.stringify progressions.items
+  $scope.users = $scope.list 'users'
+  $scope.emailTemplates = $scope.list 'emailtemplates'
+  $scope.smsTemplates = $scope.list 'smstemplates'
   $scope.getProperty = ->
     Address:
       Number: 123

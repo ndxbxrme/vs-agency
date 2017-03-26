@@ -6,6 +6,11 @@ angular.module 'vs-agency'
   progressions = []
   data = null
   hidden = true
+  scope = null
+  reset = ->
+    if scope
+      scope.action = null
+      scope.editingAction = false
   getOffset = (elm) ->
     offset =
       left: 0
@@ -48,6 +53,7 @@ angular.module 'vs-agency'
       dezrez.updatePropertyCase auth.getUser(), true
     else
     ###
+    reset()
     moveToElem()
     hidden = false
   hide: ->
@@ -113,3 +119,6 @@ angular.module 'vs-agency'
     progressions = _progressions
   getProgressions: ->
     progressions
+  setScope: (_scope) ->
+    scope = _scope
+  reset: reset

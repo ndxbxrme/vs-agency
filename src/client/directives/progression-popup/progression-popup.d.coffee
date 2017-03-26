@@ -7,6 +7,7 @@ angular.module 'vs-agency'
   replace: true
   scope: {}
   link: (scope, elem) ->
+    progressionPopup.setScope scope
     addingNote = false
     scope.action = null
     scope.editorState = ''
@@ -37,12 +38,8 @@ angular.module 'vs-agency'
       {id:'allagency',name:'All agency users'}
       {id:'alladmin',name:'All admin users'}
     ]
-    scope.emailTemplates = [
-      {id:'default',name:'Default'}
-    ]
-    scope.smsTemplates = [
-      {id:'default',name:'Default'}
-    ]
+    scope.emailTemplates = scope.list 'emailtemplates'
+    scope.smsTemplates = scope.list 'smstemplates'
     scope.getData = progressionPopup.getData
     scope.getTitle = progressionPopup.getTitle
     scope.setCompleted = progressionPopup.setCompleted
@@ -96,12 +93,17 @@ angular.module 'vs-agency'
           output.push milestone
       output
       
+    findByValue = (value, list, valField) ->
+      for item in list
+        if item[valField or '_id'] is value
+          return item
+      return {}
+      
     scope.addAction = (action) ->
-      console.log scope.actionForm
       if action.type is 'Trigger'
         action.name = action.triggerAction or 'Start milestone'
       else
-        action.name = action.template
+        action.name = findByValue(action.template, (if action.type is 'Email' then scope.emailTemplates.items else scope.smsTemplates.items), 'id').name
       if not action._id
         action._id = scope.generateId 8
         scope.getData().actions.push action
@@ -114,9 +116,7 @@ angular.module 'vs-agency'
       scope.action = null
       scope.editingAction = false
       
-    scope.reset = ->
-      scope.action = null
-      scope.editingAction = false
+    scope.reset = progressionPopup.reset
       
     deregister = $rootScope.$on 'set-date', (e, date) ->
       progressionPopup.setDate date
