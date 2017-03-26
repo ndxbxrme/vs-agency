@@ -108,7 +108,7 @@
               multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
             label.large Template
             select(ng-model='action.template')
-              option(ng-repeat='template in emailTemplates.items', value='{{template.filename}}') {{template.name}}
+              option(ng-repeat='template in emailTemplates.items', value='{{template.id}}') {{template.name}}
           .sms(ng-show='action.type==="Sms"')
             h5 Sms
             label.large Send to

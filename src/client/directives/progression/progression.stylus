@@ -24,14 +24,18 @@
       border-radius 3px
       i 
         margin-left 5px
-    label
-      font-weight 800
-    input[type=text]
-      width 320px
-      max-width 90%
-      padding 10px
-      border-radius 3px
-      border 1px solid vs-lightgrey
+    .inputs
+      display flex
+      flex-direction column
+      label
+        font-weight 800
+        span
+          min-width 6rem
+          display inline-block
+      input[type=text]
+        width 320px
+        max-width 90%
+        vs-input()
     .controls
       a 
         background none
@@ -86,17 +90,7 @@
       
 .progressions
   button
-    display inline-block
-    white-space nowrap
-    padding 1rem
-    border 1px solid #ccc
-    border-radius 0.5rem
-    color vs-orange
-    background white
-    transition all 0.4s ease-in-out
-    &:hover
-      background vs-orange
-      color white
+    vs-button()
   .save button:first-of-type
     color white
     background vs-orange

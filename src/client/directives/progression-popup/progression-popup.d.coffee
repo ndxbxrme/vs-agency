@@ -38,11 +38,8 @@ angular.module 'vs-agency'
       {id:'allagency',name:'All agency users'}
       {id:'alladmin',name:'All admin users'}
     ]
-    scope.emailTemplates = scope.list
-      route: '/api/template/email'
-    scope.smsTemplates = [
-      {id:'default',name:'Default'}
-    ]
+    scope.emailTemplates = scope.list 'emailtemplates'
+    scope.smsTemplates = scope.list 'smstemplates'
     scope.getData = progressionPopup.getData
     scope.getTitle = progressionPopup.getTitle
     scope.setCompleted = progressionPopup.setCompleted
@@ -103,11 +100,10 @@ angular.module 'vs-agency'
       return {}
       
     scope.addAction = (action) ->
-      console.log scope.actionForm
       if action.type is 'Trigger'
         action.name = action.triggerAction or 'Start milestone'
       else
-        action.name = findByValue(action.template, (if action.type is 'Email' then scope.emailTemplates.items else scope.smsTemplates.items), 'filename').name
+        action.name = findByValue(action.template, (if action.type is 'Email' then scope.emailTemplates.items else scope.smsTemplates.items), 'id').name
       if not action._id
         action._id = scope.generateId 8
         scope.getData().actions.push action

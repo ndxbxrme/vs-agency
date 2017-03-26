@@ -1,5 +1,6 @@
 @import '../../variables'
 .setup
+  padding-bottom 4rem
   .add-user
     width 100%
     border 1px solid vs-lightgrey
@@ -9,9 +10,7 @@
     input[type=email]
       width 320px
       max-width 90%
-      padding 10px
-      border-radius 3px
-      border 1px solid vs-lightgrey
+      vs-input()
     select
       height 37px
       width 100px
@@ -25,7 +24,27 @@
   .row
     display flex
     flex-wrap wrap
+    justify-content space-between
     .email-templates, .sms-templates, .users, .add-user
-      flex 1
+      width 49%
       display flex
       flex-direction column
+      box-sizing border-box
+    .email-template, .sms-template
+      display flex
+      border-bottom 1px solid vs-lightgrey
+      padding 0.5rem
+      .name
+        flex 1
+      &:last-of-type
+        background green
+      a
+        color inherit
+        &:hover
+          color vs-orange
+  .add-email-template
+    vs-button()
+    margin-top 1rem
+  .add-sms-template
+    vs-button()
+    margin-top 1rem

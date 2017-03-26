@@ -7,12 +7,20 @@
   .row
     .email-templates
       h2 Email templates
-      a.email-template(ng-repeat='template in emailTemplates.items', ui-sref="template({id:template._id,type:'email'})") {{template.name}}
-      a.add-email-template(ui-sref="template({id:'new',type:'email'})") Add email template
+      .email-template(ng-repeat='template in emailTemplates.items')
+        a.name(ui-sref="template({id:template._id,type:'email'})") {{template.name}}
+        .delete
+          a(href='', ng-click='emailTemplates.delete(template)') Delete
+      div
+        a.add-email-template(ui-sref="template({id:'new',type:'email'})") Add email template
     .sms-templates
       h2 Sms templates
-      .sms-template(ng-repeat='template in smsTemplates.items') {{template.name}}
-      a.add-sms-template(ui-sref="template({id:'new',type:'sms'})") Add sms template
+      .sms-template(ng-repeat='template in smsTemplates.items')
+        a.name(ui-sref="template({id:template._id,type:'sms'})") {{template.name}}
+        .delete
+          a(href='', ng-click='smsTemplates.delete(template)') Delete
+      div
+        a.add-sms-template(ui-sref="template({id:'new',type:'sms'})") Add sms template
   .users
     h2 Users
     .row

@@ -41,6 +41,7 @@
     "ndx-connect": "0.0.6",
     "ndx-cors": "0.0.9",
     "ndx-database-backup": "0.0.8",
+    "ndx-gmail": "0.0.7",
     "ndx-keep-awake": "0.0.5",
     "ndx-modified": "0.0.7",
     "ndx-passport": "^0.3.6",
@@ -52,6 +53,7 @@
     "ndx-static-routes": "0.0.12",
     "ndx-superadmin": "^0.1.4",
     "ndx-user-roles": "^0.3.4",
+    "ndx-zensend": "0.0.4",
     "progress": "^1.1.8",
     "superagent": "^3.5.0"
   }

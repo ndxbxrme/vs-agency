@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'TemplateCtrl', ($scope, $stateParams, $window) ->
+.controller 'TemplateCtrl', ($scope, $stateParams, $state) ->
   $scope.type = $stateParams.type
   if $stateParams.type is 'email'
     $scope.lang = 'jade'
@@ -12,4 +12,6 @@ angular.module 'vs-agency'
   $scope.save = ->
     if $scope.myForm.$valid
       $scope.template.save()
-      $window.history.back()
+      $state.go 'setup'
+  $scope.cancel = ->
+    $state.go 'setup'

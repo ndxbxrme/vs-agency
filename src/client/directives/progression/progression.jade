@@ -17,9 +17,13 @@
           | Edit
           i.fa.fa-pencil-square-o(aria-hidden='true')
     .heading(ng-show='editing()')
-      label
-        span Name
-        input(type='text', ng-model='progression.name', placeholder='Name')
+      .inputs
+        label
+          span Name
+          input(type='text', ng-model='progression.name', placeholder='Name')
+        label(for='default{{$index}}')
+          span Default
+          input(type='checkbox', id='default{{$index}}', ng-model='progression.default')
       .btn-group
         input(type='radio', name='side{{$index}}', id='side-buyer{{$index}}', ng-model='progression.side', value='Buyer')
         label(for='side-buyer{{$index}}') Buyer
