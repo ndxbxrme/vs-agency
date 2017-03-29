@@ -3,7 +3,9 @@
   .progressions
     h2 Progressions
     progression(ng-repeat='progression in progressions.items', data='progression')
-    button.add-progression(ng-click='addProgression()') Add Progression
+    .progressions-controls
+      button.add-progression(ng-click='addProgression()') Add Progression
+      button.reset-progressions(ng-click='resetProgressions()', ng-show="auth.checkRoles('superadmin')") Reset Property Progressions
   .row
     .email-templates
       h2 Email templates
@@ -21,6 +23,35 @@
           a(href='', ng-click='smsTemplates.delete(template)') Delete
       div
         a.add-sms-template(ui-sref="template({id:'new',type:'sms'})") Add sms template
+  .dashboard
+    h2 Dashboard
+    .row
+      .overview
+        h3 Overview
+        .dashboard-item(ng-repeat='item in dashboard.items | filter:{type:"overview"}')
+          a.name(ui-sref="dashboardItem({id:item._id,type:'overview'})") {{item.name}}
+          .controls(ng-show='auth.checkRoles(["admin","superadmin"])')
+            //a(href='', ng-click='moveDIUp(item)')
+              i.fa.fa-arrow-circle-o-up(aria-hidden='true')
+            //a(href='', ng-click='moveDIDown(item)')
+              i.fa.fa-arrow-circle-o-down(aria-hidden='true')
+            a(href='', ng-click='removeDI(item)')
+              i.fa.fa-times-circle-o(aria-hidden='true')
+        div
+          a.add-dashboard-overview(ui-sref="dashboardItem({id:'new',type:'overview'})") Add overview item
+      .income
+        h3 Income
+        .dashboard-item(ng-repeat='item in dashboard.items | filter:{type:"income"}')
+          a.name(ui-sref="dashboardItem({id:item._id,type:'income'})") {{item.name}}
+          .controls(ng-show='auth.checkRoles(["admin","superadmin"])')
+            //a(href='', ng-click='moveDIUp(item)')
+              i.fa.fa-arrow-circle-o-up(aria-hidden='true')
+            //a(href='', ng-click='moveDIDown(item)')
+              i.fa.fa-arrow-circle-o-down(aria-hidden='true')
+            a(href='', ng-click='removeDI(item)')
+              i.fa.fa-times-circle-o(aria-hidden='true')
+        div
+          a.add-dashboard-income(ui-sref="dashboardItem({id:'new',type:'income'})") Add income item
   .users
     h2 Users
     .row

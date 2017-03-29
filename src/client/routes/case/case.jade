@@ -9,6 +9,15 @@
       a(href='', ng-click='addProgression(progression)') {{progression.name}}, {{progression.side}}
   h2 Chain
   button.view-chain View Chain
+  .chain
+    button.add-chain(ng-click='addChain(property.item.$case.item.chainBuyer, "buyer")') Add to chain
+    .connector
+    chain-item(ng-repeat='item in property.item.$case.item.chainBuyer | orderBy:"-"')
+    .current-property {{property.item.displayAddress}}
+      img(src='{{property.item.Images[0].Url}}')
+    .connector
+    chain-item(ng-repeat='item in property.item.$case.item.chainSeller')
+    button.add-chain(ng-click='addChain(property.item.$case.item.chainSeller, "seller")') Add to chain
   .contacts.row
     contact-details(title="Vendor's Solicitor")
     contact-details(title="Vendor's Contact")

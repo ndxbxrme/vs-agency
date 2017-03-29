@@ -1,0 +1,19 @@
+@import '../../variables'
+.chain-item
+  display flex
+  flex-direction column
+  align-items center
+  width 100%
+  .inner
+    chain-box()
+    .chain-controls
+      display flex
+      justify-content space-between
+    .chain-edit
+      form
+        display flex
+        flex-direction column
+        .CodeMirror
+          height 160px
+        input[type='submit']
+          vs-button()

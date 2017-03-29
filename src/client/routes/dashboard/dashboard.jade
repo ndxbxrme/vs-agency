@@ -8,46 +8,25 @@
       tr.head-two
         td Status
         td Sale Position
-      tr
-        td Pre Survey
-        td
-      tr
-        td Post Survey
-        td
-      tr
-        td Exchange
-        td
+      tr(ng-repeat='di in dashboard.items | filter:{type:"overview"}')
+        td {{di.name}}
+        td {{count(di)}}
       tr.total
         td Total
-        td
+        td {{properties.items.length}}
   table.table.table-responsive.income
     thead
       tr
-        th(colspan='3') 
+        th(colspan='4') 
           i.fa.fa-gbp(aria-hidden='true')
           |  Income
     tbody
       tr.head-two
         td Month
-        td Exchanges Due
-        td Completions
-        td Income
-      tr
-        td March
-        td
-        td
-        td
-      tr
-        td April
-        td
-        td
-        td
-      tr
-        td May
-        td
-        td
+        td(ng-repeat='di in dashboard.items | filter:{type:"income"}') {{di.name}}
+      tr(ng-repeat='month in months')
+        td {{month.name}}
+        td(ng-repeat='di in dashboard.items | filter:{type:"income"}') {{income(di, month)}}
       tr.total
         td Total
-        td
-        td
-        td
+        td(ng-repeat='di in dashboard.items | filter:{type:"income"}') {{income(di, allmonths)}}

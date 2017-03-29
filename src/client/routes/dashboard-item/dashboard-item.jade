@@ -1,0 +1,24 @@
+.dashboard-item
+  h1 Dashboard {{type==='overview'?'Overview':'Income'}} item
+  form(name='myForm', ng-submit='save()')
+    label Name
+    input(type='text', ng-model='dashboardItem.item.name')
+    label Progression
+    select(ng-model='dashboardItem.item.progression')
+      option(ng-repeat='progression in progressions.items', value='{{progression._id}}') {{progression.name}}
+    label(ng-show="type==='overview'") Start milestone
+    label(ng-show="type==='income'") Milestone
+    select(ng-model='dashboardItem.item.minms')
+      option(ng-repeat='item in getMilestones()', value='{{item._id}}') {{item.title}}
+    .col(ng-show="type==='overview'")
+      label End milestone
+      select(ng-model='dashboardItem.item.maxms')
+        option(ng-repeat='item in getMilestones()', value='{{item._id}}') {{item.title}}
+    .col(ng-show="type==='income'")
+      label Type
+      select(ng-model='dashboardItem.item.sumtype')
+        option Count
+        option Income
+    .controls
+      input(type='submit', value=' Save ')
+      button(ng-click='cancel()') Cancel

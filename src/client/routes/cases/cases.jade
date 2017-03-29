@@ -25,9 +25,9 @@
     tbody(ng-repeat='property in filterData =(properties.items | filter:{"search":search} | filter:{"milestoneStatus":filter}  | orderBy:sort) | limitTo:limit:limit*(page-1)')
       tr(ng-click='property.open = !property.open')
         td
-          .milestone(ng-class='property.cssMilestone')
-            .icon(class='{{ property.milestone.icon || "house"}}')
-            .title {{property.milestone.title}}
+          .milestone(ng-class='property.$case.item.cssMilestone')
+            .icon(class='{{ property.$case.item.milestone.icon || "house"}}')
+            .title {{property.$case.item.milestone.title}}
         td
           .address {{property.displayAddress}}
           .dates(ng-show='property.open')

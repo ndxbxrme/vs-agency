@@ -30,10 +30,10 @@ angular.module 'vs-agency'
       'completion'
     ]
     scope.contactOptions = [
-      {id:'purchaser',name:'Purchaser'}
-      {id:'vendor',name:'Vendor'}
-      {id:'purchaserSolicitor',name:'Purchaser\'s solicitor'}
-      {id:'vendorSolicitor',name:'Vendor\'s solicitor'}
+      {id:'purchasersContact',name:'Purchaser'}
+      {id:'vendorsContact',name:'Vendor'}
+      {id:'purchasersSolicitor',name:'Purchaser\'s solicitor'}
+      {id:'vendorsSolicitor',name:'Vendor\'s solicitor'}
       {id:'negotiator',name:'Negotiator'}
       {id:'allagency',name:'All agency users'}
       {id:'alladmin',name:'All admin users'}
@@ -61,15 +61,7 @@ angular.module 'vs-agency'
       nodays = end.diff start, 'days'
       nodays + if nodays is 1 then ' day' else ' days'
     scope.getEstDays = ->
-      date = progressionPopup.getDate()
-      start = progressionPopup.getStartDate()
-      estDays = progressionPopup.getEstDays()
-      if date
-        getDateDiff start, date
-      else
-        date = moment().startOf('day').add(estDays, 'day')._d
-        progressionPopup.setDate date
-        getDateDiff start, date
+      progressionPopup.getEstDays()
       
     scope.isStart = ->
       title = progressionPopup.getTitle()

@@ -2,7 +2,7 @@
   .popup
     .content
       h4 {{getTitle()}}
-      .start(ng-show='isStart()')
+      //.start(ng-show='isStart()')
         button(ng-click='setCompleted()') Start
       .progressing(ng-show='getProgressing() && !getCompleted() && !isStart()')
         .default(ng-hide='addingNote()')
@@ -44,7 +44,7 @@
             option(ng-repeat='milestone in getMilestones(progression)', value='{{milestone._id}}') {{milestone.title}}
         select(ng-model='getData().estType')
           option(value='') started
-          option(value='completed') completed
+          option(value='complete') completed
       .tabs(ng-click='reset()')
         .tab(ng-click='editorState="icon"', ng-class='{selected:editorState==="icon"}')
           h4 Icon

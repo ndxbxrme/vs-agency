@@ -59,3 +59,25 @@
       border vs-orange
       &:hover
         background vs-grey
+  .chain
+    display flex
+    flex-direction column
+    justify-content center
+    align-items center
+    padding 1rem
+    background #fdfdfd
+    margin-top 1rem
+    box-shadow inset 0 0 6px rgba(0,0,0,0.2)
+    .connector
+      height 3rem
+      border none
+      width 8rem
+      background url(http://heswa.com.au/wp-content/uploads/2013/07/commercial-chain.jpg)
+      background-size cover
+    .current-property
+      chain-box()
+      max-width 420px
+      img
+        max-width 160px
+    .add-chain
+      z-index 10

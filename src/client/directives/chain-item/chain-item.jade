@@ -1,0 +1,19 @@
+.chain-item 
+  .inner
+    .chain-edit(ng-if='$parent.chainEdit===item.side+$index')
+      form(name='chainForm', ng-submit='saveChain()')
+        label Reference
+        input(type='text', ng-model='item.reference')
+        label Notes
+        code-mirror(ng-model='item.note', options='{mode:"markdown"}')
+        .chain-controls
+          input(type='submit', value=' Save ')
+          button(ng-click='deleteChainItem(item, item.side)') Delete
+        
+    .chain-content(ng-hide='$parent.chainEdit===item.side+$index')
+      h1 {{item.reference}}
+      .chain-notes(ng-bind-html='item.note | markdown')
+      .chain-controls
+        div
+        button(ng-click='$parent.chainEdit=item.side+$index') Edit
+  .connector

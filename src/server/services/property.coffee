@@ -1,58 +1,155 @@
 'use strict'
+superagent = require 'superagent'
+async = require 'async'
 
 module.exports = (ndx) ->
-  ndx.property =
-    fetch: (roleId, cb) ->
-      property = ndx.database.exec 'SELECT * FROM properties WHERE roleId=?', [+roleId]
-      if property and property.length
-        if property[0].progressions and property[0].progressions.length
-          for branch in property[0].progressions[0].milestones
+  getDefaultProgressions = (property) ->
+    property.progressions = []
+    ndx.database.select 'progressions',
+      isdefault: true
+    , (progressions) ->
+      for progression in progressions
+        for milestone in progression.milestones[0]
+          milestone.progressing = false
+          milestone.completed = true
+          milestone.startTime = new Date().valueOf()
+          milestone.completedTime = new Date().valueOf()
+        property.progressions.push progression
+  checkNew = ->
+    opts = 
+      RoleStatus: 'OfferAccepted'
+      RoleType: 'Selling'
+      IncludeStc: true
+    superagent.post 'https://myproperty.vitalspace.co.uk/api/search'
+    .send opts
+    .end (err, res) ->
+      if not err and res.body.Collection
+        async.eachSeries res.body.Collection, (property, callback) ->
+          ndx.property.fetch property.RoleId.toString(), (mycase) ->
+            if not mycase.progressions or not mycase.progressions.length
+              ndx.property.getDefaultProgressions mycase
+              ndx.database.update 'properties', 
+                progressions: mycase.progressions
+              ,
+                _id:mycase._id
+              , ->
+                for progression in mycase.progressions
+                  for milestone in progression.milestones[0]
+                    ndx.milestone.processActions 'Complete', milestone.actions, property.RoleId
+                callback()
+  setInterval checkNew, 10 * 60 * 1000
+  ndx.database.on 'preUpdate', (args) ->
+    property = args.obj
+    if args.table is 'properties'
+      if property.progressions and property.progressions.length
+        property.milestoneIndex = {}
+        for progression, p in property.progressions
+          for branch, b in progression.milestones
             for milestone in branch
-              if milestone.completed or milestone.progressing
-                property[0].milestone = milestone
-          if property[0].milestone
-            property[0].milestoneStatus = if property[0].milestone.completed then 'completed' else 'progressing'
-            property[0].cssMilestone = 
-              completed: property[0].milestone.completed
-              progressing: property[0].milestone.progressing
-        cb? property[0]
-      else
-        property =
-          roleId: +roleId
-        ndx.dezrez.get 'role/{id}', null, id:roleId, (err, body) ->
-          if not err
-            ndx.dezrez.get 'role/{id}', null, id:body.PurchasingRoleId, (err, body) ->
-              if not err
-                property.role = body
-                property.offer = body.AcceptedOffer
-                property.purchaser = body.AcceptedOffer.ApplicantGroup.Name
-                property.purchasersContact =
-                  role: ''
-                  name: body.AcceptedOffer.ApplicantGroup.PrimaryMember.ContactName
-                  email: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryEmail?.Value
-                  telephone: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryTelephone?.Value
-                for contact in body.Contacts
-                  property["#{contact.ProgressionRoleType.SystemName.toLowerCase()}sSolicitor"] =
-                    role: contact.GroupName
-                    name: contact.CaseHandler.ContactName
-                    email: contact.CaseHandler.PrimaryEmail?.Value
-                    telephone: contact.CaseHandler.PrimaryTelephone?.Value
-                property.vendor = body.AcceptedOffer.VendorGroup.Name
-                property.vendorsContact =
-                  role: ''
-                  name: body.AcceptedOffer.VendorGroup.PrimaryMember.ContactName
-                  email: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryEmail?.Value
-                  telephone: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryTelephone?.Value
-                property.progressions = []
-                property.mileston
-                property.milestoneStatus = ''
-                property.notes = []
-                property.chainBuyer = []
-                property.chainSeller = []
-                ndx.database.insert 'properties', property
-                cb? property
-              else
-                throw err
-          else
-            throw err
-  
+              if p is 0
+                if milestone.completed or milestone.progressing
+                  property.milestone = milestone
+              if milestone.completed
+                property.milestoneIndex[progression._id] = b
+        if property.milestone
+          property.milestoneStatus = if property.milestone.completed then 'completed' else 'progressing'
+          property.cssMilestone = 
+            completed: property.milestone.completed
+            progressing: property.milestone.progressing
+        updateEstDays = (progressions) ->
+          aday = 24 * 60 * 60 * 1000
+          fetchMilestoneById = (id, progressions) ->
+            for progression in progressions
+              for branch in progression.milestones
+                for milestone in branch
+                  if milestone._id is id
+                    return milestone
+          for progression in progressions
+            for branch in progression.milestones
+              for milestone in branch
+                milestone.estCompletedTime = null
+          needsCompleting = true
+          i = 0
+          while needsCompleting and i++ < 5
+            for progression in progressions
+              delete progression.needsCompleting
+              progStart = progression.milestones[0][0].completedTime
+              b = 1
+              while b++ < progression.milestones.length
+                branch = progression.milestones[b-1]
+                for milestone in branch
+                  if milestone.estCompletedTime
+                    continue
+                  if milestone.completed and milestone.completedTime
+                    milestone.estCompletedTime = milestone.completedTime
+                    continue
+                  if not milestone.estAfter
+                    prev = progression.milestones[b-2][0]
+                    milestone.estCompletedTime = (prev.completedTime or prev.estCompletedTime) + (milestone.estDays * aday)
+                    continue
+                  testMilestone = fetchMilestoneById milestone.estAfter, progressions
+                  if testMilestone and testMilestone.estCompletedTime
+                    if milestone.estType is 'complete'
+                      milestone.estCompletedTime = testMilestone.estCompletedTime + milestone.estDays * aday
+                    else
+                      milestone.estCompletedTime = testMilestone.estCompletedTime - (testMilestone.estDays * aday) + (milestone.estDays * aday)
+                  else
+                    progression.needsCompleting = true
+                    b = progression.milestones.length
+                    break
+            needsCompleting = false
+            for progression in progressions
+              if progression.needsCompleting
+                needsCompleting = true
+          for progression in progressions
+            delete progression.needsCompleting 
+        updateEstDays property.progressions
+  ndx.property =
+    getDefaultProgressions: getDefaultProgressions
+    checkNew: checkNew
+    fetch: (roleId, cb) ->
+      ndx.database.select 'properties',
+        roleId: roleId.toString()
+      , (property) ->
+        if property and property.length
+          cb? property[0]
+        else
+          property =
+            roleId: roleId.toString()
+          ndx.dezrez.get 'role/{id}', null, id:roleId, (err, body) ->
+            if not err
+              ndx.dezrez.get 'role/{id}', null, id:body.PurchasingRoleId, (err, body) ->
+                if not err
+                  property.role = body
+                  property.offer = body.AcceptedOffer
+                  property.purchaser = body.AcceptedOffer.ApplicantGroup.Name
+                  property.purchasersContact =
+                    role: ''
+                    name: body.AcceptedOffer.ApplicantGroup.PrimaryMember.ContactName
+                    email: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryEmail?.Value
+                    telephone: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryTelephone?.Value
+                  for contact in body.Contacts
+                    property["#{contact.ProgressionRoleType.SystemName.toLowerCase()}sSolicitor"] =
+                      role: contact.GroupName
+                      name: contact.CaseHandler.ContactName
+                      email: contact.CaseHandler.PrimaryEmail?.Value
+                      telephone: contact.CaseHandler.PrimaryTelephone?.Value
+                  property.vendor = body.AcceptedOffer.VendorGroup.Name
+                  property.vendorsContact =
+                    role: ''
+                    name: body.AcceptedOffer.VendorGroup.PrimaryMember.ContactName
+                    email: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryEmail?.Value
+                    telephone: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryTelephone?.Value
+                  getDefaultProgressions property
+                  property.milestone = ''
+                  property.milestoneStatus = ''
+                  property.milestoneIndex = null
+                  property.notes = []
+                  property.chainBuyer = []
+                  property.chainSeller = []
+                  ndx.database.insert 'properties', property
+                  cb? property
+                else
+                  throw err
+            else
+              throw err

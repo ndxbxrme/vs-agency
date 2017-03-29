@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.factory 'progressionPopup', ($timeout, Property, auth) ->
+.factory 'progressionPopup', ($timeout, $http, Property, auth) ->
   elem = null
   progressions = []
   data = null
@@ -71,8 +71,10 @@ angular.module 'vs-agency'
     data.progressing = false
     data.completedTime = new Date().valueOf()
     hidden = true
-    console.log Property.get()
     Property.get().$case.save()
+    $http.post '/api/milestone/completed',
+      actions: data.actions
+      roleId: Property.get().RoleId
   getCompletedTime: ->
     if data
       data.completedTime
@@ -85,9 +87,13 @@ angular.module 'vs-agency'
       data.startTime = new Date().valueOf()
       hidden = true
       Property.get().$case.save()
+      console.log data.actions
+      console.log Property.get()
+      $http.post '/api/milestone/start',
+        actions: data.actions
   getDate: ->
     if data
-      data.date
+      data.estCompletedTime
   setDate: (date) ->
     if data
       data.date = date
@@ -102,7 +108,6 @@ angular.module 'vs-agency'
       data.estDays
   addNote: (note) ->
     if data and note
-      console.log 'adding note'
       data.notes.push
         date: new Date()
         text: note
@@ -110,6 +115,7 @@ angular.module 'vs-agency'
         side: data.side
         user: auth.getUser()
       Property.get().$case.save()
+      note = ''
   getNotes: ->
     if data
       data.notes

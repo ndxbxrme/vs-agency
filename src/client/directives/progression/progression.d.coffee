@@ -7,6 +7,10 @@ angular.module 'vs-agency'
   replace: true
   link: (scope, elem) ->
     lastEditing = false
+    saveAllProgressions = ->
+      for progression, i in scope.progressions.items
+        progression.i = i
+        scope.progressions.save progression
     scope.editing = ->
       editing = scope.progressions.$editing is scope.progression._id
       if editing isnt lastEditing
@@ -73,14 +77,27 @@ angular.module 'vs-agency'
       scope.progressions.$editing = scope.progression._id
       scope.resize()
     scope.remove = ->
-      scope.property.item.$case.item.progressions.remove scope.progression
-      scope.property.item.$case.save()
+      if scope.property
+        scope.property.item.$case.item.progressions.remove scope.progression
+        scope.property.item.$case.save()
+      else if scope.progressions
+        scope.progressions.delete scope.progression
+        scope.progressions.items.remove scope.progression
+        saveAllProgressions()
     scope.moveUp = ->
-      scope.property.item.$case.item.progressions.moveUp scope.progression
-      scope.property.item.$case.save()
+      if scope.property
+        scope.property.item.$case.item.progressions.moveUp scope.progression
+        scope.property.item.$case.save()
+      else if scope.progressions
+        scope.progressions.items.moveUp scope.progression
+        saveAllProgressions()
     scope.moveDown = ->
-      scope.property.item.$case.item.progressions.moveDown scope.progression
-      scope.property.item.$case.save()
+      if scope.property
+        scope.property.item.$case.item.progressions.moveDown scope.progression
+        scope.property.item.$case.save()
+      else if scope.progressions
+        scope.progressions.items.moveDown scope.progression
+        saveAllProgressions()
     scope.resize = ->
       resize elem
     scope.resize()

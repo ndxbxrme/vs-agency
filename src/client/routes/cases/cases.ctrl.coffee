@@ -20,21 +20,9 @@ angular.module 'vs-agency'
     route: 'https://myproperty.vitalspace.co.uk/api/search'
   , $scope.propsOpts
   , (properties) ->
-    console.log 'called back'
     for property in properties.items
       property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}"
       property.$case = $scope.single 'properties', property.RoleId, (item) ->
         item.$parent.search = "#{item.$parent.displayAddress}||#{item.item.vendor}||#{item.item.purchaser}"
-        if item.item.progressions and item.item.progressions.length
-          for branch in item.item.progressions[0].milestones
-            for milestone in branch
-              if milestone.completed or milestone.progressing
-                item.$parent.milestone = milestone
-          if item.$parent.milestone
-            item.$parent.milestoneStatus = if item.$parent.milestone.completed then 'completed' else 'progressing'
-            item.$parent.cssMilestone = 
-              completed: item.$parent.milestone.completed
-              progressing: item.$parent.milestone.progressing
-        else
-          item.$parent.milestoneStatus = ''
+        item.$parent.milestoneStatus = item.item.milestoneStatus
       property.$case.$parent = property

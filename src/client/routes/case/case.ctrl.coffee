@@ -12,15 +12,10 @@ angular.module 'vs-agency'
     property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}"
     property.$case = $scope.single 'properties', property.RoleId, (item) ->
       item.parent.search = "#{item.parent.displayAddress}||#{item.vendor}||#{item.purchaser}"
-      checkProgressions()
     property.$case.parent = property
     Property.set property
-  $scope.progressions = $scope.list 'progressions', null, checkProgressions
-  checkProgressions = ->
-    if $scope.property and $scope.property.$case and $scope.progressions.items and $scope.progressions.items.length
-      if $scope.property.$case.item.progressions.length < 1
-        $scope.property.$case.item.progressions = JSON.parse JSON.stringify $scope.progressions.items
-        $scope.property.$case.save()
+  $scope.progressions = $scope.list 'progressions',
+    sort: 'i'
   $scope.config =
     prefix: 'swiper'
     modifier: 1.5
@@ -62,6 +57,27 @@ angular.module 'vs-agency'
         property.$case.item.progressions = []
       property.$case.item.progressions.push JSON.parse(JSON.stringify(progression)) 
       property.$case.save()
+  $scope.addChain = (chain, side) ->
+    index = 0
+    if side is 'seller'
+      index = $scope.property.item.$case.item.chainSeller.length
+    chain.push
+      note: 'chain ' + new Date()
+      reference: ''
+      side: side
+    $scope.chainEdit = side + index
+  $scope.editChain = (side, index) ->
+    $scope.chainEdit = side + index
+  $scope.saveChain = ->
+    $scope.chainEdit = null
+    $scope.property.item.$case.save()
+  $scope.deleteChainItem = (item, side) ->
+    console.log side
+    chain = if side is 'buyer' then $scope.property.item.$case.item.chainBuyer else $scope.property.item.$case.item.chainSeller
+    console.log chain
+    console.log chain.indexOf(item)
+    chain.remove item
+    $scope.saveChain()
   $scope.hideDropdown = (dropdown) ->
     $timeout ->
       $scope[dropdown] = false

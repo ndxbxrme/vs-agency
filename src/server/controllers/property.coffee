@@ -3,6 +3,16 @@ superagent = require 'superagent'
 progress = require 'progress'
 
 module.exports = (ndx) ->
+  ndx.app.get '/api/properties/reset-progressions', ndx.authenticate(['admin','superadmin']), (req, res, next) ->
+    ndx.database.select 'properties', null, (properties) ->
+      if properties and properties.length
+        for property in properties
+          ndx.database.update 'properties',
+            progressions: []
+          ,
+            _id: property._id
+        ndx.property.checkNew()
+      res.end 'OK'
   ndx.app.get '/api/properties/:roleId', ndx.authenticate(), (req, res, next) ->
     ndx.property.fetch req.params.roleId, (property) ->
       res.json property

@@ -43,4 +43,14 @@ module.exports = (ndx) ->
     text = JSON.stringify req.body
     text += '||' + new Date().valueOf()
     text = encodeURIComponent(crypto.Rabbit.encrypt(text, ndx.settings.SESSION_SECRET).toString())
+    ndx.database.select 'emailTemplates',
+      name: 'User Invite'
+    , (templates) ->
+      if templates and templates.length
+        ndx.gmail.send
+          template: templates[0]._id + '.jade'
+          to: req.body.email
+          subject: templates[0].subject
+          code: text
+          
     res.end text

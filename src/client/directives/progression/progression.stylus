@@ -8,6 +8,7 @@
   .heading
     display flex
     justify-content space-between
+    align-items center
     color vs-orange
     margin-bottom 20px
     h5
@@ -15,6 +16,7 @@
       margin-bottom 0
       font-weight 100
       font-size 1.6rem
+      flex 1
     a
       padding 10px 15px
       width 100px
@@ -37,6 +39,7 @@
         max-width 90%
         vs-input()
     .controls
+      margin-left 2rem
       a 
         background none
         border none
