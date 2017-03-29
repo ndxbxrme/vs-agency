@@ -17,17 +17,7 @@
     flex-wrap wrap
     justify-content space-between
   button
-      display inline-block
-      white-space nowrap
-      padding 1rem
-      border 1px solid #ccc
-      border-radius 0.5rem
-      color vs-orange
-      background white
-      transition all 0.4s ease-in-out
-      &:hover
-        background vs-orange
-        color white
+    vs-button()
   .orange
     color vs-orange
     font-weight 500
@@ -77,7 +67,10 @@
     .current-property
       chain-box()
       max-width 420px
+      display flex
       img
         max-width 160px
+      .details
+        margin-left 1rem
     .add-chain
       z-index 10
