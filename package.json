@@ -42,7 +42,7 @@
     "ndx-connect": "0.0.6",
     "ndx-cors": "0.0.9",
     "ndx-database-backup": "0.0.8",
-    "ndx-gmail": "0.0.14",
+    "ndx-gmail": "0.0.15",
     "ndx-keep-awake": "0.0.5",
     "ndx-modified": "0.0.7",
     "ndx-passport": "^0.3.6",
