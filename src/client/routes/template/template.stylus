@@ -33,5 +33,6 @@
         padding 1rem
         iframe
           border 1px solid vs-lightgrey
+          min-height 600px
         .preview-title
           color vs-lightgrey
