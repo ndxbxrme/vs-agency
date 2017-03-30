@@ -32,4 +32,5 @@ angular.module 'vs-agency'
           if response.data
             $scope.defaultData.property.case = response.data
             $scope.defaultData.contact = response.data.vendorsContact
+            $scope.defaultData.code = 'https://conveyancing.vitalspace.co.uk/invite/92gh4giu234uhg239h323fuig327fg237fg237gf3uifg23iuf23f7g23iuf23f23'
   fetchDefaultProp()
