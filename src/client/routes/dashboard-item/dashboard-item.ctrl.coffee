@@ -4,6 +4,7 @@ angular.module 'vs-agency'
 .controller 'DashboardItemCtrl', ($scope, $stateParams, $window) ->
   $scope.type = $stateParams.type
   $scope.dashboardItem = $scope.single 'dashboard', $stateParams.id
+  $scope.dashboardItem.locked = true
   $scope.progressions = $scope.list 'progressions',
     sort: 'i'
   $scope.getMilestones = ->

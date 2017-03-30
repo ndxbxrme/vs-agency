@@ -62,7 +62,7 @@ angular.module 'vs-agency'
     if side is 'seller'
       index = $scope.property.item.$case.item.chainSeller.length
     chain.push
-      note: 'chain ' + new Date()
+      note: ''
       reference: ''
       side: side
     $scope.chainEdit = side + index

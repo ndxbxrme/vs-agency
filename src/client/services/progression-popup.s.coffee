@@ -105,7 +105,7 @@ angular.module 'vs-agency'
         return new Date()
   getEstDays: ->
     if data
-      data.estDays
+      data.estDays + ' ' + if data.estDays is 1 then 'day' else 'days'
   addNote: (note) ->
     if data and note
       data.notes.push

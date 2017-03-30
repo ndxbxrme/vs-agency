@@ -9,6 +9,7 @@ angular.module 'vs-agency'
   else
     $scope.lang = 'text'
     $scope.template = $scope.single 'smstemplates', $stateParams.id
+  $scope.template.locked = true
   $scope.save = ->
     if $scope.myForm.$valid
       $scope.template.save()
