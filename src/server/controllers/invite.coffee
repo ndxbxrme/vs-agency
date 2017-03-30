@@ -43,7 +43,7 @@ module.exports = (ndx) ->
     text = JSON.stringify req.body
     text += '||' + new Date().valueOf()
     text = encodeURIComponent(crypto.Rabbit.encrypt(text, ndx.settings.SESSION_SECRET).toString())
-    ndx.database.select 'emailTemplates',
+    ndx.database.select 'emailtemplates',
       name: 'User Invite'
     , (templates) ->
       if templates and templates.length
