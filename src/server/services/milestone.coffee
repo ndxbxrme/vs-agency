@@ -47,7 +47,7 @@ module.exports = (ndx) ->
             property = res
             ndx.property.fetch roleId, (mycase) ->
               property.case = mycase
-              processAction actionOn, actions, roleId, property
+              processActions actionOn, actions, roleId, property
           else
             throw err
       else
