@@ -25,6 +25,9 @@ angular.module 'vs-agency'
       $scope.inviteUrl = "#{window.location.protocol}//#{window.location.host}/invite/#{response.data}"
     , (err) ->
       $scope.inviteError = err.data
+  $scope.copyInviteToClipboard = ->
+    $('.invite-url input').select()
+    document.execCommand 'copy'
   $scope.addProgression = ->
     $scope.progressions.save
       name: 'New progression'

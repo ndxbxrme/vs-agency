@@ -60,11 +60,16 @@
       .add-user
         h3 Invite user
         form(name='addUserForm', ng-submit='addUser()')
-          input(type='email', ng-model='newUser.email', placeholder='Email address')
-          select(ng-model='newUser.role')
-            option(value='agency', selected) Agency
-            option(value='admin') Admin
+          .row
+            input(type='email', ng-model='newUser.email', placeholder='Email address')
+            select(ng-model='newUser.role')
+              option(value='agency', selected) Agency
+              option(value='admin') Admin
           input(type='submit', value='Invite')
         .invite-error {{inviteError}}
-        .invite-url {{inviteUrl}}
+        .invite-url(ng-show='inviteUrl')
+          p An email has been sent or you can copy and paste the url below
+          .row
+            input(type='text', ng-model='inviteUrl')
+            button(ng-click='copyInviteToClipboard()') Copy
     

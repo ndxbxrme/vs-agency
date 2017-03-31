@@ -7,9 +7,10 @@
     border-radius 5px
     background #f1f1f1
     padding 15px
+    .row
+      display flex
     input[type=email]
-      width 320px
-      max-width 90%
+      flex 1
       vs-input()
     select
       height 37px
@@ -21,15 +22,27 @@
       background vs-orange
       border none
       border-radius 3px
+      margin-top 0.5rem
+      float right
+    .invite-url
+      input
+        vs-input()
+        flex 1
+      button
+        vs-button()
   .row
     display flex
     flex-wrap wrap
     justify-content space-between
     .email-templates, .sms-templates, .users, .add-user, .overview, .income
       width 49%
+      min-width 300px
       display flex
       flex-direction column
       box-sizing border-box
+      @media screen and (max-width: 680px)
+        width 100%
+        min-width 50px
     .email-template, .sms-template, .dashboard-item
       display flex
       border-bottom 1px solid vs-lightgrey
