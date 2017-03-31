@@ -5,5 +5,3 @@ angular.module 'vs-agency'
   restrict: 'EA'
   templateUrl: 'directives/chain-item/chain-item.html'
   replace: true
-  link: (scope, elem, attrs) ->
-    console.log 'chain-item directive'

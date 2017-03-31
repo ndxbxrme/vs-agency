@@ -36,6 +36,6 @@
     "ndx-codemirror": "^0.0.6",
     "ndx-markdown": "^0.0.3",
     "jade": "^1.11.0",
-    "ndx-rest": "^0.0.20"
+    "ndx-rest": "^0.0.21"
   }
 }
