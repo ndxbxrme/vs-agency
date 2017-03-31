@@ -28,7 +28,7 @@
             strong {{getEstDays()}}
           .date Estimated End Date: 
             strong {{getDate() | date:'mediumDate'}}
-        button.est-date(ng-click='setDate()') {{getDate() ? 'Change' : 'Set'}} Estimated Completion Date
+        //button.est-date(ng-click='setDate()') {{getDate() ? 'Change' : 'Set'}} Estimated Completion Date
         button.start(ng-click='setProgressing()', ng-show='getDate()') Start
     .editor
       .title

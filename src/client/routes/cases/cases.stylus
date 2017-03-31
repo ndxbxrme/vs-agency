@@ -57,6 +57,8 @@
         font-weight bold
       .dates
         font-size 1.1rem
+        .date
+          margin-top 0.5rem
       .milestone
         transform translateY(1rem)
       &.offer

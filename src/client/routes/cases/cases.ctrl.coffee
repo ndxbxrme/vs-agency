@@ -25,4 +25,7 @@ angular.module 'vs-agency'
       property.$case = $scope.single 'properties', property.RoleId, (item) ->
         item.$parent.search = "#{item.$parent.displayAddress}||#{item.item.vendor}||#{item.item.purchaser}"
         item.$parent.milestoneStatus = item.item.milestoneStatus
+        item.$parent.estCompletedTime = item.item.progressions[0].milestones[item.item.progressions[0].milestones.length-1][0].estCompletedTime
+        if item.$parent.estCompletedTime < new Date().valueOf()
+          item.$parent.needsDate = true
       property.$case.$parent = property

@@ -33,7 +33,6 @@ angular.module 'vs-agency'
               if milestone._id is di.maxms
                 maxIndex = b
                 break
-      console.log minIndex, maxIndex
       for property in $scope.properties.items
         if property.$case and property.$case.item and property.$case.item.milestoneIndex and angular.isDefined(property.$case.item.milestoneIndex[di.progression])
           if minIndex <= property.$case.item.milestoneIndex[di.progression] <= maxIndex
