@@ -5,7 +5,7 @@ module.exports = (ndx) ->
   fetchContacts = (action, property) ->
     contacts = []
     for contact in action.to
-      if contact.indexof(/^all/) isnt -1
+      if contact.to.indexOf(/^all/) isnt -1
         if contact is 'negotiator'
           negotiator = property.case.offer.Negotiators[0]
           contacts.push 
