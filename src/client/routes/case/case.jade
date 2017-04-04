@@ -30,12 +30,14 @@
   .case-notes
     h2.orange Case Notes
     .case-note(ng-repeat='note in notesData = ( getNotes() | orderBy:"-date" ) | limitTo:notesLimit:notesLimit*(notesPage-1)')
-      .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}} | {{note.user.displayName || note.user.local.email}}
+      .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}} | 
+        img(gravatar-src='person.email')  
+        span {{note.user.displayName || note.user.local.email}}
       .note 
         .details
           span(ng-show='note.side') - {{note.side}}
           .note-body(ng-bind-html='note.text | markdown:true')
     pagination.pagination-sm.pagination(total='notesData.length', ng-model='notesPage', page-size='notesLimit')
     .add-note
-        code-mirror(ng-model='note', options='{mode:"markdown"}')
+        code-mirror(ng-model='note', options='{mode:markdown, lineWrapping:true}')
         button(ng-click='addNote()') Add Note
