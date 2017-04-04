@@ -3,13 +3,15 @@
 angular.module 'vs-agency'
 .controller 'TemplateCtrl', ($scope, $stateParams, $state, $http) ->
   $scope.type = $stateParams.type
+  cb = (template) ->
+    if template
+      $scope.template.locked = true
   if $stateParams.type is 'email'
     $scope.lang = 'jade'
-    $scope.template = $scope.single 'emailtemplates', $stateParams.id
+    $scope.template = $scope.single 'emailtemplates', $stateParams.id, cb
   else
     $scope.lang = 'text'
-    $scope.template = $scope.single 'smstemplates', $stateParams.id
-  $scope.template.locked = true
+    $scope.template = $scope.single 'smstemplates', $stateParams.id, cb
   $scope.save = ->
     if $scope.myForm.$valid
       $scope.template.save()
