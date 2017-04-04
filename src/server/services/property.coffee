@@ -9,12 +9,14 @@ module.exports = (ndx) ->
       isdefault: true
     , (progressions) ->
       for progression in progressions
+        ###
         for milestone in progression.milestones[0]
           milestone.progressing = false
           milestone.completed = true
           milestone.startTime = new Date().valueOf()
           milestone.completedTime = new Date().valueOf()
-        property.progressions.push progression
+        ###
+        property.progressions.push JSON.parse JSON.stringify progression
   checkNew = ->
     opts = 
       RoleStatus: 'OfferAccepted'
@@ -33,9 +35,11 @@ module.exports = (ndx) ->
               ,
                 _id:mycase._id
               , ->
+                ###
                 for progression in mycase.progressions
                   for milestone in progression.milestones[0]
                     ndx.milestone.processActions 'Complete', milestone.actions, property.RoleId
+                ###
                 callback()
   setInterval checkNew, 10 * 60 * 1000
   ndx.database.on 'preUpdate', (args) ->
@@ -59,11 +63,11 @@ module.exports = (ndx) ->
         updateEstDays = (progressions) ->
           aday = 24 * 60 * 60 * 1000
           fetchMilestoneById = (id, progressions) ->
-            for progression in progressions
-              for branch in progression.milestones
-                for milestone in branch
-                  if milestone._id is id
-                    return milestone
+            for myprogression in progressions
+              for mybranch in myprogression.milestones
+                for mymilestone in mybranch
+                  if mymilestone._id is id
+                    return mymilestone
           for progression in progressions
             for branch in progression.milestones
               for milestone in branch
@@ -78,21 +82,28 @@ module.exports = (ndx) ->
               while b++ < progression.milestones.length
                 branch = progression.milestones[b-1]
                 for milestone in branch
+                  milestone.afterTitle = ''
                   if milestone.estCompletedTime
                     continue
                   if milestone.completed and milestone.completedTime
                     milestone.estCompletedTime = milestone.completedTime
                     continue
+                  if milestone.userCompletedTime
+                    try
+                      milestone.estCompletedTime = new Date(milestone.userCompletedTime).valueOf()
+                      continue
                   if not milestone.estAfter
                     prev = progression.milestones[b-2][0]
                     milestone.estCompletedTime = (prev.completedTime or prev.estCompletedTime) + (milestone.estDays * aday)
                     continue
                   testMilestone = fetchMilestoneById milestone.estAfter, progressions
-                  if testMilestone and testMilestone.estCompletedTime
+                  if testMilestone and (testMilestone.completedTime or testMilestone.estCompletedTime)
                     if milestone.estType is 'complete'
-                      milestone.estCompletedTime = testMilestone.estCompletedTime + milestone.estDays * aday
+                      milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) + (milestone.estDays * aday)
+                      milestone.afterTitle = " after #{testMilestone.title} completed"
                     else
-                      milestone.estCompletedTime = testMilestone.estCompletedTime - (testMilestone.estDays * aday) + (milestone.estDays * aday)
+                      milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) - (testMilestone.estDays * aday) + (milestone.estDays * aday)
+                      milestone.afterTitle = " after #{testMilestone.title} started"
                   else
                     progression.needsCompleting = true
                     b = progression.milestones.length

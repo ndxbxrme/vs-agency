@@ -87,16 +87,16 @@ angular.module 'vs-agency'
       data.startTime = new Date().valueOf()
       hidden = true
       Property.get().$case.save()
-      console.log data.actions
-      console.log Property.get()
       $http.post '/api/milestone/start',
         actions: data.actions
+        roleId: Property.get().RoleId
   getDate: ->
     if data
-      data.estCompletedTime
+      data.userCompletedTime or data.estCompletedTime
   setDate: (date) ->
     if data
-      data.date = date
+      data.userCompletedTime = date
+      Property.get().$case.save()
   getStartDate: ->
     if data
       if data.startTime

@@ -37,6 +37,7 @@ module.exports = (ndx) ->
           contacts.push property.case[contact]
     contacts
   processActions = (actionOn, actions, roleId, property) ->
+    console.log 'process actions', roleId
     if actions and actions.length
       if not property
         #grab property and case details

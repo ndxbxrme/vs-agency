@@ -2,7 +2,7 @@
   .popup
     .content
       h4 {{getTitle()}}
-      //.start(ng-show='isStart()')
+      .start(ng-show='isStart()')
         button(ng-click='setCompleted()') Start
       .progressing(ng-show='getProgressing() && !getCompleted() && !isStart()')
         .default(ng-hide='addingNote()')
@@ -25,11 +25,11 @@
       .awaiting(ng-show='!getCompleted() && !getProgressing() && !isStart()')
         .dates
           .date Proposed Task Duration: 
-            strong {{getEstDays()}}
+            strong {{getEstDays()}}{{getData().afterTitle}}
           .date Estimated End Date: 
             strong {{getDate() | date:'mediumDate'}}
-        //button.est-date(ng-click='setDate()') {{getDate() ? 'Change' : 'Set'}} Estimated Completion Date
-        button.start(ng-click='setProgressing()', ng-show='getDate()') Start
+        button.est-date(ng-click='setDate()') Change milestone completion date
+        button.start(ng-click='setProgressing()', ng-show='getDate()') Start milestone
     .editor
       .title
         label Title

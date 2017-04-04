@@ -9,6 +9,10 @@ module.exports = (ndx) ->
         for property in properties
           ndx.database.update 'properties',
             progressions: []
+            milestone: ''
+            milestoneIndex: ''
+            milestoneStatus: ''
+            cssMilestone: ''            
           ,
             _id: property._id
         ndx.property.checkNew()

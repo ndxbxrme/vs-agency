@@ -30,6 +30,7 @@
     .content
       button.start
         background vs-orange
+        color white
         &:hover
           background vs-grey
           color white

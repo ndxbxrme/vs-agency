@@ -42,7 +42,7 @@ angular.module 'vs-agency'
     count = 0
     if $scope.properties and $scope.properties.items
       for property in $scope.properties.items
-        if property.$case and property.$case.item
+        if property.$case and property.$case.item and property.$case.item.progressions
           for progression in property.$case.item.progressions
             if progression._id is di.progression
               for branch in progression.milestones
