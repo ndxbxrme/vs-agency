@@ -68,7 +68,7 @@ module.exports = (ndx) ->
                           milestone.startTime = new Date().valueOf()
                         ndx.database.update 'properties', property.case,
                           _id: property.case._id
-                        return processActions (if action.triggerAction is 'complete' then 'Complete' else 'Start'), milestone.actions, roleId, property
+                        processActions (if action.triggerAction is 'complete' then 'Complete' else 'Start'), milestone.actions, roleId, property
               when 'Email'
                 contacts = fetchContacts action, property
                 ndx.database.select 'emailtemplates',
