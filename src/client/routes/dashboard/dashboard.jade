@@ -8,12 +8,12 @@
       tr.head-two
         td Status
         td Sale Position
-      tr(ng-repeat='di in dashboard.items | filter:{type:"overview"}')
+      tr(ng-repeat='di in items = (dashboard.items | filter:{type:"overview"})')
         td {{di.name}}
         td {{count(di)}}
       tr.total
         td Total
-        td {{properties.items.length}}
+        td {{total(items)}}
   table.table.table-responsive.income
     thead
       tr

@@ -38,6 +38,12 @@ angular.module 'vs-agency'
           if minIndex <= property.$case.item.milestoneIndex[di.progression] <= maxIndex
             count++
     count
+  $scope.total = (items) ->
+    total = 0
+    if items
+      for item in items
+        total += $scope.count item
+    total
   $scope.income = (di, month) ->
     count = 0
     if $scope.properties and $scope.properties.items
