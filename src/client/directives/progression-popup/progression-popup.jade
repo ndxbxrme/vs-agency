@@ -108,7 +108,7 @@
               multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
             label.large Template
             select(ng-model='action.template')
-              option(ng-repeat='template in emailTemplates.items', value='{{template.id}}') {{template.name}}
+              option(ng-repeat='template in emailTemplates.items', value='{{template._id}}') {{template.name}}
           .sms(ng-show='action.type==="Sms"')
             h5 Sms
             label.large Send to
@@ -116,10 +116,10 @@
               multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
             label.large Template
             select(ng-model='action.template')
-              option(ng-repeat='template in smsTemplates.items', value='{{template.id}}') {{template.name}}
+              option(ng-repeat='template in smsTemplates.items', value='{{template._id}}') {{template.name}}
           .div
             input(type='submit', value='Save')
-            button(ng-click='cancelAction()') Cancel
+            button(type='button', ng-click='cancelAction()') Cancel
         button(ng-click='editingAction=true', ng-hide='editingAction') Add Action
       .todos(ng-show='editorState==="todos"')
         .todo(ng-repeat='todo in getData().todos') {{todo.text}}

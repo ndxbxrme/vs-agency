@@ -92,7 +92,6 @@ angular.module 'vs-agency'
       return {}
       
     scope.addAction = (action) ->
-      console.log 'adding action', action
       if action.type is 'Trigger'
         action.name = action.triggerAction or 'Start milestone'
       else

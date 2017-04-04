@@ -76,10 +76,11 @@ module.exports = (ndx) ->
                 , (res) ->
                   if res and res.length
                     for contact in contacts
-                      ndx.gmail.send
-                        template: res[0]._id + '.jade'
+                      ndx.email.send
                         to: contact.email
                         subject: res[0].subject
+                        body: res[0].body
+                        from: res[0].from
                         contact: contact
                         property: property
               when 'Sms'

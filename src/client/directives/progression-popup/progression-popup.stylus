@@ -159,6 +159,8 @@
         &:hover
           background vs-orange
           color white
+      .cancel
+        vs-button()
 .multi-check ng-transclude
   display flex
   flex-flow row wrap

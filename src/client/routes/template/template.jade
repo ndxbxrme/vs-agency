@@ -8,6 +8,9 @@
         .subject(ng-show='type==="email"')
           label Subject
           input(type='text', ng-model='template.item.subject')
+        .from(ng-show='type==="email"')
+          label From
+          input(type='text', ng-model='template.item.from')
         div
           input(type='submit', value='Save')
           button.button(ng-click='cancel()') Cancel
