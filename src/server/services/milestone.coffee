@@ -84,7 +84,7 @@ module.exports = (ndx) ->
                         property: property
               when 'Sms'
                 contacts = fetchContacts action, property
-                ndx.database.select 'smsTemplates',
+                ndx.database.select 'smstemplates',
                   _id: action.template
                 , (res) ->
                   if res and res.length
