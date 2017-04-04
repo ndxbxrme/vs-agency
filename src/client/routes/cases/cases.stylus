@@ -12,7 +12,7 @@
       color vs-orange
       margin-left 2rem
       margin-bottom 1rem
-      &.icon-green, &.icon-red
+      &.icon-green, &.icon-red, &.icon-orange
         padding-left 2rem
         &:before
           content ''
@@ -25,6 +25,8 @@
           border-radius 50%
       &.icon-red:before
         background vs-red
+      &.icon-orange:before
+        background vs-orange
       &.selected
         text-decoration underline
     .showing
