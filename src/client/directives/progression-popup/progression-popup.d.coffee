@@ -96,7 +96,7 @@ angular.module 'vs-agency'
       if action.type is 'Trigger'
         action.name = action.triggerAction or 'Start milestone'
       else
-        action.name = findByValue(action.template, (if action.type is 'Email' then scope.emailTemplates.items else scope.smsTemplates.items), 'id').name
+        action.name = findByValue(action.template, (if action.type is 'Email' then scope.emailTemplates.items else scope.smsTemplates.items), '_id').name
       if not action._id
         action._id = scope.generateId 8
         scope.getData().actions.push action
