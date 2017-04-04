@@ -57,7 +57,7 @@
     .row
       .users
         .user(ng-repeat='user in users.items') 
-          img(gravatar-src='person.email') 
+          img(gravatar-src='user.local.email') 
           span {{user.displayName || user.local.email}}
       .add-user
         h3 Invite user

@@ -31,7 +31,7 @@
     h2.orange Case Notes
     .case-note(ng-repeat='note in notesData = ( getNotes() | orderBy:"-date" ) | limitTo:notesLimit:notesLimit*(notesPage-1)')
       .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}} | 
-        img(gravatar-src='person.email')  
+        img(gravatar-src='note.user.local.email')  
         span {{note.user.displayName || note.user.local.email}}
       .note 
         .details
