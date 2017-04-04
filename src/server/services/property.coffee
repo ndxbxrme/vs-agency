@@ -56,10 +56,16 @@ module.exports = (ndx) ->
               if milestone.completed
                 property.milestoneIndex[progression._id] = b
         if property.milestone
-          property.milestoneStatus = if property.milestone.completed then 'completed' else 'progressing'
+          property.milestoneStatus = 'progressing'
+          if testdate = (property.milestone.userCompletedTime or property.milestone.estCompletedTime)
+            if new Date().valueOf() > testdate
+              property.milestoneStatus = 'overdue'
+          if property.milestone.completed
+            property.milestoneStatus = 'completed'
           property.cssMilestone = 
             completed: property.milestone.completed
             progressing: property.milestone.progressing
+            overdue: property.milestoneStatus is 'overdue'
         updateEstDays = (progressions) ->
           aday = 24 * 60 * 60 * 1000
           fetchMilestoneById = (id, progressions) ->

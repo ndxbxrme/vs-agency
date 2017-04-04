@@ -5,7 +5,13 @@ angular.module 'vs-agency', [
   'ui.router'
   'date-swiper'
   'multi-check'
+  'ui.gravatar'
 ]
+.config (gravatarServiceProvider) ->
+  gravatarServiceProvider.defaults =
+    size: 16
+    "default": 'mm'
+    rating: 'pg'
 .run ($rootScope, $state, progressionPopup) ->
   $rootScope.state = (route) ->
     if $state and $state.current
