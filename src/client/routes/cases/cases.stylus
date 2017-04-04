@@ -26,7 +26,7 @@
       &.icon-red:before
         background vs-red
       &.icon-orange:before
-        background vs-orange
+        background vs-amber
       &.selected
         text-decoration underline
     .showing

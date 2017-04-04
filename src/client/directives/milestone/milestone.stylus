@@ -103,7 +103,7 @@
     background rgba(255,255,255,0.8)
   &.progressing
     .icon
-      background vs-orange
+      background vs-amber
   &.overdue
     .icon
       background vs-red
