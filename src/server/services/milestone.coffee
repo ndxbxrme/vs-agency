@@ -37,7 +37,6 @@ module.exports = (ndx) ->
           contacts.push property.case[contact]
     contacts
   processActions = (actionOn, actions, roleId, property) ->
-    console.log 'process actions', roleId
     if actions and actions.length
       if not property
         #grab property and case details
@@ -67,7 +66,8 @@ module.exports = (ndx) ->
                         else
                           milestone.progressing = true
                           milestone.startTime = new Date().valueOf()
-                        ndx.database.update 'properties', property.case
+                        ndx.database.update 'properties', property.case,
+                          _id: property.case._id
                         return processActions (if action.triggerAction is 'complete' then 'Complete' else 'Start'), milestone.actions, roleId, property
               when 'Email'
                 contacts = fetchContacts action, property
