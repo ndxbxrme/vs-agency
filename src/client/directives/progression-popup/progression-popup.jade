@@ -116,7 +116,7 @@
               multi-check-item(ng-repeat='contact in contactOptions', value='{{contact.id}}') {{contact.name}}
             label.large Template
             select(ng-model='action.template')
-              option(ng-repeat='template in smsTemplates', value='{{template.id}}') {{template.name}}
+              option(ng-repeat='template in smsTemplates.items', value='{{template.id}}') {{template.name}}
           .div
             input(type='submit', value='Save')
             button(ng-click='cancelAction()') Cancel
