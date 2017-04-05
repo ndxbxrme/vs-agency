@@ -2,8 +2,20 @@
 
 module.exports = (ndx) ->
   ndx.app.post '/api/milestone/start', ndx.authenticate(), (req, res, next) ->
-    ndx.milestone.processActions 'Start', req.body.actions, req.body.roleId
+    actions = [{
+      on: 'Start'
+      type: 'Trigger'
+      triggerAction: ''
+      milestone: req.body.milestone
+    }]
+    ndx.milestone.processActions 'Start', actions, req.body.roleId
     res.end 'OK'
   ndx.app.post '/api/milestone/completed', ndx.authenticate(), (req, res, next) ->
-    ndx.milestone.processActions 'Complete', req.body.actions, req.body.roleId
+    actions = [{
+      on: 'Complete'
+      type: 'Trigger'
+      triggerAction: 'complete'
+      milestone: req.body.milestone
+    }]
+    ndx.milestone.processActions 'Complete', actions, req.body.roleId
     res.end 'OK'

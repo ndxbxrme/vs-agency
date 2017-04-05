@@ -67,15 +67,11 @@ angular.module 'vs-agency'
     if data
       data.completed
   setCompleted: ->
-    data.completed = true
-    data.progressing = false
-    data.startTime = new Date().valueOf()
-    data.completedTime = new Date().valueOf()
-    hidden = true
-    Property.get().$case.save()
-    $http.post '/api/milestone/completed',
-      actions: data.actions
-      roleId: Property.get().RoleId
+    if data
+      hidden = true
+      $http.post '/api/milestone/completed',
+        milestone: data._id
+        roleId: Property.get().RoleId
   getCompletedTime: ->
     if data
       data.completedTime
@@ -84,12 +80,9 @@ angular.module 'vs-agency'
       data.progressing
   setProgressing: ->
     if data
-      data.progressing = true
-      data.startTime = new Date().valueOf()
       hidden = true
-      Property.get().$case.save()
       $http.post '/api/milestone/start',
-        actions: data.actions
+        milestone: data._id
         roleId: Property.get().RoleId
   getDate: ->
     if data
