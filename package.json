@@ -50,7 +50,7 @@
     "ndx-profiler": "0.0.18",
     "ndx-rest": "^0.1.3",
     "ndx-scheduler": "0.0.5",
-    "ndx-server": "^0.5.19",
+    "ndx-server": "^0.5.20",
     "ndx-socket": "0.0.6",
     "ndx-static-routes": "0.0.12",
     "ndx-superadmin": "^0.1.4",
