@@ -60,15 +60,24 @@ module.exports = (ndx) ->
                     for milestone in branch
                       if milestone._id is action.milestone
                         if action.triggerAction is 'complete'
-                          milestone.completed = true
-                          milestone.progressing = false
-                          milestone.completedTime = new Date().valueOf()
+                          if not milestone.completed
+                            isStarted = milestone.startTime
+                            milestone.completed = true
+                            milestone.progressing = false
+                            milestone.startTime = new Date().valueOf()
+                            milestone.completedTime = new Date().valueOf()
+                            ndx.database.update 'properties', property.case,
+                              _id: property.case._id
+                            if not isStarted
+                              processActions 'Start', milestone.actions, roleId, property
+                            processActions 'Complete', milestone.actions, roleId, property
                         else
-                          milestone.progressing = true
-                          milestone.startTime = new Date().valueOf()
-                        ndx.database.update 'properties', property.case,
-                          _id: property.case._id
-                        processActions (if action.triggerAction is 'complete' then 'Complete' else 'Start'), milestone.actions, roleId, property
+                          if not milestone.startTime
+                            milestone.progressing = true
+                            milestone.startTime = new Date().valueOf()
+                            ndx.database.update 'properties', property.case,
+                              _id: property.case._id
+                            processActions 'Start', milestone.actions, roleId, property
               when 'Email'
                 contacts = fetchContacts action, property
                 ndx.database.select 'emailtemplates',

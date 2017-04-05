@@ -69,6 +69,7 @@ angular.module 'vs-agency'
   setCompleted: ->
     data.completed = true
     data.progressing = false
+    data.startTime = new Date().valueOf()
     data.completedTime = new Date().valueOf()
     hidden = true
     Property.get().$case.save()
