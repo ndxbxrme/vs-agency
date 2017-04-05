@@ -28,7 +28,7 @@
     button
       vs-button()
     .content
-      button.start
+      button.start, button.complete
         background vs-orange
         color white
         &:hover

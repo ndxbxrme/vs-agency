@@ -17,7 +17,7 @@
             span {{getNotes().length}} 
             | {{getNotes().length===1?'Note':'Notes'}}
           button(ng-click='addNote()') Add Note
-          button(ng-click='setCompleted()') Mark as Completed
+          button.complete(ng-click='setCompleted()') Mark as Completed
         .note-add(ng-show='addingNote()')
           code-mirror(ng-model='note', options='{mode:"markdown"}')
           button(ng-click='doAddNote()') OK
