@@ -22,7 +22,7 @@
     z-index 1
     background #fff
     border 1px solid #666
-    padding 20px
+    padding 1rem 2rem
     border-radius 3px
     box-shadow 2px 2px 35px rgba(200,200,200,0.6)
     button
@@ -48,6 +48,16 @@
     padding 0.6rem
   h4
     margin 0
+  .dates
+    margin-bottom 0.5rem
+    .date
+      display flex
+      align-items baseline
+      label
+        white-space nowrap
+        margin-right 1rem
+      strong
+        line-height 1.5rem
   .editor
     input[type=text]
       width 320px
