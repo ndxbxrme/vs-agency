@@ -103,12 +103,14 @@ module.exports = (ndx) ->
                     milestone.estCompletedTime = (prev.completedTime or prev.estCompletedTime) + (milestone.estDays * aday)
                     continue
                   testMilestone = fetchMilestoneById milestone.estAfter, progressions
-                  if testMilestone and (testMilestone.completedTime or testMilestone.estCompletedTime)
+                  if testMilestone
                     if milestone.estType is 'complete'
-                      milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) + (milestone.estDays * aday)
+                      if testMilestone.completedTime or testMilestone.estCompletedTime
+                        milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) + (milestone.estDays * aday)
                       milestone.afterTitle = " after #{testMilestone.title} completed"
                     else
-                      milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) - (testMilestone.estDays * aday) + (milestone.estDays * aday)
+                      if testMilestone.completedTime or testMilestone.estCompletedTime
+                        milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) - (testMilestone.estDays * aday) + (milestone.estDays * aday)
                       milestone.afterTitle = " after #{testMilestone.title} started"
                   else
                     progression.needsCompleting = true
