@@ -27,7 +27,7 @@
           .date Proposed Task Duration: 
             strong {{getEstDays()}}{{getData().afterTitle}}
           .date Estimated End Date: 
-            strong {{getDate() | date:'mediumDate'}}
+            strong {{getDate() | date:'mediumDate'}}{{getDate()?'':'Progression not started'}}
         button.est-date(ng-click='setDate()') Change milestone completion date
         button.start(ng-click='setProgressing()', ng-show='getDate()') Start milestone
     .editor
