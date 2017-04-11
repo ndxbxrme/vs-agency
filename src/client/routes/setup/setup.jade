@@ -63,7 +63,7 @@
         h3 Invite user
         form(name='addUserForm', ng-submit='addUser()')
           .row
-            input(type='email', ng-model='newUser.email', placeholder='Email address')
+            input(type='email', ng-model='newUser.local.email', placeholder='Email address')
             select(ng-model='newUser.role')
               option(value='agency', selected) Agency
               option(value='admin') Admin

@@ -72,10 +72,7 @@ angular.module 'vs-agency'
     $scope.chainEdit = null
     $scope.property.item.$case.save()
   $scope.deleteChainItem = (item, side) ->
-    console.log side
     chain = if side is 'buyer' then $scope.property.item.$case.item.chainBuyer else $scope.property.item.$case.item.chainSeller
-    console.log chain
-    console.log chain.indexOf(item)
     chain.remove item
     $scope.saveChain()
   $scope.hideDropdown = (dropdown) ->

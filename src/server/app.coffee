@@ -5,4 +5,6 @@ require 'ndx-server'
   database: 'db'
   tables: ['users', 'properties', 'progressions', 'emailtemplates', 'smstemplates', 'dashboard']
   localStorage: './data'
+  hasInvite: true
+  hasForgot: true
 .start()
