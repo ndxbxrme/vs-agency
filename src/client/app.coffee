@@ -1,8 +1,4 @@
 'use strict'
-try
-  angular.module 'ndx'
-catch e
-  angular.module 'ndx', [] #ndx module stub
 
 angular.module 'vs-agency', [
   'ndx'
@@ -46,3 +42,7 @@ angular.module 'vs-agency', [
 .config ($locationProvider, $urlRouterProvider) ->
   $urlRouterProvider.otherwise '/'
   $locationProvider.html5Mode true
+try
+  angular.module 'ndx'
+catch e
+  angular.module 'ndx', [] #ndx module stub

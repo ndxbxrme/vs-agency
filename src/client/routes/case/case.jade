@@ -33,11 +33,13 @@
       .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}} | 
         img(gravatar-src='note.user.local.email')  
         span {{note.user.displayName || note.user.local.email}}
+        a.delete(href='', ng-click='deleteNote(note)', ng-show='auth.checkRoles(["admin", "superadmin"])') Delete
+        a.edit(href='', ng-click='editNote(note)', ng-show='auth.checkRoles(["admin","superadmin"])') Edit
       .note 
         .details
           span(ng-show='note.side') - {{note.side}}
           .note-body(ng-bind-html='note.text | markdown:true')
     pagination.pagination-sm.pagination(total='notesData.length', ng-model='notesPage', page-size='notesLimit')
     .add-note
-        code-mirror(ng-model='note', options='{mode:markdown, lineWrapping:true}')
-        button(ng-click='addNote()') Add Note
+        code-mirror(ng-model='note.text', options='{mode:markdown, lineWrapping:true}')
+        button(ng-click='addNote()') {{note.date?'Update':'Add'}} Note

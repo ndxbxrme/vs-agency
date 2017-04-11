@@ -26,14 +26,54 @@ angular.module 'vs-agency'
     if $scope.note
       property = $scope.property.item
       if property and property.$case and property.$case.item
-        property.$case.item.notes.push
-          date: new Date()
-          text: $scope.note
-          item: 'Case Note'
-          side: ''
-          user: auth.getUser()
+        if $scope.note.date
+          updateProgressionNotes = (milestones, note) ->
+            for branch in milestones
+              for milestone in branch
+                if milestone.notes and milestone.notes.length
+                  for mynote in milestone.notes
+                    if mynote.date is note.date and mynote.item is note.item and mynote.side is note.side
+                      mynote.text = note.text
+                      mynote.updatedAt = new Date()
+                      mynote.updatedBy = auth.getUser()
+          if property.$case.item.notes
+            for mynote in property.$case.item.notes
+              if mynote.date is $scope.note.date and mynote.item is $scope.note.item and mynote.side is $scope.note.side
+                mynote.text = $scope.note.text
+                mynote.updatedAt = new Date()
+                mynote.updatedBy = auth.getUser()
+          for progression in property.$case.item.progressions
+            updateProgressionNotes progression.milestones, $scope.note
+        else
+          property.$case.item.notes.push
+            date: new Date()
+            text: $scope.note.text
+            item: 'Case Note'
+            side: ''
+            user: auth.getUser()
         property.$case.save()
-        $scope.note = ''
+        $scope.note = null
+  $scope.editNote = (note) ->
+    $scope.note = JSON.parse JSON.stringify note
+    $('.add-note')[0].scrollIntoView true
+  $scope.deleteNote = (note) ->
+    property = $scope.property.item
+    deleteProgressionNotes = (milestones, note) ->
+      for branch in milestones
+        for milestone in branch
+          if milestone.notes and milestone.notes.length
+            for mynote in milestone.notes
+              if mynote.date is note.date and mynote.item is note.item and mynote.side is note.side
+                return milestone.notes.remove mynote
+    if property.$case.item.notes
+      for mynote in property.$case.item.notes
+        if mynote.date is note.date and mynote.item is note.item and mynote.side is note.side
+          property.$case.item.notes.remove mynote
+          break
+    for progression in property.$case.item.progressions
+      deleteProgressionNotes progression.milestones, note
+    property.$case.save()
+    $scope.note = null
   $scope.getNotes = ->
     property = $scope.property.item
     if property and property.$case and property.$case.item

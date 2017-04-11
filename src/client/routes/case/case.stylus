@@ -33,6 +33,11 @@
       margin-bottom 10px
       .date 
         font-weight 600
+        .edit, .delete
+          display inline
+          float right
+          color vs-orange
+          margin-left 1rem
       p
         margin 0 0 10px 0
       img
