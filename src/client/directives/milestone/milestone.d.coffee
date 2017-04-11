@@ -12,7 +12,7 @@ angular.module 'vs-agency'
     scope.getClass = ->
       completed: scope.milestone.completed
       progressing: scope.milestone.progressing
-      overdue: if scope.milestone.completed then false else new Date().valueOf > (scope.milestone.userCompletedTime or scope.milestone.estCompletedTime)
+      overdue: if scope.milestone.completed then false else new Date().valueOf() > (scope.milestone.userCompletedTime or scope.milestone.estCompletedTime)
     scope.itemClick = ->
       if scope.disabled isnt 'true'
         progressionPopup.show elem[0], scope.milestone
