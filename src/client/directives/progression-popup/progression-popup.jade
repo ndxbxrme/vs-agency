@@ -34,7 +34,7 @@
             strong {{getEstDays()}}{{getData().afterTitle}}
           .date 
             label Estimated End Date: 
-            strong {{getDate() | date:'mediumDate'}}{{getDate()?'':'Progression not started'}}
+            strong {{getDate() | date:'mediumDate'}}{{getDate()?'':'Related milestone not reached'}}
         button.est-date(ng-click='setDate()') Change milestone completion date
         button.start(ng-click='setProgressing()', ng-show='getDate()') Start milestone
     .editor
