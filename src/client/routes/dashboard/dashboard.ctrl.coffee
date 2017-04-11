@@ -58,7 +58,7 @@ angular.module 'vs-agency'
                       if di.sumtype is 'Income'
                         if property.Fees and property.Fees.length and property.Fees[0].FeeValueType
                           if property.Fees[0].FeeValueType.SystemName is 'Percentage'
-                            count += property.$case.item.offer.Value * (property.Fees[0].DefaultValue / 100)
+                            count += Math.floor(property.$case.item.offer.Value * (property.Fees[0].DefaultValue / 100))
                           else if property.Fees[0].FeeValueType.SystemName is 'Absolute'
                             count += property.Fees[0].DefaultValue
                       else
