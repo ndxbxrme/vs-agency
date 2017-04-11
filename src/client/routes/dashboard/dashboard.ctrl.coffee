@@ -61,6 +61,8 @@ angular.module 'vs-agency'
                             count += property.$case.item.offer.Value * (property.Fees[0].DefaultValue / 100)
                           else if property.Fees[0].FeeValueType.SystemName is 'Absolute'
                             count += property.Fees[0].DefaultValue
+                        else
+                          console.log property
                       else
                         count++
                       break
