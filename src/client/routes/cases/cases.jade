@@ -37,7 +37,7 @@
               | -- {{property.$case.item.modifiedAt | date:'mediumDate'}}, {{property.$case.item.modifiedAt | date:'shortTime'}}
             .date(ng-show='needsDate') Date added to the Case: {{property.$case.item.estCompletedTime}}
             .date(ng-show='property.$case.item.offer.DateTime') Start Date: {{property.$case.item.offer.DateTime | date:'mediumDate'}}
-        td.vendor {{property.$case.item.vendor}} {{property.Fees[0].DefaultValue}}
+        td.vendor {{property.$case.item.vendor}}
         td.purchaser {{property.$case.item.purchaser}}
         td.offer {{property.$case.item.offer.Value | currency : "£" : 0}}
         td.options
