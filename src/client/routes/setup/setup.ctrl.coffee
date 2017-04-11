@@ -20,11 +20,16 @@ angular.module 'vs-agency'
       Locality: 'My Locality'
       Town: 'My Town'
   $scope.addUser = ->
+    $scope.newUser.roles = {}
+    $scope.newUser.roles[$scope.newUser.role] = {}
+    delete $scope.newUser.role
     $http.post '/api/get-invite-code', $scope.newUser
     .then (response) ->
-      $scope.inviteUrl = "#{window.location.protocol}//#{window.location.host}/invite/#{response.data}"
+      $scope.inviteUrl = response.data
     , (err) ->
       $scope.inviteError = err.data
+    $scope.newUser =
+      role: 'agency'
   $scope.copyInviteToClipboard = ->
     $('.invite-url input').select()
     document.execCommand 'copy'
