@@ -57,7 +57,7 @@ angular.module 'vs-agency'
                     if month.start <= milestone.estCompletedTime <= month.end
                       if di.sumtype is 'Income'
                         if property.Fees[0].FeeValueType.SystemName is 'Percentage'
-                          count += property.Price.PriceValue * (property.Fees[0].DefaultValue / 100)
+                          count += property.$case.item.offer.Value * (property.Fees[0].DefaultValue / 100)
                         else if property.Fees[0].FeeValueType.SystemName is 'Absolute'
                           count += property.Fees[0].DefaultValue
                       else

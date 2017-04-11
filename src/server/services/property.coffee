@@ -129,45 +129,56 @@ module.exports = (ndx) ->
       ndx.database.select 'properties',
         roleId: roleId.toString()
       , (property) ->
-        if property and property.length
-          cb? property[0]
-        else
-          property =
-            roleId: roleId.toString()
+        fetchPropertyRole = (roleId, property, propcb) ->
           ndx.dezrez.get 'role/{id}', null, id:roleId, (err, body) ->
             if not err
               ndx.dezrez.get 'role/{id}', null, id:body.PurchasingRoleId, (err, body) ->
                 if not err
-                  property.role = body
-                  property.offer = body.AcceptedOffer
-                  property.purchaser = body.AcceptedOffer.ApplicantGroup.Name
-                  property.purchasersContact =
-                    role: ''
-                    name: body.AcceptedOffer.ApplicantGroup.PrimaryMember.ContactName
-                    email: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryEmail?.Value
-                    telephone: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryTelephone?.Value
-                  for contact in body.Contacts
-                    property["#{contact.ProgressionRoleType.SystemName.toLowerCase()}sSolicitor"] =
-                      role: contact.GroupName
-                      name: contact.CaseHandler.ContactName
-                      email: contact.CaseHandler.PrimaryEmail?.Value
-                      telephone: contact.CaseHandler.PrimaryTelephone?.Value
-                  property.vendor = body.AcceptedOffer.VendorGroup.Name
-                  property.vendorsContact =
-                    role: ''
-                    name: body.AcceptedOffer.VendorGroup.PrimaryMember.ContactName
-                    email: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryEmail?.Value
-                    telephone: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryTelephone?.Value
-                  getDefaultProgressions property
-                  property.milestone = ''
-                  property.milestoneStatus = ''
-                  property.milestoneIndex = null
-                  property.notes = []
-                  property.chainBuyer = []
-                  property.chainSeller = []
-                  ndx.database.insert 'properties', property
-                  cb? property
+                  if property.role and JSON.stringify(property.role) is JSON.stringify(body)
+                    return propcb? property
+                  else
+                    property.role = body
+                    property.offer = body.AcceptedOffer
+                    property.purchaser = body.AcceptedOffer.ApplicantGroup.Name
+                    property.purchasersContact =
+                      role: ''
+                      name: body.AcceptedOffer.ApplicantGroup.PrimaryMember.ContactName
+                      email: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryEmail?.Value
+                      telephone: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryTelephone?.Value
+                    for contact in body.Contacts
+                      property["#{contact.ProgressionRoleType.SystemName.toLowerCase()}sSolicitor"] =
+                        role: contact.GroupName
+                        name: contact.CaseHandler.ContactName
+                        email: contact.CaseHandler.PrimaryEmail?.Value
+                        telephone: contact.CaseHandler.PrimaryTelephone?.Value
+                    property.vendor = body.AcceptedOffer.VendorGroup.Name
+                    property.vendorsContact =
+                      role: ''
+                      name: body.AcceptedOffer.VendorGroup.PrimaryMember.ContactName
+                      email: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryEmail?.Value
+                      telephone: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryTelephone?.Value
+                    propcb? property
                 else
                   throw err
             else
               throw err
+        
+        if property and property.length
+          cb? property[0]
+          if property[0].modifiedAt + (60 * 60 * 1000) < new Date().valueOf()
+            fetchPropertyRole property[0].roleId, property[0], (property) ->
+              ndx.database.update 'properties', property,
+                _id: property._id
+        else
+          property =
+            roleId: roleId.toString()
+          fetchPropertyRole roleId, property, (property) ->
+            getDefaultProgressions property
+            property.milestone = ''
+            property.milestoneStatus = ''
+            property.milestoneIndex = null
+            property.notes = []
+            property.chainBuyer = []
+            property.chainSeller = []
+            ndx.database.insert 'properties', property
+            cb? property
