@@ -56,10 +56,11 @@ angular.module 'vs-agency'
                   if milestone._id is di.minms
                     if month.start <= milestone.estCompletedTime <= month.end
                       if di.sumtype is 'Income'
-                        if property.Fees[0].FeeValueType.SystemName is 'Percentage'
-                          count += property.$case.item.offer.Value * (property.Fees[0].DefaultValue / 100)
-                        else if property.Fees[0].FeeValueType.SystemName is 'Absolute'
-                          count += property.Fees[0].DefaultValue
+                        if property.Fees and property.Fees.length and property.Fees[0].FeeValueType
+                          if property.Fees[0].FeeValueType.SystemName is 'Percentage'
+                            count += property.$case.item.offer.Value * (property.Fees[0].DefaultValue / 100)
+                          else if property.Fees[0].FeeValueType.SystemName is 'Absolute'
+                            count += property.Fees[0].DefaultValue
                       else
                         count++
                       break
