@@ -66,6 +66,10 @@
       &.offer
         font-weight bold
         font-size 1.8rem
+        p
+          font-weight 300
+          font-size 1.4rem
+          margin-top 0
     td.options
       //vertical-align middle
   .mobile-table
