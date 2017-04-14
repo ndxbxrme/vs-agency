@@ -53,8 +53,10 @@ module.exports = (ndx) ->
               if p is 0
                 if milestone.completed or milestone.progressing
                   property.milestone = milestone
-              if milestone.completed
+              if milestone.completed #unsure
                 property.milestoneIndex[progression._id] = b
+              if milestone.userCompletedTime
+                milestone.userCompletedTime = new Date(milestone.userCompletedTime).valueOf()
         if property.milestone
           property.milestoneStatus = 'progressing'
           if new Date().valueOf() > (property.milestone.userCompletedTime or property.milestone.estCompletedTime)

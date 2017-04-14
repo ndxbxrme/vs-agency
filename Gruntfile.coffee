@@ -50,6 +50,8 @@ module.exports = (grunt) ->
     jade:
       options:
         pretty: true
+        data: ->
+          package: require('./package.json')
       default:
         files: [{
           expand: true

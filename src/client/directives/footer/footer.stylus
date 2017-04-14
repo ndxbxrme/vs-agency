@@ -2,3 +2,7 @@
 .footer
   background vs-grey
   color #fff
+  .row
+    display flex
+    justify-content space-between
+    flex-wrap wrap
