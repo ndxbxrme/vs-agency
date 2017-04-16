@@ -42,7 +42,7 @@ module.exports = (ndx) ->
                 ###
                 callback()
   setInterval checkNew, 10 * 60 * 1000
-  ndx.database.on 'preUpdate', (args) ->
+  ndx.database.on 'preUpdate', (args, cb) ->
     property = args.obj
     if args.table is 'properties'
       if property.progressions and property.progressions.length
@@ -124,6 +124,7 @@ module.exports = (ndx) ->
           for progression in progressions
             delete progression.needsCompleting 
         updateEstDays property.progressions
+    cb()
   ndx.property =
     getDefaultProgressions: getDefaultProgressions
     checkNew: checkNew
