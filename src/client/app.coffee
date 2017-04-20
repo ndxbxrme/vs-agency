@@ -12,7 +12,8 @@ angular.module 'vs-agency', [
     size: 16
     "default": 'mm'
     rating: 'pg'
-.run ($rootScope, $state, progressionPopup) ->
+.run ($rootScope, $state, progressionPopup, $http, env) ->
+  $http.defaults.headers.common.Authorization = "Bearer #{env.PROPERTY_TOKEN}"
   $rootScope.state = (route) ->
     if $state and $state.current
       if Object.prototype.toString.call(route) is '[object Array]'

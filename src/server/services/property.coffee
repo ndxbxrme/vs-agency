@@ -22,7 +22,8 @@ module.exports = (ndx) ->
       RoleStatus: 'OfferAccepted'
       RoleType: 'Selling'
       IncludeStc: true
-    superagent.post 'https://myproperty.vitalspace.co.uk/api/search'
+    superagent.post process.env.PROPERTY_URL
+    .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
     .send opts
     .end (err, res) ->
       if not err and res.body.Collection

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'CasesCtrl', ($scope) ->
+.controller 'CasesCtrl', ($scope, env) ->
   $scope.page = 1
   $scope.limit = 15
   $scope.pageChange = ->
@@ -17,7 +17,7 @@ angular.module 'vs-agency'
       items: 'Collection'
       total: 'TotalCount'
   $scope.properties = $scope.list
-    route: 'https://myproperty.vitalspace.co.uk/api/search'
+    route: env.PROPERTY_URL
   , $scope.propsOpts
   , (properties) ->
     for property in properties.items

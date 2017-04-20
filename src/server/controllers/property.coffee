@@ -24,8 +24,9 @@ module.exports = (ndx) ->
   ndx.database.on 'ready', ->
     if not ndx.database.count 'properties'
       console.log 'building database'
-      superagent.post 'https://myproperty.vitalspace.co.uk/api/search'
+      superagent.post process.env.PROPERTY_URL
       .set 'Content-Type', 'application/json'
+      .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
       .send
         RoleStatus: 'OfferAccepted'
         RoleType: 'Selling'
