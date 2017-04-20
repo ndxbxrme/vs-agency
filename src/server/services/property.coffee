@@ -112,7 +112,7 @@ module.exports = (ndx) ->
                 milestone.userCompletedTime = new Date(milestone.userCompletedTime).valueOf()
               if new Date().valueOf() > (milestone.userCompletedTime or milestone.estCompletedTime)
                 milestone.overdue = true
-                if p is 0 and milestone.progressing
+                if p is 0 and milestone.progressing and not gotOverdue
                   property.milestone = milestone
                   gotOverdue = true
               if p is 0 and not gotOverdue
