@@ -38,6 +38,6 @@
     "ndx-markdown": "^0.0.4",
     "ndx-rest": "^0.0.26",
     "ndx-codemirror": "^0.0.8",
-    "ndx-scroll-top": "^0.0.10"
+    "ndx-scroll-top": "^0.0.11"
   }
 }
