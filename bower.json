@@ -33,11 +33,11 @@
     "angular-gravatar": "^0.4.2",
     "ndx-pagination": "^0.0.8",
     "ndx-socket": "^0.0.5",
-    "ndx-scroll-top": "^0.0.7",
     "ndx-array-extras": "^0.0.4",
     "ndx-auth": "^0.0.16",
     "ndx-markdown": "^0.0.4",
     "ndx-rest": "^0.0.26",
-    "ndx-codemirror": "^0.0.8"
+    "ndx-codemirror": "^0.0.8",
+    "ndx-scroll-top": "^0.0.8"
   }
 }
