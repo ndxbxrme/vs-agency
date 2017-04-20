@@ -47,19 +47,25 @@ module.exports = (ndx) ->
     if args.table is 'properties'
       if property.progressions and property.progressions.length
         property.milestoneIndex = {}
+        gotOverdue = false
         for progression, p in property.progressions
           for branch, b in progression.milestones
             for milestone in branch
-              if p is 0
+              if milestone.userCompletedTime
+                milestone.userCompletedTime = new Date(milestone.userCompletedTime).valueOf()
+              if new Date().valueOf() > (milestone.userCompletedTime or milestone.estCompletedTime)
+                milestone.overdue = true
+                if p is 0
+                  property.milestone = milestone
+                  gotOverdue = true
+              if p is 0 and not gotOverdue
                 if milestone.completed or milestone.progressing
                   property.milestone = milestone
               if milestone.completed #unsure
                 property.milestoneIndex[progression._id] = b
-              if milestone.userCompletedTime
-                milestone.userCompletedTime = new Date(milestone.userCompletedTime).valueOf()
         if property.milestone
           property.milestoneStatus = 'progressing'
-          if new Date().valueOf() > (property.milestone.userCompletedTime or property.milestone.estCompletedTime)
+          if property.milestone.overdue
             property.milestoneStatus = 'overdue'
           if property.milestone.completed
             property.milestoneStatus = 'completed'
