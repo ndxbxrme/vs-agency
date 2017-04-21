@@ -41,6 +41,7 @@ module.exports = (ndx) ->
       if not property
         #grab property and case details
         superagent.get "https://myproperty.vitalspace.co.uk/api/property/#{roleId}"
+        .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
         .send()
         .end (err, res) ->
           if not err
