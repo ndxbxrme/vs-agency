@@ -69,6 +69,7 @@ module.exports = (ndx) ->
               while b++ < progression.milestones.length
                 branch = progression.milestones[b-1]
                 for milestone in branch
+                  milestone.overdue = false
                   milestone.afterTitle = ''
                   if milestone.estCompletedTime
                     continue

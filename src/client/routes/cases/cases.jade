@@ -26,7 +26,7 @@
     tbody(ng-repeat='property in filterData =(properties.items | filter:{"search":search} | filter:{"milestoneStatus":filter}  | orderBy:sort) | limitTo:limit:limit*(page-1)')
       tr(ng-click='property.open = !property.open')
         td
-          .milestone(ng-class='property.$case.item.cssMilestone')
+          .milestone(ng-class='property.$case.item.cssMilestone', title='{{property.$case.item.milestone.title}}')
             .icon(class='{{ property.$case.item.milestone.icon || "house"}}')
             .title {{property.$case.item.milestone.title}}
         td
@@ -46,9 +46,9 @@
           a.button(ui-sref='case({roleId:property.RoleId})') View Case
   .mobile-table.small-mobile-show
     .case-card(ng-repeat='property in filterData | limitTo:limit:limit*(page-1)')
-      .milestone(ng-class='property.cssMilestone', title='{{property.milestone.title}}')
-        .icon(class='{{ property.milestone.icon || "house"}}')
-        .title {{property.milestone.title}}
+      .milestone(ng-class='property.$case.item.cssMilestone', title='{{property.$case.item.milestone.title}}')
+        .icon(class='{{ property.$case.item.milestone.icon || "house"}}')
+        .title {{property.$case.item.milestone.title}}
       .address-row
         .address {{property.displayAddress}}
         .offer {{property.$case.item.offer.Value | currency : "£" : 0}}
