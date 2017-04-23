@@ -31,15 +31,15 @@
     "normalize-css": "normalize.css#^5.0.0",
     "jade": "^1.11.0",
     "angular-gravatar": "^0.4.2",
-    "ndx-pagination": "^0.0.8",
-    "ndx-socket": "^0.0.5",
+    "ng-file-upload": "^12.2.13",
     "ndx-array-extras": "^0.0.4",
     "ndx-auth": "^0.0.16",
-    "ndx-markdown": "^0.0.4",
     "ndx-codemirror": "^0.0.8",
+    "ndx-markdown": "^0.0.4",
+    "ndx-pagination": "^0.0.8",
+    "ndx-rest": "^0.0.32",
     "ndx-scroll-top": "^0.0.11",
-    "ng-file-upload": "^12.2.13",
-    "objtrans": "^0.0.12",
-    "ndx-rest": "^0.0.32"
+    "ndx-socket": "^0.0.5",
+    "objtrans": "^0.0.12"
   }
 }
