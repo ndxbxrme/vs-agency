@@ -1,9 +1,11 @@
 .chain-item 
   .inner
     .chain-edit(ng-if='$parent.chainEdit===item.side+$index')
-      form(name='chainForm', ng-submit='saveChain()')
+      form(name='chainForm', ng-submit='saveChain(item)')
         label Reference
         input(type='text', ng-model='item.reference')
+        select(ng-model='item.property')
+          option(ng-repeat='property in properties.items | orderBy:"Address.Street"', value='{{property.RoleId}}') {{property.displayAddress}}
         label Notes
         code-mirror(ng-model='item.note', options='{mode:"markdown"}')
         .chain-controls
@@ -12,6 +14,12 @@
         
     .chain-content(ng-hide='$parent.chainEdit===item.side+$index')
       h1 {{item.reference}}
+      .chain-property(ng-show='item.property')
+        .image
+          img(src='{{item.propDetails.image}}')
+        .details
+          .address {{item.propDetails.address}}
+          .price {{item.propDetails.price | currency: '£': 0}}
       .chain-notes(ng-bind-html='item.note | markdown')
       .chain-controls
         div

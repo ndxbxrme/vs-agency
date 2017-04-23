@@ -20,11 +20,19 @@ module.exports = (ndx) ->
   ndx.app.get '/api/properties/:roleId', ndx.authenticate(), (req, res, next) ->
     ndx.property.fetch req.params.roleId, (property) ->
       res.json property
+  ndx.app.get '/api/properties/:roleId/progressions', ndx.authenticate(), (req, res, next) ->
+    ndx.database.select 'properties',
+      roleId: req.params.roleId
+    , (properties) ->
+      if properties and properties.length
+        res.json properties[0].progressions
+      else
+        res.json []
   #startup
   ndx.database.on 'ready', ->
     if not ndx.database.count 'properties'
       console.log 'building database'
-      superagent.post process.env.PROPERTY_URL
+      superagent.post "#{process.env.PROPERTY_URL}/search"
       .set 'Content-Type', 'application/json'
       .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
       .send

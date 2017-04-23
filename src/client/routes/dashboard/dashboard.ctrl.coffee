@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'DashboardCtrl', ($scope, $filter) ->
+.controller 'DashboardCtrl', ($scope, $filter, env) ->
   $scope.propsOpts = 
     where:
       RoleStatus: 'OfferAccepted'
@@ -11,7 +11,7 @@ angular.module 'vs-agency'
       items: 'Collection'
       total: 'TotalCount'
   $scope.properties = $scope.list
-    route: 'https://myproperty.vitalspace.co.uk/api/search'
+    route: "#{env.PROPERTY_URL}/search"
   , $scope.propsOpts
   , (properties) ->
     for property in properties.items

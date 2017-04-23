@@ -9,6 +9,7 @@ module.exports = (grunt) ->
         options:
           script: 'server/app.js'
           opts: ['--expose-gc']
+          port: 3001
       dist:
         options:
           script: 'server/app.js'
@@ -19,7 +20,7 @@ module.exports = (grunt) ->
       frontend:
         options:
           spawn: true
-          livereload: true
+          livereload: 23232
         files: ['src/client/**/*.*']
         tasks: ['buildClient']
       web:
@@ -128,7 +129,7 @@ module.exports = (grunt) ->
     file_append:
       main:
         files: [{
-          append: '<script src="http://localhost:35729/livereload.js" type="text/javascript"></script>'
+          append: '<script src="http://localhost:23232/livereload.js" type="text/javascript"></script>'
           input: 'build/client/index.html'
           output: 'build/client/index.html'
         }]

@@ -6,6 +6,7 @@ angular.module 'vs-agency', [
   'date-swiper'
   'multi-check'
   'ui.gravatar'
+  'ngFileUpload'
 ]
 .config (gravatarServiceProvider) ->
   gravatarServiceProvider.defaults =

@@ -1,11 +1,25 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'CaseCtrl', ($scope, $stateParams, $timeout, auth, progressionPopup, Property) ->
+.controller 'CaseCtrl', ($scope, $stateParams, $timeout, auth, progressionPopup, Property, Upload, env) ->
+  $scope.propsOpts = 
+    where:
+      RoleStatus: 'OfferAccepted'
+      RoleType: 'Selling'
+      IncludeStc: true
+    transform:
+      items: 'Collection'
+      total: 'TotalCount'
+  $scope.properties = $scope.list
+    route: "#{env.PROPERTY_URL}/search"
+  , $scope.propsOpts
+  , (properties) ->
+    for property in properties.items
+      property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}"
   $scope.notesLimit = 10
   $scope.notesPage = 1
   $scope.property = $scope.single
-    route: 'https://myproperty.vitalspace.co.uk/api/property'
+    route: "#{env.PROPERTY_URL}/property"
   , $stateParams.roleId
   , (res) ->
     property = res.item
@@ -108,13 +122,43 @@ angular.module 'vs-agency'
     $scope.chainEdit = side + index
   $scope.editChain = (side, index) ->
     $scope.chainEdit = side + index
-  $scope.saveChain = ->
+  $scope.saveChain = (item) ->
+    if item.property
+      for prop in $scope.properties.items
+        if prop.RoleId is +item.property
+          console.log 'got it', prop
+          item.propDetails = objtrans prop,
+            id: true
+            address: (property) ->
+              "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}"
+            image: 'Images[0].Url'
+            price: 'Price.PriceValue'
     $scope.chainEdit = null
     $scope.property.item.$case.save()
   $scope.deleteChainItem = (item, side) ->
     chain = if side is 'buyer' then $scope.property.item.$case.item.chainBuyer else $scope.property.item.$case.item.chainSeller
     chain.remove item
     $scope.saveChain()
+  $scope.uploadFiles = (files, errFiles) ->
+    mycase = $scope.property.item.$case
+    if files
+      Upload.upload
+        url: '/api/upload'
+        data:
+          file: files
+          user: auth.getUser()
+      .then (response) ->
+        if response.data
+          $scope.uploadProgress = 0
+          if not mycase.item.documents
+            mycase.item.documents = []
+          for document in response.data
+            mycase.item.documents.push document
+          mycase.save()
+      , (err) ->
+        console.log err
+      , (progress) ->
+        $scope.uploadProgress = Math.min 100, parseInt(100.0 * progress.loaded / progress.total)
   $scope.hideDropdown = (dropdown) ->
     $timeout ->
       $scope[dropdown] = false

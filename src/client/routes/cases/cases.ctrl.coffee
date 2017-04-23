@@ -17,7 +17,7 @@ angular.module 'vs-agency'
       items: 'Collection'
       total: 'TotalCount'
   $scope.properties = $scope.list
-    route: env.PROPERTY_URL
+    route: "#{env.PROPERTY_URL}/search"
   , $scope.propsOpts
   , (properties) ->
     for property in properties.items

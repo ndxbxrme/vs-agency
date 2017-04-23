@@ -22,6 +22,27 @@
     .connector
     chain-item(ng-repeat='item in property.item.$case.item.chainSeller')
     button.add-chain(ng-click='addChain(property.item.$case.item.chainSeller, "seller")') Add to chain
+  h2 Documents
+    sup(ng-show='property.item.$case.item.documents.length') {{property.item.$case.item.documents.length}}
+  button.view-documents(ng-click='showDocuments = !showDocuments') {{showDocuments?'Hide':'View'}} Documents
+  .documents(ng-show='showDocuments')
+    .drop-box(ngf-drop='uploadFiles($files)', ngf-drag-over-class="'dragover'", ngf-multiple='true')
+      h3 Drop files here to upload
+      button.file-upload(type='file', ngf-select='uploadFiles($file, $invalidFiles)') Or click here to choose
+    .document-list(ng-show='property.item.$case.item.documents.length')
+      .document(ng-repeat='document in property.item.$case.item.documents')
+        a.document-link(ng-href='{{document.path}}', target='_self')
+          img(ng-src='{{document.path}}', ng-if='document.basetype==="image"')
+          .document-icon(ng-hide='document.basetype==="image"', class='{{document.basetype}}')
+        .filename 
+          label Filename: 
+          | {{document.originalFilename}}
+        .by 
+          label Created by: 
+          | {{document.user.local.email}}
+        .on 
+          label Created on: 
+          | {{document.date | date:'mediumDate'}}, {{document.date | date:'shortTime'}}
   .contacts.row
     contact-details(title="Vendor's Solicitor")
     contact-details(title="Vendor's Contact")

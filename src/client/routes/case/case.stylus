@@ -1,5 +1,10 @@
 @import '../../variables'
 .case
+  sup
+    border 2px solid vs-orange
+    border-radius 50%
+    padding 0 0.4rem
+    
   .dropdown
     box-shadow 2px 2px 25px rgba(200,200,200,0.8)
     a
@@ -58,7 +63,7 @@
       border vs-orange
       &:hover
         background vs-grey
-  .chain
+  .chain, .documents
     display flex
     flex-direction column
     justify-content center
@@ -73,7 +78,7 @@
       width 8rem
       background url(http://heswa.com.au/wp-content/uploads/2013/07/commercial-chain.jpg)
       background-size cover
-    .current-property
+    .current-property, .chain-property
       chain-box()
       max-width 420px
       display flex
@@ -83,3 +88,40 @@
         margin-left 1rem
     .add-chain
       z-index 10
+    .drop-box
+      border 3px dashed #ccc
+      border-radius 1rem
+      background #f1f1f1
+      width 100%
+      text-align center
+      padding-bottom 1rem
+      &.dragover
+        h3
+          color vs-orange
+    .document-list
+      width 100%
+      display flex
+      justify-content flex-start
+      flex-wrap wrap
+      .document
+        width calc(25% - 2rem)
+        display flex
+        flex-direction column
+        justify-content center
+        box-sizing border-box
+        border 2px solid vs-lightgrey
+        padding 1rem
+        margin 1rem
+        font-size 1.2rem
+        .document-link
+          flex 1
+        .filename
+          margin-top 0.5rem
+        img
+          max-width 100%
+        @media screen and (max-width: 1080px)
+          width calc(33% - 2rem)
+        @media screen and (max-width: 800px)
+          width calc(50% - 2rem)
+        @media screen and (max-width: 590px)
+          width calc(100%)

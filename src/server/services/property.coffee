@@ -22,7 +22,7 @@ module.exports = (ndx) ->
       RoleStatus: 'OfferAccepted'
       RoleType: 'Selling'
       IncludeStc: true
-    superagent.post process.env.PROPERTY_URL
+    superagent.post "#{process.env.PROPERTY_URL}/search"
     .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
     .send opts
     .end (err, res) ->

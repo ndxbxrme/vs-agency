@@ -1,6 +1,7 @@
 @import '../../variables'
 .footer
   background vs-grey
+  border-top 1px solid vs-orange
   color #fff
   .row
     display flex
