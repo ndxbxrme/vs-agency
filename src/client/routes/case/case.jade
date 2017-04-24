@@ -25,7 +25,7 @@
   h2 Documents
     sup(ng-show='property.item.$case.item.documents.length') {{property.item.$case.item.documents.length}}
   button.view-documents(ng-click='showDocuments = !showDocuments') {{showDocuments?'Hide':'View'}} Documents
-  .documents(ng-show='!showDocuments')
+  .documents(ng-show='showDocuments')
     .drop-box(ngf-drop='uploadFiles($files)', ngf-drag-over-class="'dragover'", ngf-multiple='true')
       h3 Drop files here to upload
       button.file-upload(type='file', ngf-select='uploadFiles($file, $invalidFiles)') Or click here to choose
