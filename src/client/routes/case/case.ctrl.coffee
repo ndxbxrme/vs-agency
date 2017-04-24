@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'CaseCtrl', ($scope, $stateParams, $timeout, auth, progressionPopup, Property, Upload, env) ->
+.controller 'CaseCtrl', ($scope, $stateParams, $timeout, $window, auth, progressionPopup, Property, Upload, env) ->
   $scope.propsOpts = 
     where:
       RoleStatus: 'OfferAccepted'
@@ -159,6 +159,13 @@ angular.module 'vs-agency'
         console.log err
       , (progress) ->
         $scope.uploadProgress = Math.min 100, parseInt(100.0 * progress.loaded / progress.total)
+  $scope.saveDocument = (document) ->
+    document.editing = false
+    $scope.property.item.$case.save()
+  $scope.deleteDocument = (document) ->
+    if $window.confirm 'Are you sure you want to delete this document?'
+      $scope.property.item.$case.item.documents.splice $scope.property.item.$case.item.documents.indexOf(document), 1
+      $scope.property.item.$case.save()
   $scope.hideDropdown = (dropdown) ->
     $timeout ->
       $scope[dropdown] = false

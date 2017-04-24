@@ -25,7 +25,7 @@
   h2 Documents
     sup(ng-show='property.item.$case.item.documents.length') {{property.item.$case.item.documents.length}}
   button.view-documents(ng-click='showDocuments = !showDocuments') {{showDocuments?'Hide':'View'}} Documents
-  .documents(ng-show='showDocuments')
+  .documents(ng-show='!showDocuments')
     .drop-box(ngf-drop='uploadFiles($files)', ngf-drag-over-class="'dragover'", ngf-multiple='true')
       h3 Drop files here to upload
       button.file-upload(type='file', ngf-select='uploadFiles($file, $invalidFiles)') Or click here to choose
@@ -35,14 +35,19 @@
           img(ng-src='{{document.path}}', ng-if='document.basetype==="image"')
           .document-icon(ng-hide='document.basetype==="image"', class='{{document.basetype}}')
         .filename 
-          label Filename: 
-          | {{document.originalFilename}}
+          label Name: 
+          span(ng-show='!document.editing') &nbsp;{{document.name || document.originalFilename}}
+          input(type='text', ng-model='document.name', ng-show='document.editing', placeholder='Name')
         .by 
           label Created by: 
           | {{document.user.local.email}}
         .on 
           label Created on: 
           | {{document.date | date:'mediumDate'}}, {{document.date | date:'shortTime'}}
+        .controls(ng-show='auth.checkRoles("superadmin", "admin")')
+          a.edit(href='', ng-click='document.editing=!document.editing', ng-show='!document.editing') Edit
+          a.save(href='', ng-click='saveDocument(document)', ng-show='document.editing') Save
+          a.delete(href='', ng-click='deleteDocument(document)') Delete
   .contacts.row
     contact-details(title="Vendor's Solicitor")
     contact-details(title="Vendor's Contact")
