@@ -76,7 +76,7 @@
       height 3rem
       border none
       width 8rem
-      background url(http://heswa.com.au/wp-content/uploads/2013/07/commercial-chain.jpg)
+      background url(/public/img/icons/commercial-chain.jpg)
       background-size cover
     .current-property, .chain-property
       chain-box()
