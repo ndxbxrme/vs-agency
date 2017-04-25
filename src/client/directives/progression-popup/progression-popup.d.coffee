@@ -38,8 +38,14 @@ angular.module 'vs-agency'
       {id:'allagency',name:'All agency users'}
       {id:'alladmin',name:'All admin users'}
     ]
-    scope.emailTemplates = scope.list 'emailtemplates'
-    scope.smsTemplates = scope.list 'smstemplates'
+    templateDeref = scope.$watch ->
+      scope.auth.getUser()
+    , (n) ->
+      console.log n
+      if n
+        scope.emailTemplates = scope.list 'emailtemplates'
+        scope.smsTemplates = scope.list 'smstemplates'
+        templateDeref()
     scope.getData = progressionPopup.getData
     scope.getTitle = progressionPopup.getTitle
     scope.setCompleted = progressionPopup.setCompleted
