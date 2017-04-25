@@ -12,7 +12,7 @@
         a.filter-item(href='', ng-click='filter=""', ng-class='{selected:!filter}') All
     .right
       .search
-        input(type='text', ng-model='search', placeholder='Search Cases')
+        input(type='text', ng-model='search', placeholder='Search Cases', ng-change='page=1')
       .showing Showing {{filterData.length}} of {{totalProps = properties.items.length}} case{{totalProps!==1?'s':''}}
   table.table.table-responsive.small-mobile-hide(ng-show='filterData.length > 0')
     thead
