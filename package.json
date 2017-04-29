@@ -1,6 +1,6 @@
 {
   "name": "vs-agency",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "",
   "main": "server/app.js",
   "scripts": {
@@ -51,7 +51,7 @@
     "ndx-profiler": "^0.1.0",
     "ndx-rest": "^0.2.7",
     "ndx-scheduler": "0.0.10",
-    "ndx-server": "^0.9.5",
+    "ndx-server": "^0.9.7",
     "ndx-socket": "0.0.8",
     "ndx-static-routes": "0.0.12",
     "ndx-superadmin": "^0.1.4",
