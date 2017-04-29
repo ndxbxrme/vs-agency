@@ -17,6 +17,93 @@ module.exports = (ndx) ->
           milestone.completedTime = new Date().valueOf()
         ###
         property.progressions.push JSON.parse JSON.stringify progression
+  calculateMilestones = (property) ->
+    if property.progressions and property.progressions.length
+      updateEstDays = (progressions) ->
+        aday = 24 * 60 * 60 * 1000
+        fetchMilestoneById = (id, progressions) ->
+          for myprogression in progressions
+            for mybranch in myprogression.milestones
+              for mymilestone in mybranch
+                if mymilestone._id is id
+                  return mymilestone
+        for progression in progressions
+          for branch in progression.milestones
+            for milestone in branch
+              milestone.estCompletedTime = null
+        needsCompleting = true
+        i = 0
+        while needsCompleting and i++ < 5
+          for progression in progressions
+            delete progression.needsCompleting
+            progStart = progression.milestones[0][0].completedTime
+            b = 1
+            while b++ < progression.milestones.length
+              branch = progression.milestones[b-1]
+              for milestone in branch
+                milestone.overdue = false
+                milestone.afterTitle = ''
+                if milestone.estCompletedTime
+                  continue
+                if milestone.completed and milestone.completedTime
+                  milestone.estCompletedTime = milestone.completedTime
+                  continue
+                if milestone.userCompletedTime
+                  try
+                    milestone.estCompletedTime = new Date(milestone.userCompletedTime).valueOf()
+                    continue
+                if not milestone.estAfter
+                  prev = progression.milestones[b-2][0]
+                  milestone.estCompletedTime = (prev.completedTime or prev.estCompletedTime) + (milestone.estDays * aday)
+                  continue
+                testMilestone = fetchMilestoneById milestone.estAfter, progressions
+                if testMilestone
+                  if milestone.estType is 'complete'
+                    if testMilestone.completedTime or testMilestone.estCompletedTime
+                      milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) + (milestone.estDays * aday)
+                    milestone.afterTitle = " after #{testMilestone.title} completed"
+                  else
+                    if testMilestone.completedTime or testMilestone.estCompletedTime
+                      milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) - (testMilestone.estDays * aday) + (milestone.estDays * aday)
+                    milestone.afterTitle = " after #{testMilestone.title} started"
+                else
+                  progression.needsCompleting = true
+                  b = progression.milestones.length
+                  break
+          needsCompleting = false
+          for progression in progressions
+            if progression.needsCompleting
+              needsCompleting = true
+        for progression in progressions
+          delete progression.needsCompleting 
+      updateEstDays property.progressions
+      property.milestoneIndex = {}
+      gotOverdue = false
+      for progression, p in property.progressions
+        for branch, b in progression.milestones
+          for milestone in branch
+            if milestone.userCompletedTime
+              milestone.userCompletedTime = new Date(milestone.userCompletedTime).valueOf()
+            if new Date().valueOf() > (milestone.userCompletedTime or milestone.estCompletedTime)
+              milestone.overdue = true
+              if p is 0 and milestone.progressing and not gotOverdue
+                property.milestone = milestone
+                gotOverdue = true
+            if p is 0 and not gotOverdue
+              if milestone.completed or milestone.progressing
+                property.milestone = milestone
+            if milestone.completed #unsure
+              property.milestoneIndex[progression._id] = b
+      if property.milestone
+        property.milestoneStatus = 'progressing'
+        if property.milestone.overdue
+          property.milestoneStatus = 'overdue'
+        if property.milestone.completed
+          property.milestoneStatus = 'completed'
+        property.cssMilestone = 
+          completed: property.milestone.completed
+          progressing: property.milestone.progressing
+          overdue: property.milestoneStatus is 'overdue'
   checkNew = ->
     opts = 
       RoleStatus: 'OfferAccepted'
@@ -36,102 +123,22 @@ module.exports = (ndx) ->
               ,
                 _id:mycase._id
               , ->
-                ###
-                for progression in mycase.progressions
-                  for milestone in progression.milestones[0]
-                    ndx.milestone.processActions 'Complete', milestone.actions, property.RoleId
-                ###
                 callback()
+            else
+              #check for progression updates
+              propClone = JSON.stringify mycase
+              calculateMilestones mycase
+              if propClone isnt JSON.stringify mycase
+                ndx.database.update 'properties',
+                  modifiedAt: new Date().valueOf()
+                ,
+                  _id: mycase._id
+              callback()
   setInterval checkNew, 10 * 60 * 1000
   ndx.database.on 'preUpdate', (args, cb) ->
-    property = args.obj
     if args.table is 'properties'
-      if property.progressions and property.progressions.length
-        updateEstDays = (progressions) ->
-          aday = 24 * 60 * 60 * 1000
-          fetchMilestoneById = (id, progressions) ->
-            for myprogression in progressions
-              for mybranch in myprogression.milestones
-                for mymilestone in mybranch
-                  if mymilestone._id is id
-                    return mymilestone
-          for progression in progressions
-            for branch in progression.milestones
-              for milestone in branch
-                milestone.estCompletedTime = null
-          needsCompleting = true
-          i = 0
-          while needsCompleting and i++ < 5
-            for progression in progressions
-              delete progression.needsCompleting
-              progStart = progression.milestones[0][0].completedTime
-              b = 1
-              while b++ < progression.milestones.length
-                branch = progression.milestones[b-1]
-                for milestone in branch
-                  milestone.overdue = false
-                  milestone.afterTitle = ''
-                  if milestone.estCompletedTime
-                    continue
-                  if milestone.completed and milestone.completedTime
-                    milestone.estCompletedTime = milestone.completedTime
-                    continue
-                  if milestone.userCompletedTime
-                    try
-                      milestone.estCompletedTime = new Date(milestone.userCompletedTime).valueOf()
-                      continue
-                  if not milestone.estAfter
-                    prev = progression.milestones[b-2][0]
-                    milestone.estCompletedTime = (prev.completedTime or prev.estCompletedTime) + (milestone.estDays * aday)
-                    continue
-                  testMilestone = fetchMilestoneById milestone.estAfter, progressions
-                  if testMilestone
-                    if milestone.estType is 'complete'
-                      if testMilestone.completedTime or testMilestone.estCompletedTime
-                        milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) + (milestone.estDays * aday)
-                      milestone.afterTitle = " after #{testMilestone.title} completed"
-                    else
-                      if testMilestone.completedTime or testMilestone.estCompletedTime
-                        milestone.estCompletedTime = (testMilestone.completedTime or testMilestone.estCompletedTime) - (testMilestone.estDays * aday) + (milestone.estDays * aday)
-                      milestone.afterTitle = " after #{testMilestone.title} started"
-                  else
-                    progression.needsCompleting = true
-                    b = progression.milestones.length
-                    break
-            needsCompleting = false
-            for progression in progressions
-              if progression.needsCompleting
-                needsCompleting = true
-          for progression in progressions
-            delete progression.needsCompleting 
-        updateEstDays property.progressions
-        property.milestoneIndex = {}
-        gotOverdue = false
-        for progression, p in property.progressions
-          for branch, b in progression.milestones
-            for milestone in branch
-              if milestone.userCompletedTime
-                milestone.userCompletedTime = new Date(milestone.userCompletedTime).valueOf()
-              if new Date().valueOf() > (milestone.userCompletedTime or milestone.estCompletedTime)
-                milestone.overdue = true
-                if p is 0 and milestone.progressing and not gotOverdue
-                  property.milestone = milestone
-                  gotOverdue = true
-              if p is 0 and not gotOverdue
-                if milestone.completed or milestone.progressing
-                  property.milestone = milestone
-              if milestone.completed #unsure
-                property.milestoneIndex[progression._id] = b
-        if property.milestone
-          property.milestoneStatus = 'progressing'
-          if property.milestone.overdue
-            property.milestoneStatus = 'overdue'
-          if property.milestone.completed
-            property.milestoneStatus = 'completed'
-          property.cssMilestone = 
-            completed: property.milestone.completed
-            progressing: property.milestone.progressing
-            overdue: property.milestoneStatus is 'overdue'
+      property = args.obj
+      calculateMilestones property
     cb()
   ndx.property =
     getDefaultProgressions: getDefaultProgressions

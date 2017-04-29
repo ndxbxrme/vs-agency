@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'TemplateCtrl', ($scope, $stateParams, $state, $http) ->
+.controller 'TemplateCtrl', ($scope, $stateParams, $state, $http, env) ->
   $scope.type = $stateParams.type
   cb = (template) ->
     if template
@@ -21,7 +21,7 @@ angular.module 'vs-agency'
     
   $scope.defaultData = {}
   fetchDefaultProp = ->
-    $http.post 'https://myproperty.vitalspace.co.uk/api/search',
+    $http.post "#{env.PROPERTY_URL}/search",
       RoleStatus: 'OfferAccepted'
       RoleType: 'Selling'
       IncludeStc: true
@@ -34,5 +34,4 @@ angular.module 'vs-agency'
           if response.data
             $scope.defaultData.property.case = response.data
             $scope.defaultData.contact = response.data.vendorsContact
-            $scope.defaultData.code = 'https://conveyancing.vitalspace.co.uk/invite/92gh4giu234uhg239h323fuig327fg237fg237gf3uifg23iuf23f7g23iuf23f23'
   fetchDefaultProp()

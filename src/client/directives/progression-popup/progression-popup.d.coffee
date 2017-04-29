@@ -41,7 +41,6 @@ angular.module 'vs-agency'
     templateDeref = scope.$watch ->
       scope.auth.getUser()
     , (n) ->
-      console.log n
       if n
         scope.emailTemplates = scope.list 'emailtemplates'
         scope.smsTemplates = scope.list 'smstemplates'
