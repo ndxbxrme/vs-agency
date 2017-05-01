@@ -14,7 +14,7 @@
         
     .chain-content(ng-hide='$parent.chainEdit===item.side+$index')
       h1 {{item.reference}}
-      .chain-property(ng-show='item.property')
+      a.chain-property(ng-show='item.property', href='/case/{{item.property}}')
         .image
           img(src='{{item.propDetails.image}}')
         .details
