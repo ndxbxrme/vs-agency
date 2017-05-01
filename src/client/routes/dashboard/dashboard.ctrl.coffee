@@ -73,7 +73,7 @@ angular.module 'vs-agency'
   $scope.months = []
   now = new Date()
   bmonth = new Date now.getFullYear, now.getMonth()
-  bmonth.setMonth bmonth.getMonth() - 1
+  #bmonth.setMonth bmonth.getMonth() - 1
   $scope.allmonths =
     start: bmonth.valueOf()
     end: 0
