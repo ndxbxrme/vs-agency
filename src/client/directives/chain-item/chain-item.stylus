@@ -9,6 +9,7 @@
     .chain-controls
       display flex
       justify-content space-between
+      margin-top 10px
     .chain-edit
       form
         display flex
