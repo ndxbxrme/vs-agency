@@ -1,6 +1,6 @@
 {
   "name": "vs-agency",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "",
   "main": "server/app.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "ndx-cors": "0.0.9",
     "ndx-database-backup": "^0.1.0",
     "ndx-email": "0.0.5",
-    "ndx-file-upload": "0.0.13",
+    "ndx-file-upload": "0.0.14",
     "ndx-keep-awake": "0.0.5",
     "ndx-modified": "^0.1.0",
     "ndx-passport": "^0.3.19",
@@ -51,7 +51,7 @@
     "ndx-profiler": "^0.1.0",
     "ndx-rest": "^0.2.7",
     "ndx-scheduler": "0.0.10",
-    "ndx-server": "^0.9.7",
+    "ndx-server": "^0.9.9",
     "ndx-socket": "0.0.8",
     "ndx-static-routes": "0.0.12",
     "ndx-superadmin": "^0.1.4",
