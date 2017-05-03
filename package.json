@@ -1,6 +1,6 @@
 {
   "name": "vs-agency",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "",
   "main": "server/app.js",
   "scripts": {
@@ -47,9 +47,9 @@
     "ndx-keep-awake": "0.0.5",
     "ndx-modified": "^0.1.0",
     "ndx-passport": "^0.3.19",
-    "ndx-permissions": "^0.2.5",
+    "ndx-permissions": "^0.2.6",
     "ndx-profiler": "^0.1.0",
-    "ndx-rest": "^0.2.7",
+    "ndx-rest": "^0.2.10",
     "ndx-scheduler": "0.0.10",
     "ndx-server": "^0.9.9",
     "ndx-socket": "0.0.8",
