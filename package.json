@@ -1,6 +1,6 @@
 {
   "name": "vs-agency",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "",
   "main": "server/app.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "ndx-cors": "0.0.9",
     "ndx-database-backup": "^0.1.0",
     "ndx-email": "0.0.5",
-    "ndx-file-upload": "^0.1.4",
+    "ndx-file-upload": "^0.1.5",
     "ndx-keep-awake": "0.0.5",
     "ndx-modified": "^0.1.0",
     "ndx-passport": "^0.4.0",
