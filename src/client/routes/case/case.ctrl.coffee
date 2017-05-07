@@ -159,6 +159,8 @@ angular.module 'vs-agency'
         console.log err
       , (progress) ->
         $scope.uploadProgress = Math.min 100, parseInt(100.0 * progress.loaded / progress.total)
+  $scope.makeDownloadUrl = (document) ->
+    '/api/download/' + btoa "#{JSON.stringify({path:document.path,filename:document.originalFilename})}"
   $scope.saveDocument = (document) ->
     document.editing = false
     $scope.property.item.$case.save()

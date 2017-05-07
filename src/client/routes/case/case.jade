@@ -31,7 +31,7 @@
       button.file-upload(type='file', ngf-select='uploadFiles($file, $invalidFiles)') Or click here to choose
     .document-list(ng-show='property.item.$case.item.documents.length')
       .document(ng-repeat='document in property.item.$case.item.documents')
-        a.document-link(ng-href='{{document.path}}', target='_self')
+        a.document-link(ng-href='{{makeDownloadUrl(document)}}', target='_self')
           img(ng-src='{{document.path}}', ng-if='document.basetype==="image"')
           .document-icon(ng-hide='document.basetype==="image"', class='{{document.basetype}}')
             img.logo(src="public/img/icons/vs-document.png")
