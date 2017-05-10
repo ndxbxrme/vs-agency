@@ -4,7 +4,7 @@
       span(ng-show='data.month') , {{data.month.name}}
     input(type='text', ng-model='search')
   table.table.table-responsive
-    tbody(ng-repeat='property in list = (data.list | filter:{displayAddress:search}) | limitTo:limit:limit*(page-1)')
+    tbody(ng-repeat='property in list = (data.list | filter:{displayAddress:search}) | orderBy:"Address.Street" | limitTo:limit:limit*(page-1)')
       td
         a.address(href='', ng-click='go(property)') {{property.displayAddress}}
       td.squish(ng-show='data.di.sumtype==="Income"')
