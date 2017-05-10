@@ -16,10 +16,12 @@ angular.module 'vs-agency'
   , (properties) ->
     for property in properties.items
       property.$case = $scope.single 'properties', property.RoleId
+      property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}"
   $scope.dashboard = $scope.list 'dashboard',
     sort: 'i'
   $scope.progressions = $scope.list 'progressions'
-  $scope.count = (di) ->
+  $scope.count = (di, list) ->
+    output = []
     count = 0
     minIndex = 0
     maxIndex = 100
@@ -36,16 +38,22 @@ angular.module 'vs-agency'
       for property in $scope.properties.items
         if property.$case and property.$case.item and property.$case.item.milestoneIndex and angular.isDefined(property.$case.item.milestoneIndex[di.progression])
           if minIndex <= property.$case.item.milestoneIndex[di.progression] <= maxIndex
+            if list
+              output.push property
             count++
-    count
+    if list
+      output
+    else
+      count
   $scope.total = (items) ->
     total = 0
     if items
       for item in items
         total += $scope.count item
     total
-  $scope.income = (di, month) ->
+  $scope.income = (di, month, list) ->
     count = 0
+    output = []
     if $scope.properties and $scope.properties.items
       for property in $scope.properties.items
         if property.$case and property.$case.item and property.$case.item.progressions
@@ -55,6 +63,8 @@ angular.module 'vs-agency'
                 for milestone in branch
                   if milestone._id is di.minms
                     if month.start <= milestone.estCompletedTime <= month.end
+                      if list
+                        output.push property
                       if di.sumtype is 'Income'
                         if property.Fees and property.Fees.length and property.Fees[0].FeeValueType
                           if property.Fees[0].FeeValueType.SystemName is 'Percentage'
@@ -65,10 +75,29 @@ angular.module 'vs-agency'
                         count++
                       break
               break
-    if di.sumtype is 'Income'
+    if list
+      output
+    else if di.sumtype is 'Income'
       $filter('currency')(count, '£', 0)
     else
       count
+  $scope.showInfo = (type, di, month) ->
+    list = null
+    if type is 'count'
+      list = $scope.count di, true
+    else
+      list = $scope.income di, month, true
+    $scope.modal
+      template: 'dashboard-income'
+      controller: 'DashboardIncomeCtrl'
+      data:
+        di: di
+        month: month
+        list: list
+    .then ->
+      true
+    , ->
+      false
   monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   $scope.months = []
   now = new Date()

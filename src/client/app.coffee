@@ -13,7 +13,7 @@ angular.module 'vs-agency', [
     size: 16
     "default": 'mm'
     rating: 'pg'
-.run ($rootScope, $state, progressionPopup, $http, env) ->
+.run ($rootScope, $state, progressionPopup, $http, ndxModal, env) ->
   $http.defaults.headers.common.Authorization = "Bearer #{env.PROPERTY_TOKEN}"
   $rootScope.state = (route) ->
     if $state and $state.current
@@ -40,6 +40,19 @@ angular.module 'vs-agency', [
     output
   root.hidePopup = (ev) ->
     progressionPopup.hide()
+  root.modal = (args) ->
+    size = args.size or 'large'
+    controller = args.controller or 'YesNoCancelCtrl'
+    backdrop = args.backdrop or 'static'
+    modalInstance = ndxModal.open
+      templateUrl: "modals/#{args.template}/#{args.template}.html"
+      windowClass: size
+      controller: controller
+      backdrop: backdrop
+      resolve:
+        data: ->
+          args.data
+    modalInstance.result
     
 .config ($locationProvider, $urlRouterProvider) ->
   $urlRouterProvider.otherwise '/'

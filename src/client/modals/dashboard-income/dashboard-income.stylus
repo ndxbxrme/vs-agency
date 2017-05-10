@@ -1,0 +1,17 @@
+@import '../../variables'
+
+.dashboard-income
+  .row
+    display flex
+    justify-content space-between
+    align-items center
+    padding 1rem 3rem 1rem 1rem
+    h1
+      margin 0
+  table
+    width 100%
+    padding 1rem
+    td:nth-child(2)
+      text-align right
+  .pagination
+    justify-content center

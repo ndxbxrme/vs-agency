@@ -40,6 +40,7 @@
     "ndx-rest": "^0.0.34",
     "ndx-socket": "^0.0.6",
     "ndx-auth": "^0.0.22",
-    "ndx-pagination": "^0.1.1"
+    "ndx-pagination": "^0.1.1",
+    "ndx-modal": "^0.0.5"
   }
 }
