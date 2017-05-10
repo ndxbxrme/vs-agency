@@ -87,17 +87,18 @@ angular.module 'vs-agency'
       list = $scope.count di, true
     else
       list = $scope.income di, month, true
-    $scope.modal
-      template: 'dashboard-income'
-      controller: 'DashboardIncomeCtrl'
-      data:
-        di: di
-        month: month
-        list: list
-    .then ->
-      true
-    , ->
-      false
+    if list.length
+      $scope.modal
+        template: 'dashboard-income'
+        controller: 'DashboardIncomeCtrl'
+        data:
+          di: di
+          month: month
+          list: list
+      .then ->
+        true
+      , ->
+        false
   monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   $scope.months = []
   now = new Date()
