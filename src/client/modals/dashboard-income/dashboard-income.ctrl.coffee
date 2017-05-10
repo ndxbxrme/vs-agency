@@ -2,7 +2,7 @@
 
 angular.module 'vs-agency'
 .controller 'DashboardIncomeCtrl', ($scope, $state, data, ndxModalInstance) ->
-  $scope.limit = 15
+  $scope.limit = 10
   $scope.page = 1
   $scope.data = data
   $scope.cancel = ->
