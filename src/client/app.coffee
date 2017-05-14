@@ -43,7 +43,7 @@ angular.module 'vs-agency', [
   root.modal = (args) ->
     size = args.size or 'large'
     controller = args.controller or 'YesNoCancelCtrl'
-    backdrop = args.backdrop or 'static'
+    backdrop = null#args.backdrop or 'static'
     modalInstance = ndxModal.open
       templateUrl: "modals/#{args.template}/#{args.template}.html"
       windowClass: size

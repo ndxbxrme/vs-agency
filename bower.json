@@ -37,10 +37,10 @@
     "ndx-codemirror": "^0.0.8",
     "ndx-markdown": "^0.0.4",
     "ndx-scroll-top": "^0.0.11",
-    "ndx-rest": "^0.0.34",
     "ndx-socket": "^0.0.6",
     "ndx-auth": "^0.0.22",
     "ndx-pagination": "^0.1.1",
-    "ndx-modal": "^0.0.5"
+    "ndx-modal": "^0.0.5",
+    "ndx-rest": "^0.1.0"
   }
 }

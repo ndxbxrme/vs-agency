@@ -1,8 +1,8 @@
 .modal.dashboard-income
   .row
     h1 {{data.di.name}}
-      span(ng-show='data.month') , {{data.month.name}}
-    input(type='text', ng-model='search')
+      span(ng-show='data.month.name') , {{data.month.name}}
+    input(type='text', ng-model='search', placeholder='Search...')
   table.table.table-responsive
     tbody(ng-repeat='property in list = (data.list | filter:{displayAddress:search}) | orderBy:"Address.Street" | limitTo:limit:limit*(page-1)')
       td
