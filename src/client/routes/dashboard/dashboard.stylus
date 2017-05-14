@@ -26,6 +26,9 @@
           border-bottom 1px solid vs-grey
           a
             color vs-orange
+          &.clickable
+            cursor pointer
+            color vs-orange
         &:last-child td
           border-bottom none
         &.head-two, &.total

@@ -10,8 +10,7 @@
         td Sale Position
       tr(ng-repeat='di in items = (dashboard.items | filter:{type:"overview"})')
         td {{di.name}}
-        td
-          a(href='', ng-click='showInfo("count", di, month)') {{count(di)}}
+        td.clickable(ng-click='showInfo("count", di, month)') {{count(di)}}
       tr.total
         td Total
         td {{total(items)}}
@@ -27,9 +26,9 @@
         td(ng-repeat='di in dashboard.items | filter:{type:"income"}') {{di.name}}
       tr(ng-repeat='month in months')
         td {{month.name}}
-        td(ng-repeat='di in dashboard.items | filter:{type:"income"}')
-          a(href='', ng-click='showInfo("income", di, month)') {{income(di, month)}}
+        td.clickable(ng-repeat='di in dashboard.items | filter:{type:"income"}', ng-click='showInfo("income", di, month)')
+          | {{income(di, month)}}
       tr.total
         td Total
-        td(ng-repeat='di in dashboard.items | filter:{type:"income"}') 
-          a(href='', ng-click='showInfo("income", di, allmonths)') {{income(di, allmonths)}}
+        td.clickable(ng-repeat='di in dashboard.items | filter:{type:"income"}', ng-click='showInfo("income", di, allmonths)') 
+          | {{income(di, allmonths)}}
