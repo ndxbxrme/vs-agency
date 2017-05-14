@@ -11,7 +11,7 @@
       tr
         th
           padding 20px
-          background vs-orange
+          background vs-grey
           text-align center
           color white
           font-size 2rem
@@ -24,6 +24,8 @@
           text-align center
           font-size: 1.6rem
           border-bottom 1px solid vs-grey
+          a
+            color vs-orange
         &:last-child td
           border-bottom none
         &.head-two, &.total

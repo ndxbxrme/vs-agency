@@ -1,16 +1,39 @@
 @import '../../variables'
-
+.dashboard-page
+  .reveal-modal
+    border-radius 5px
+             
 .dashboard-income
   .row
     display flex
     justify-content space-between
     align-items center
-    padding 1rem 3rem 1rem 1rem
+    padding 15px 20px
+    background vs-grey
+    color white
     h1
       margin 0
+      font-family ProximaNova-Regular,sans-serif
+      font-weight 400
+    input
+      margin-right 10px
+      padding 10px
+      border-radius 5px
+      border none
+      width 230px
+  .close-reveal-modal
+    color vs-orange
   table
     width 100%
     padding 1rem
+    td
+      padding 15px 0
+      border-bottom 1px solid vs-lightgrey
+      a
+        color vs-orange
+    tbody:last-of-type
+      td
+        border none
     td:nth-child(2)
       text-align right
   .pagination
