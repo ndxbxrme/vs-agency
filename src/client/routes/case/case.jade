@@ -1,9 +1,9 @@
 .case
   h1 Case 
-    span.address - {{property.item.displayAddress}}
+    span.address - {{property.item.displayAddress}}, {{property.item.Address.Postcode}}
       span.right {{property.item.$case.item.offer.Value | currency : "£" : 0}}
   progression(ng-repeat='progression in property.item.$case.item.progressions', data='progression')
-  button.has-dropdown(ng-focus='progBtnFocussed=true', ng-blur='hideDropdown("progBtnFocussed")') Add Progression
+  button.has-dropdown(ng-focus='progBtnFocussed=true', ng-blur='hideDropdown("progBtnFocussed")', ng-show='auth.checkRoles("superadmin", "admin")') Add Progression
   ul.dropdown(ng-show='progBtnFocussed')
     li(ng-repeat='progression in progressions.items')
       a(href='', ng-click='addProgression(progression)') {{progression.name}}, {{progression.side}}
