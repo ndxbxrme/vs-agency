@@ -66,8 +66,8 @@
       .date {{note.date | date:'mediumDate'}}, {{note.date | date:'shortTime'}} | 
         img(gravatar-src='note.user.local.email')  
         span {{note.user.displayName || note.user.local.email}}
-        a.delete(href='', ng-click='deleteNote(note)', ng-show='auth.checkRoles(["admin", "superadmin"])') Delete
-        a.edit(href='', ng-click='editNote(note)', ng-show='auth.checkRoles(["admin","superadmin"])') Edit
+        a.delete(href='', ng-click='deleteNote(note)', ng-show='auth.checkRoles(["admin", "superadmin"])', ng-hide='note.advanceTo') Delete
+        a.edit(href='', ng-click='editNote(note)', ng-show='auth.checkRoles(["admin","superadmin"])', ng-hide='note.advanceTo') Edit
       .note 
         .details
           span(ng-show='note.side') - {{note.side}}
