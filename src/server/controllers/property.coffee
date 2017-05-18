@@ -45,6 +45,7 @@ module.exports = (ndx) ->
       milestones: milestones 
       user: ndx.user
       roleId: req.body.property.roleId
+      link: "#{req.protocol}://#{req.hostname}/case/#{req.body.property.roleId}"
       displayAddress: req.body.property.displayAddress
       advanceTo: advanceTo.valueOf()
       text: text
