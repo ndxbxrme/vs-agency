@@ -45,7 +45,7 @@
         .on 
           label Created on: 
           | {{document.date | date:'mediumDate'}}, {{document.date | date:'shortTime'}}
-        .controls(ng-show='auth.checkRoles("superadmin", "admin")')
+        .controls(ng-show='auth.checkRoles(["superadmin", "admin"])')
           a.edit(href='', ng-click='document.editing=!document.editing', ng-show='!document.editing') Edit
           a.save(href='', ng-click='saveDocument(document)', ng-show='document.editing') Save
           a.delete(href='', ng-click='deleteDocument(document)') Delete
