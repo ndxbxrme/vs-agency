@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.directive 'progression', (progressionPopup, $timeout, $http) ->
+.directive 'progression', (progressionPopup, $timeout, $http, alert) ->
   restrict: 'AE'
   templateUrl: 'directives/progression/progression.html'
   replace: true
@@ -66,6 +66,7 @@ angular.module 'vs-agency'
       progressionPopup.hide()
       scope.progressions.save(scope.progression)
       scope.progressions.$editing = null
+      alert.log 'Progression saved'
       scope.resize()
     scope.cancel = ->
       progressionPopup.hide()

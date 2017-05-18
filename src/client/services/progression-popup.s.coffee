@@ -1,10 +1,11 @@
 'use strict'
 
 angular.module 'vs-agency'
-.factory 'progressionPopup', ($timeout, $http, Property, auth) ->
+.factory 'progressionPopup', ($timeout, $http, Property, auth, alert) ->
   elem = null
   progressions = []
   data = null
+  property = null
   hidden = true
   scope = null
   reset = ->
@@ -42,9 +43,10 @@ angular.module 'vs-agency'
         left: pointerLeft
         display: pointerDisplay
   window.addEventListener 'resize', moveToElem
-  show: (_elem, _data) ->
+  show: (_elem, _data, _property) ->
     elem = _elem
     data = _data
+    property = _property
     ###
     if data.title is 'Start' and not data.completed
       data.completed = true
@@ -72,6 +74,7 @@ angular.module 'vs-agency'
       $http.post '/api/milestone/completed',
         milestone: data._id
         roleId: Property.get().RoleId
+      alert.log 'Milestone updated'
   getCompletedTime: ->
     if data
       data.completedTime
@@ -84,12 +87,14 @@ angular.module 'vs-agency'
       $http.post '/api/milestone/start',
         milestone: data._id
         roleId: Property.get().RoleId
+      alert.log 'Milestone started'
   getDate: ->
     if data
       data.userCompletedTime or data.estCompletedTime
   setDate: (date) ->
     if data
       data.userCompletedTime = date
+      alert.log 'Milestone updated'
       Property.get().$case.save()
   getStartDate: ->
     if data
@@ -108,6 +113,7 @@ angular.module 'vs-agency'
         item: data.title
         side: data.side
         user: auth.getUser()
+      alert.log 'Note saved'
       Property.get().$case.save()
       note = ''
   getNotes: ->
@@ -115,6 +121,8 @@ angular.module 'vs-agency'
       data.notes
   getData: ->
     data
+  getProperty: ->
+    property
   setProgressions: (_progressions) ->
     progressions = _progressions
   getProgressions: ->

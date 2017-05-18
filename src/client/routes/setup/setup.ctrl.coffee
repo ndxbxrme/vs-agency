@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'SetupCtrl', ($scope, $http, progressionPopup) ->
+.controller 'SetupCtrl', ($scope, $http, progressionPopup, alert) ->
   $scope.editor = true
   $scope.newUser =
     role: 'agency'
@@ -26,12 +26,14 @@ angular.module 'vs-agency'
     $http.post '/api/get-invite-code', $scope.newUser
     .then (response) ->
       $scope.inviteUrl = response.data
+      alert.log 'Invite sent'
     , (err) ->
       $scope.inviteError = err.data
     $scope.newUser =
       role: 'agency'
   $scope.copyInviteToClipboard = ->
     $('.invite-url input').select()
+    alert.log 'Copied to clipboard'
     document.execCommand 'copy'
   $scope.addProgression = ->
     $scope.progressions.save
@@ -47,14 +49,14 @@ angular.module 'vs-agency'
   $scope.resetProgressions = ->
     $http.get '/api/properties/reset-progressions'
     .then (response) ->
-      console.log response
+      alert.log 'Progressions reset'
   saveDashboard = ->
     for di, i in $scope.dashboard.items
       di.i = i
       $scope.dashboard.save di
+    alert.log 'Dashboard saved'
   $scope.moveDIUp = (di) ->
     $scope.dashboard.items.moveUp di
-    console.log $scope.dashboard.items
     saveDashboard()
   $scope.moveDIDown = (di) ->
     $scope.dashboard.items.moveDown di

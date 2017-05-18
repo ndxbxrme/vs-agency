@@ -15,7 +15,7 @@ angular.module 'vs-agency'
       try
         doc.body.innerHTML = jade.render scope.ngModel, scope.data
       catch e
-        console.log e.message
+        false
     ngModel.$formatters.unshift (val) ->
       render()
       val

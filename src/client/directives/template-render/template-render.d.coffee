@@ -20,7 +20,7 @@ angular.module 'vs-agency'
       try
         elem[0].innerText = fillTemplate scope.ngModel, scope.data
       catch e
-        console.log e.message
+        false
     ngModel.$formatters.unshift (val) ->
       render()
       val

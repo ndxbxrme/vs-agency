@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.directive 'contactDetails', ->
+.directive 'contactDetails', (alert) ->
   restrict: 'EA'
   templateUrl: 'directives/contact-details/contact-details.html'
   replace: true
@@ -21,4 +21,5 @@ angular.module 'vs-agency'
     scope.confirm = ->
       #save to database
       scope.$parent.property.item.$case.save()
+      alert.log 'Contact details updated'
       scope.editing = false

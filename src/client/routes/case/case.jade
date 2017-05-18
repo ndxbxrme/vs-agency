@@ -1,12 +1,18 @@
 .case
   h1 Case 
-    span.address - {{property.item.displayAddress}}, {{property.item.Address.Postcode}}
+    span.address - {{property.item.displayAddress}}
       span.right {{property.item.$case.item.offer.Value | currency : "£" : 0}}
+  .advance-request(ng-repeat='request in property.item.$case.item.advanceRequests | filter:{dismissed:"!true",applied:"!true"}')
+    .left Requested to be advanced to {{request.advanceTo | date:'mediumDate'}}
+    .admin-request(ng-show='auth.checkRoles(["superadmin", "admin"])')
+      button(ng-click='applyRequest(request)') Apply
+      button(ng-click='request.dismissed=true;property.item.$case.save()') Dismiss
   progression(ng-repeat='progression in property.item.$case.item.progressions', data='progression')
-  button.has-dropdown(ng-focus='progBtnFocussed=true', ng-blur='hideDropdown("progBtnFocussed")', ng-show='auth.checkRoles("superadmin", "admin")') Add Progression
+  button.has-dropdown(ng-focus='progBtnFocussed=true', ng-blur='hideDropdown("progBtnFocussed")', ng-show='auth.checkRoles(["superadmin", "admin"])') Add Progression
   ul.dropdown(ng-show='progBtnFocussed')
     li(ng-repeat='progression in progressions.items')
       a(href='', ng-click='addProgression(progression)') {{progression.name}}, {{progression.side}}
+  button(ng-hide='auth.checkRoles(["superadmin", "admin"])', ng-click='advanceProgression()') Advance Progression
   h2 Chain
   button.view-chain(ng-click='showChain = !showChain') {{showChain?'Hide':'View'}} Chain
   .chain(ng-show='showChain')
@@ -45,7 +51,7 @@
         .on 
           label Created on: 
           | {{document.date | date:'mediumDate'}}, {{document.date | date:'shortTime'}}
-        .controls(ng-show='auth.checkRoles("superadmin", "admin")')
+        .controls(ng-show='auth.checkRoles(["superadmin", "admin"])')
           a.edit(href='', ng-click='document.editing=!document.editing', ng-show='!document.editing') Edit
           a.save(href='', ng-click='saveDocument(document)', ng-show='document.editing') Save
           a.delete(href='', ng-click='deleteDocument(document)') Delete

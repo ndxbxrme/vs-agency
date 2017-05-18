@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'CaseCtrl', ($scope, $stateParams, $timeout, $window, auth, progressionPopup, Property, Upload, env) ->
+.controller 'CaseCtrl', ($scope, $stateParams, $timeout, $window, auth, progressionPopup, Property, Upload, env, alert) ->
   $scope.propsOpts = 
     where:
       RoleStatus: 'OfferAccepted'
@@ -15,7 +15,7 @@ angular.module 'vs-agency'
   , $scope.propsOpts
   , (properties) ->
     for property in properties.items
-      property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}"
+      property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
   $scope.notesLimit = 10
   $scope.notesPage = 1
   $scope.property = $scope.single
@@ -23,7 +23,7 @@ angular.module 'vs-agency'
   , $stateParams.roleId
   , (res) ->
     property = res.item
-    property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}"
+    property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
     property.$case = $scope.single 'properties', property.RoleId, (item) ->
       item.parent.search = "#{item.parent.displayAddress}||#{item.vendor}||#{item.purchaser}"
     property.$case.parent = property
@@ -66,6 +66,7 @@ angular.module 'vs-agency'
             side: ''
             user: auth.getUser()
         property.$case.save()
+        alert.log 'Note added'
         $scope.note = null
   $scope.editNote = (note) ->
     $scope.note = JSON.parse JSON.stringify note
@@ -87,6 +88,7 @@ angular.module 'vs-agency'
     for progression in property.$case.item.progressions
       deleteProgressionNotes progression.milestones, note
     property.$case.save()
+    alert.log 'Note deleted'
     $scope.note = null
   $scope.getNotes = ->
     property = $scope.property.item
@@ -103,6 +105,10 @@ angular.module 'vs-agency'
       if property.$case.item.notes and property.$case.item.notes.length
         for note in property.$case.item.notes
           notes.push note
+      if $scope.auth.checkRoles ['superadmin', 'admin']
+        if property.$case.item.advanceRequests and property.$case.item.advanceRequests.length
+          for note in property.$case.item.advanceRequests
+            notes.push note
       return notes
   $scope.addProgression = (progression) ->
     property = $scope.property.item
@@ -126,7 +132,6 @@ angular.module 'vs-agency'
     if item.property
       for prop in $scope.properties.items
         if prop.RoleId is +item.property
-          console.log 'got it', prop
           item.propDetails = objtrans prop,
             id: true
             address: (property) ->
@@ -135,6 +140,7 @@ angular.module 'vs-agency'
             price: 'Price.PriceValue'
     $scope.chainEdit = null
     $scope.property.item.$case.save()
+    alert.log 'Chain saved'
   $scope.deleteChainItem = (item, side) ->
     chain = if side is 'buyer' then $scope.property.item.$case.item.chainBuyer else $scope.property.item.$case.item.chainSeller
     chain.remove item
@@ -154,23 +160,50 @@ angular.module 'vs-agency'
             mycase.item.documents = []
           for document in response.data
             mycase.item.documents.push document
+          alert.log 'Document uploaded'
           mycase.save()
       , (err) ->
-        console.log err
+        false
       , (progress) ->
         $scope.uploadProgress = Math.min 100, parseInt(100.0 * progress.loaded / progress.total)
   $scope.makeDownloadUrl = (document) ->
     '/api/download/' + btoa "#{JSON.stringify({path:document.path,filename:document.originalFilename})}"
   $scope.saveDocument = (document) ->
     document.editing = false
+    alert.log 'Document updated'
     $scope.property.item.$case.save()
   $scope.deleteDocument = (document) ->
     if $window.confirm 'Are you sure you want to delete this document?'
       $scope.property.item.$case.item.documents.splice $scope.property.item.$case.item.documents.indexOf(document), 1
+      alert.log 'Document deleted'
       $scope.property.item.$case.save()
   $scope.hideDropdown = (dropdown) ->
     $timeout ->
       $scope[dropdown] = false
     , 200
+  $scope.advanceProgression = ->
+    $scope.modal
+      template: 'advance-progression'
+      controller: 'AdvanceProgressionCtrl'
+      data:
+        property: objtrans $scope.property.item,
+          roleId: 'RoleId'
+          displayAddress: true
+          advanceRequests: '$case.item.advanceRequests'
+          progressions: '$case.item.progressions'
+    .then ->
+      alert.log 'Request submitted'
+    , ->
+      false
+  $scope.applyRequest = (request) ->
+    for progression in $scope.property.item.$case.item.progressions
+      for branch in progression.milestones
+        for milestone in branch
+          advanceTo = new Date(request.advanceTo)
+          for advMilestone in request.milestones
+            if milestone._id is advMilestone._id
+              milestone.userCompletedTime = advanceTo.valueOf()
+    request.applied = true
+    $scope.property.item.$case.save()
   $scope.$on '$destroy', ->
     progressionPopup.hide()

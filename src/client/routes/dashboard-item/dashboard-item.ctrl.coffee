@@ -1,10 +1,9 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'DashboardItemCtrl', ($scope, $stateParams, $window) ->
+.controller 'DashboardItemCtrl', ($scope, $stateParams, $window, alert) ->
   $scope.type = $stateParams.type
   $scope.dashboardItem = $scope.single 'dashboard', $stateParams.id, (item) ->
-    console.log item
     if item
       $scope.dashboardItem.locked = true
   $scope.progressions = $scope.list 'progressions',
@@ -20,6 +19,7 @@ angular.module 'vs-agency'
   $scope.save = ->
     $scope.dashboardItem.item.type = $scope.type
     $scope.dashboardItem.save()
+    alert.log 'Dashboard item saved'
     $window.history.go -1
   $scope.cancel = ->
     $window.history.go -1

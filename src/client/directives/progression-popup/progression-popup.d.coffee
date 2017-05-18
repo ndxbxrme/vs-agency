@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.directive 'progressionPopup', ($rootScope, $timeout, progressionPopup) ->
+.directive 'progressionPopup', ($rootScope, $timeout, progressionPopup, alert) ->
   restrict: 'AE'
   templateUrl: 'directives/progression-popup/progression-popup.html'
   replace: true
@@ -116,6 +116,23 @@ angular.module 'vs-agency'
     scope.reset = progressionPopup.reset
       
     deregister = $rootScope.$on 'set-date', (e, date) ->
-      progressionPopup.setDate date
+      if scope.auth.checkRoles ['superadmin', 'admin']
+        progressionPopup.setDate date
+      else
+        scope.modal
+          template: 'advance-progression'
+          controller: 'AdvanceProgressionCtrl'
+          data:
+            advanceTo: date
+            milestone: scope.getData()
+            property: objtrans progressionPopup.getProperty()?.item,
+              roleId: 'RoleId'
+              displayAddress: true
+              advanceRequests: '$case.item.advanceRequests'
+              progressions: '$case.item.progressions'
+        .then ->
+          alert.log 'Request submitted'
+        , ->
+          false
     scope.$on '$destroy', ->
       deregister()
