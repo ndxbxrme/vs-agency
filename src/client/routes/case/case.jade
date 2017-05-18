@@ -3,7 +3,9 @@
     span.address - {{property.item.displayAddress}}
       span.right {{property.item.$case.item.offer.Value | currency : "£" : 0}}
   .advance-request(ng-repeat='request in property.item.$case.item.advanceRequests | filter:{dismissed:"!true",applied:"!true"}')
-    .left Requested to be advanced to {{request.advanceTo | date:'mediumDate'}}
+    .left Requested to be advanced to {{request.advanceTo | date:'mediumDate'}} by 
+      img(gravatar-src='request.user.local.email')
+      | {{request.user.displayName || request.user.local.email}}
     .admin-request(ng-show='auth.checkRoles(["superadmin", "admin"])')
       button(ng-click='applyRequest(request)') Apply
       button(ng-click='request.dismissed=true;property.item.$case.save()') Dismiss
