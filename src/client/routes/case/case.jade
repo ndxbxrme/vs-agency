@@ -14,7 +14,7 @@
   ul.dropdown(ng-show='progBtnFocussed')
     li(ng-repeat='progression in progressions.items')
       a(href='', ng-click='addProgression(progression)') {{progression.name}}, {{progression.side}}
-  button(ng-hide='auth.checkRoles(["superadmin", "admin"])', ng-click='advanceProgression()') Advance Progression
+  button(ng-hide='auth.checkRoles(["superadmin", "admin"])', ng-click='advanceProgression()') Advance all milestones
   h2 Chain
   button.view-chain(ng-click='showChain = !showChain') {{showChain?'Hide':'View'}} Chain
   .chain(ng-show='showChain')

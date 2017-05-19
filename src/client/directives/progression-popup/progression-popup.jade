@@ -18,7 +18,7 @@
             | {{getNotes().length===1?'Note':'Notes'}}
           button(ng-click='addNote()') Add Note
           button.est-date(ng-click='setDate()', ng-show="auth.checkRoles(['superadmin','admin'])") Change completion date
-          button.advance-progression(ng-click='setDate()', ng-hide="auth.checkRoles(['superadmin','admin'])") Advance progression
+          button.advance-progression(ng-click='setDate()', ng-hide="auth.checkRoles(['superadmin','admin'])") Advance milestone
           button.complete(ng-click='setCompleted()') Mark as Completed
         .note-add(ng-show='addingNote()')
           code-mirror(ng-model='note', options='{mode:"markdown"}')
