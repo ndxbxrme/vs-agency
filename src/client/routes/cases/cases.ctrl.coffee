@@ -30,3 +30,9 @@ angular.module 'vs-agency'
         if item.$parent.estCompletedTime < new Date().valueOf()
           item.$parent.needsDate = true
       property.$case.$parent = property
+  $scope.hasRequest = (property) ->
+    if $scope.auth.checkRoles(['superadmin', 'admin']) and property.$case.item and property.$case.item.advanceRequests and property.$case.item.advanceRequests.length
+      for request in property.$case.item.advanceRequests
+        if not request.dismissed and not request.applied
+          return true
+    return false
