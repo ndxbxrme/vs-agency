@@ -12,7 +12,8 @@
       .email-template(ng-repeat='template in emailTemplates.items')
         a.name(ui-sref="template({id:template._id,type:'email'})") {{template.name}}
         .delete
-          a(href='', ng-click='emailTemplates.delete(template)') Delete
+          a(href='', ng-click='emailTemplates.delete(template)')
+            i.fa.fa-times-circle-o(aria-hidden='true')
       div
         a.add-email-template(ui-sref="template({id:'new',type:'email'})") Add email template
     .sms-templates
@@ -20,7 +21,8 @@
       .sms-template(ng-repeat='template in smsTemplates.items')
         a.name(ui-sref="template({id:template._id,type:'sms'})") {{template.name}}
         .delete
-          a(href='', ng-click='smsTemplates.delete(template)') Delete
+          a(href='', ng-click='smsTemplates.delete(template)')
+            i.fa.fa-times-circle-o(aria-hidden='true')
       div
         a.add-sms-template(ui-sref="template({id:'new',type:'sms'})") Add sms template
   .dashboard
