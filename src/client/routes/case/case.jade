@@ -23,7 +23,7 @@
     chain-item(ng-repeat='item in property.item.$case.item.chainBuyer | orderBy:"-"')
     .current-property 
       .image
-        img(src='{{property.item.Images[0].Url}}')
+        img(ng-src='{{property.item.Images[0].Url}}')
       .details
         .address {{property.item.displayAddress}}
         .price {{property.item.$case.item.offer.Value | currency: '£': 0}}

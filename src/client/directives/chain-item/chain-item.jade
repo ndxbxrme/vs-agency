@@ -16,7 +16,7 @@
       h1 {{item.reference}}
       a.chain-property(ng-show='item.property', ui-sref='case({roleId:item.property})')
         .image
-          img(src='{{item.propDetails.image}}')
+          img(ng-src='{{item.propDetails.image}}')
         .details
           .address {{item.propDetails.address}}
           .price {{item.propDetails.price | currency: '£': 0}}
