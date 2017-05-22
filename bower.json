@@ -42,6 +42,7 @@
     "ndx-modal": "^0.0.5",
     "ndx-rest": "^0.1.4",
     "objtrans": "^0.0.14",
-    "ndx-alert": "^0.0.2"
+    "ndx-alert": "^0.0.2",
+    "animate.css": "^3.5.2"
   }
 }

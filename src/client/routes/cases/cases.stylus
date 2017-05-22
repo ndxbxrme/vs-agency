@@ -71,7 +71,7 @@
           font-size 1.4rem
           margin-top 0
       &.has-request
-        color red
+        font-weight 600
     td.options
       //vertical-align middle
   .mobile-table
