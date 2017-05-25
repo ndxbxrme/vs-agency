@@ -57,6 +57,7 @@ angular.module 'vs-agency', [
 .config ($locationProvider, $urlRouterProvider) ->
   $urlRouterProvider.otherwise '/'
   $locationProvider.html5Mode true
+  console.log '%c', 'font-size:3rem; background:#f15b25 url(https://conveyancing.vitalspace.co.uk/public/img/VitalSpaceLogo-2016.svg);background-size:cover;background-repeat:no-repeat;padding-left:18rem;border:1rem solid #f15b25;border-radius:1rem'
 try
   angular.module 'ndx'
 catch e
