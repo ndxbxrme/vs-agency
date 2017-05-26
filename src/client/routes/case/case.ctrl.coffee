@@ -13,6 +13,9 @@ angular.module 'vs-agency'
   $scope.properties = $scope.list
     route: "#{env.PROPERTY_URL}/search"
   , $scope.propsOpts
+  , (properties) ->
+    for property in properties.items
+      property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
   $scope.notesLimit = 10
   $scope.notesPage = 1
   $scope.property = $scope.single
@@ -20,6 +23,7 @@ angular.module 'vs-agency'
   , $stateParams.roleId
   , (res) ->
     property = res.item
+    property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
     property.$case = $scope.single 'properties', property.RoleId, (item) ->
       item.parent.search = "#{item.parent.displayAddress}||#{item.vendor}||#{item.purchaser}"
     property.$case.parent = property

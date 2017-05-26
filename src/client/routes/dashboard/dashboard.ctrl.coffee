@@ -16,6 +16,7 @@ angular.module 'vs-agency'
   , (properties) ->
     for property in properties.items
       property.$case = $scope.single 'properties', property.RoleId
+      property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
   $scope.dashboard = $scope.list 'dashboard',
     sort: 'i'
   $scope.progressions = $scope.list 'progressions'
