@@ -34,7 +34,10 @@ module.exports = (ndx) ->
                     email: user.email or user.local.email
                     telephone: user.telephone
       else
-        contacts.push property.case[contact]
+        if property.case[contact]
+          contacts.push property.case[contact]
+        else
+          console.log 'could not find contact', contact
     contacts
   processActions = (actionOn, actions, roleId, property) ->
     if actions and actions.length
@@ -86,7 +89,9 @@ module.exports = (ndx) ->
                 , (res) ->
                   if res and res.length
                     for contact in contacts
-                      if contact.email and res[0].subject and res[0].body and res[0].from
+                      if contact and contact.email and res[0].subject and res[0].body and res[0].from
+                        if process.env.EMAIL_OVERRIDE
+                          res[0].subject = "#{res[0].subject} <#{contact.email}>"
                         ndx.email.send
                           to: contact.email
                           subject: res[0].subject
