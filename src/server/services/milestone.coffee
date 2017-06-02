@@ -34,7 +34,7 @@ module.exports = (ndx) ->
                     email: user.email or user.local.email
                     telephone: user.telephone
       else
-        contacts.push property.case[contact]?.email
+        contacts.push property.case[contact]
     contacts
   processActions = (actionOn, actions, roleId, property) ->
     if actions and actions.length
@@ -86,13 +86,18 @@ module.exports = (ndx) ->
                 , (res) ->
                   if res and res.length
                     for contact in contacts
-                      ndx.email.send
-                        to: contact.email
-                        subject: res[0].subject
-                        body: res[0].body
-                        from: res[0].from
-                        contact: contact
-                        property: property
+                      if contact.email and res[0].subject and res[0].body and res[0].from
+                        ndx.email.send
+                          to: contact.email
+                          subject: res[0].subject
+                          body: res[0].body
+                          from: res[0].from
+                          contact: contact
+                          property: property
+                      else
+                        console.log 'bad email template'
+                        console.log res[0]
+                        console.log  contact
               when 'Sms'
                 contacts = fetchContacts action, property
                 ndx.database.select 'smstemplates',
