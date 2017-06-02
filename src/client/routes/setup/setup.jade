@@ -58,7 +58,7 @@
     h2 Users
     .row
       .users
-        .user(ng-repeat='user in myusers = (users.items | filter:"!superadmin")') 
+        .user(ng-repeat='user in myusers = (users.items | filter:"!superadmin" | filter:"!cors")') 
           img(gravatar-src='user.local.email') 
           span {{user.displayName || user.local.email}}
       .add-user
