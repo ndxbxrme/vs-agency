@@ -33,8 +33,8 @@ module.exports = (ndx) ->
                     role: 'Admin'
                     email: user.email or user.local.email
                     telephone: user.telephone
-        else
-          contacts.push property.case[contact]
+      else
+        contacts.push property.case[contact]?.email
     contacts
   processActions = (actionOn, actions, roleId, property) ->
     if actions and actions.length
@@ -45,7 +45,7 @@ module.exports = (ndx) ->
         .send()
         .end (err, res) ->
           if not err
-            property = res
+            property = res.body
             ndx.property.fetch roleId, (mycase) ->
               property.case = mycase
               processActions actionOn, actions, roleId, property
