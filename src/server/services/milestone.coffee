@@ -68,8 +68,9 @@ module.exports = (ndx) ->
                             isStarted = milestone.startTime
                             milestone.completed = true
                             milestone.progressing = false
-                            milestone.startTime = new Date().valueOf()
                             milestone.completedTime = new Date().valueOf()
+                            if not isStarted
+                              milestone.startTime = new Date().valueOf()
                             ndx.database.update 'properties', property.case,
                               _id: property.case._id
                             if not isStarted
