@@ -6,7 +6,7 @@ module.exports = (ndx) ->
     contacts = []
     for contact in action.to
       console.log 'contact', contact
-      if contact.indexOf(/^all/) isnt -1
+      if contact.indexOf('all') is 0
         if contact is 'negotiator'
           negotiator = property.case.offer.Negotiators[0]
           contacts.push 
