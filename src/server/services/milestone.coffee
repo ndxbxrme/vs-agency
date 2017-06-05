@@ -5,6 +5,7 @@ module.exports = (ndx) ->
   fetchContacts = (action, property) ->
     contacts = []
     for contact in action.to
+      console.log 'contact', contact
       if contact.indexOf(/^all/) isnt -1
         if contact is 'negotiator'
           negotiator = property.case.offer.Negotiators[0]
@@ -27,6 +28,7 @@ module.exports = (ndx) ->
           ndx.database.select 'users', null, (res) ->
             if res and res.length
               for user in res
+                console.log 'checking', user
                 if user.roles.admin or user.roles.superadmin
                   contacts.push
                     name: user.displayName or user.local.email
@@ -38,6 +40,7 @@ module.exports = (ndx) ->
           contacts.push property.case[contact]
         else
           console.log 'could not find contact', contact
+      console.log 'contacts', contacts
     contacts
   processActions = (actionOn, actions, roleId, property) ->
     if actions and actions.length
