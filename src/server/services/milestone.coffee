@@ -18,7 +18,7 @@ module.exports = (ndx) ->
           ndx.database.select 'users', null, (res) ->
             if res and res.length
               for user in res
-                if user.roles.agency
+                if user.roles and user.roles.agency
                   contacts.push
                     name: user.displayName or user.local.email
                     role: 'Agency'
@@ -29,7 +29,7 @@ module.exports = (ndx) ->
             if res and res.length
               for user in res
                 console.log 'checking', user
-                if user.roles.admin or user.roles.superadmin
+                if user.roles and user.roles.admin
                   contacts.push
                     name: user.displayName or user.local.email
                     role: 'Admin'
