@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'CaseCtrl', ($scope, $stateParams, $timeout, $window, auth, progressionPopup, Property, Upload, env, alert) ->
+.controller 'CaseCtrl', ($scope, $stateParams, $timeout, $window, Auth, progressionPopup, Property, Upload, env, alert) ->
   $scope.propsOpts = 
     where:
       RoleStatus: 'OfferAccepted'
@@ -49,13 +49,13 @@ angular.module 'vs-agency'
                     if mynote.date is note.date and mynote.item is note.item and mynote.side is note.side
                       mynote.text = note.text
                       mynote.updatedAt = new Date()
-                      mynote.updatedBy = auth.getUser()
+                      mynote.updatedBy = Auth.getUser()
           if property.$case.item.notes
             for mynote in property.$case.item.notes
               if mynote.date is $scope.note.date and mynote.item is $scope.note.item and mynote.side is $scope.note.side
                 mynote.text = $scope.note.text
                 mynote.updatedAt = new Date()
-                mynote.updatedBy = auth.getUser()
+                mynote.updatedBy = Auth.getUser()
           for progression in property.$case.item.progressions
             updateProgressionNotes progression.milestones, $scope.note
         else
@@ -64,7 +64,7 @@ angular.module 'vs-agency'
             text: $scope.note.text
             item: 'Case Note'
             side: ''
-            user: auth.getUser()
+            user: Auth.getUser()
         property.$case.save()
         alert.log 'Note added'
         $scope.note = null
@@ -152,7 +152,7 @@ angular.module 'vs-agency'
         url: '/api/upload'
         data:
           file: files
-          user: auth.getUser()
+          user: Auth.getUser()
       .then (response) ->
         if response.data
           $scope.uploadProgress = 0

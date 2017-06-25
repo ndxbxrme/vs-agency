@@ -7,5 +7,5 @@ angular.module 'vs-agency'
     templateUrl: 'routes/case/case.html'
     controller: 'CaseCtrl'
     resolve:
-      user: (auth) ->
-        auth.getPromise(['agency', 'admin', 'superadmin'])
+      user: (Auth) ->
+        Auth.getPromise(['agency', 'admin', 'superadmin'])

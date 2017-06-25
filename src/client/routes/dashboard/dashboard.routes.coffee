@@ -8,5 +8,5 @@ angular.module 'vs-agency'
     templateUrl: 'routes/dashboard/dashboard.html'
     controller: 'DashboardCtrl'
     resolve:
-      user: (auth) ->
-        auth.getPromise()
+      user: (Auth) ->
+        Auth.getPromise()

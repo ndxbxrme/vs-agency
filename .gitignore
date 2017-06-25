@@ -16,3 +16,4 @@ views
 uploads
 logs
 .DS_Store
+encrypt.bat

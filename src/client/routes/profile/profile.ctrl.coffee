@@ -1,5 +1,5 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'ProfileCtrl', ($scope, auth) ->
-  $scope.profile = $scope.single 'users', auth.getUser()._id
+.controller 'ProfileCtrl', ($scope, Auth) ->
+  $scope.profile = $scope.single 'users', Auth.getUser()._id

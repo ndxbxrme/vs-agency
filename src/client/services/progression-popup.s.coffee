@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.factory 'progressionPopup', ($timeout, $http, Property, auth, alert) ->
+.factory 'progressionPopup', ($timeout, $http, Property, Auth, alert) ->
   elem = null
   progressions = []
   data = null
@@ -52,7 +52,7 @@ angular.module 'vs-agency'
       data.completed = true
       data.startTime = new Date().valueOf()
       data.completedTime = new Date().valueOf()
-      dezrez.updatePropertyCase auth.getUser(), true
+      dezrez.updatePropertyCase Auth.getUser(), true
     else
     ###
     reset()
@@ -112,7 +112,7 @@ angular.module 'vs-agency'
         text: note
         item: data.title
         side: data.side
-        user: auth.getUser()
+        user: Auth.getUser()
       alert.log 'Note saved'
       Property.get().$case.save()
       note = ''

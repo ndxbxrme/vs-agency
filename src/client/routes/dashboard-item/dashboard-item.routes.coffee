@@ -7,5 +7,5 @@ angular.module 'vs-agency'
     templateUrl: 'routes/dashboard-item/dashboard-item.html'
     controller: 'DashboardItemCtrl'
     resolve:
-      user: (auth) ->
-        auth.getPromise(['admin','superadmin'])
+      user: (Auth) ->
+        Auth.getPromise(['admin','superadmin'])

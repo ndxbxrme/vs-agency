@@ -7,5 +7,5 @@ angular.module 'vs-agency'
     templateUrl: 'routes/template/template.html'
     controller: 'TemplateCtrl'
     resolve:
-      user: (auth) ->
-        auth.getPromise(['admin', 'superadmin'])
+      user: (Auth) ->
+        Auth.getPromise(['admin', 'superadmin'])
