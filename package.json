@@ -1,6 +1,6 @@
 {
   "name": "vs-agency",
-  "version": "0.9.13",
+  "version": "0.9.14",
   "description": "",
   "main": "server/app.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "async": "^2.2.0",
     "crypto-js": "^3.1.9-1",
     "marked": "^0.3.6",
-    "ndx-auth": "^0.1.9",
+    "ndx-auth": "^0.1.11",
     "ndx-connect": "0.0.6",
     "ndx-cors": "0.0.10",
     "ndx-database-backup": "^0.1.0",
