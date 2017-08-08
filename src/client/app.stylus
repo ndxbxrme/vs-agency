@@ -1,4 +1,11 @@
 @import 'variables'
+input, textarea, button
+  -webkit-appearance none
+  -moz-appearance none
+  -ms-appearance none
+  -o-appearance none
+  appearance none
+  --webkit-border-radius 0
 html
   font-size 62.5%
 body
@@ -12,6 +19,7 @@ body
   flex-direction column
   font-size 1.4rem
   line-height 2.52rem
+  -webkit-text-size-adjust 100%
   a
     text-decoration none
   th
@@ -26,6 +34,8 @@ body
     padding 0.5rem
   .holder
     flex 1
+    width 100%
+    z-index 2
     background #fff
     transition 0.4s
     transform translateX(0px)
@@ -85,3 +95,8 @@ body
 .lt-1024
   body
     background vs-grey!important
+.mobile
+  body
+    display block!important
+    .body
+      min-height 100vh

@@ -25,3 +25,7 @@
         background #eee
         a
           color vs-orange
+.mobile
+  .mobile-menu
+    overflow-Y scroll
+    height calc(100vh - 71px)
