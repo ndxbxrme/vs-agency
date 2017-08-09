@@ -13,7 +13,7 @@ angular.module 'vs-agency', [
     size: 16
     "default": 'mm'
     rating: 'pg'
-.run ($rootScope, $state, progressionPopup, $http, ndxModal, env) ->
+.run ($rootScope, $state, progressionPopup, $http, $transitions, ndxModal, env) ->
   $http.defaults.headers.common.Authorization = "Bearer #{env.PROPERTY_TOKEN}"
   $rootScope.state = (route) ->
     if $state and $state.current
@@ -22,13 +22,13 @@ angular.module 'vs-agency', [
       else
         return route is $state.current.name
     false
-  $rootScope.$on '$stateChangeStart', ->
-    if $state.current.name
+  $transitions.onBefore {}, (trans) ->
+    if trans.$from().name
       progressionPopup.hide()
-      $('body').removeClass "#{$state.current.name}-page"
-  $rootScope.$on '$stateChangeSuccess', ->
-    if $state.current.name
-      $('body').addClass "#{$state.current.name}-page"
+      $('body').removeClass "#{trans.$from().name}-page"
+  $transitions.onFinish {}, (trans) ->
+    if trans.$to().name
+      $('body').addClass "#{trans.$to().name}-page"
       
   root = Object.getPrototypeOf $rootScope
   root.generateId = (len) ->
