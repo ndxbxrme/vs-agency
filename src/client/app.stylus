@@ -6,6 +6,13 @@ input, textarea, button
   -o-appearance none
   appearance none
   --webkit-border-radius 0
+input[type=checkbox]
+  -webkit-appearance checkbox
+  -moz-appearance checkbox
+  -ms-appearance checkbox
+  -o-appearance checkbox
+  appearance checkbox
+  --webkit-border-radius 0
 html
   font-size 62.5%
 body
@@ -35,7 +42,6 @@ body
   .holder
     flex 1
     width 100%
-    overflow-X hidden
     z-index 2
     background #fff
     transition 0.4s
