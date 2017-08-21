@@ -160,9 +160,9 @@ module.exports = (ndx) ->
                     property.purchaser = body.AcceptedOffer.ApplicantGroup.Name
                     property.purchasersContact =
                       role: ''
-                      name: body.AcceptedOffer.ApplicantGroup.PrimaryMember.ContactName
-                      email: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryEmail?.Value
-                      telephone: body.AcceptedOffer.ApplicantGroup.PrimaryMember.PrimaryTelephone?.Value
+                      name: body.AcceptedOffer.ApplicantGroup.PrimaryMember?.ContactName
+                      email: body.AcceptedOffer.ApplicantGroup.PrimaryMember?.PrimaryEmail?.Value
+                      telephone: body.AcceptedOffer.ApplicantGroup.PrimaryMember?.PrimaryTelephone?.Value
                     for contact in body.Contacts
                       property["#{contact.ProgressionRoleType.SystemName.toLowerCase()}sSolicitor"] =
                         role: contact.GroupName
@@ -172,8 +172,8 @@ module.exports = (ndx) ->
                     property.vendor = body.AcceptedOffer.VendorGroup.Name
                     property.vendorsContact =
                       role: ''
-                      name: body.AcceptedOffer.VendorGroup.PrimaryMember.ContactName
-                      email: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryEmail?.Value
+                      name: body.AcceptedOffer.VendorGroup.PrimaryMember?.ContactName
+                      email: body.AcceptedOffer.VendorGroup.PrimaryMember?.PrimaryEmail?.Value
                       telephone: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryTelephone?.Value
                     propcb? property
                 else
