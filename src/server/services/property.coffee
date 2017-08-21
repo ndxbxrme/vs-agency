@@ -174,7 +174,7 @@ module.exports = (ndx) ->
                       role: ''
                       name: body.AcceptedOffer.VendorGroup.PrimaryMember?.ContactName
                       email: body.AcceptedOffer.VendorGroup.PrimaryMember?.PrimaryEmail?.Value
-                      telephone: body.AcceptedOffer.VendorGroup.PrimaryMember.PrimaryTelephone?.Value
+                      telephone: body.AcceptedOffer.VendorGroup.PrimaryMember?.PrimaryTelephone?.Value
                     propcb? property
                 else
                   throw err
