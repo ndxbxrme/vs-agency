@@ -17,18 +17,18 @@
   table.table.table-responsive.income
     thead
       tr
-        th(colspan='4') 
+        th(colspan='{{incomeItems.length + 1}}') 
           i.fa.fa-gbp(aria-hidden='true')
           |  Income
     tbody
       tr.head-two
         td Month
-        td(ng-repeat='di in dashboard.items | filter:{type:"income"}') {{di.name}}
+        td(ng-repeat='di in incomeItems = dashboard.items | filter:{type:"income"}') {{di.name}}
       tr(ng-repeat='month in months')
         td {{month.name}}
         td.clickable(ng-repeat='di in dashboard.items | filter:{type:"income"}', ng-click='showInfo("income", di, month)')
-          | {{income(di, month)}}
+          span(ng-bind-html='income(di, month) | currencyFormat', ng-class='{currency:di.sumtype==="Income"}')
       tr.total
         td Total
         td.clickable(ng-repeat='di in dashboard.items | filter:{type:"income"}', ng-click='showInfo("income", di, allmonths)') 
-          | {{income(di, allmonths)}}
+          span(ng-bind-html='income(di, allmonths) | currencyFormat', ng-class='{currency:di.sumtype==="Income"}')

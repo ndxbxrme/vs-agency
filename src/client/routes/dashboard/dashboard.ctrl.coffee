@@ -4,19 +4,16 @@ angular.module 'vs-agency'
 .controller 'DashboardCtrl', ($scope, $filter, env) ->
   $scope.propsOpts = 
     where:
-      RoleStatus: 'OfferAccepted'
-      RoleType: 'Selling'
-      IncludeStc: true
-    transform:
-      items: 'Collection'
-      total: 'TotalCount'
-  $scope.properties = $scope.list
-    route: "#{env.PROPERTY_URL}/search"
-  , $scope.propsOpts
-  , (properties) ->
+      delisted: false
+  $scope.properties = $scope.list 'properties', $scope.propsOpts, (properties) ->
     for property in properties.items
-      property.$case = $scope.single 'properties', property.RoleId
-      property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
+      completeBeforeDelisted = false
+      if property.progressions and property.progressions.length
+        progression = property.progressions[0]
+        milestone = progression.milestones[progression.milestones.length-1]
+        completeBeforeDelisted = (not milestone[0].completed && property.delisted) || not property.delisted
+      property.completeBeforeDelisted = completeBeforeDelisted
+      property.displayAddress = "#{property.offer.Property.Address.Number} #{property.offer.Property.Address.Street }, #{property.offer.Property.Address.Locality }, #{property.offer.Property.Address.Town}, #{property.offer.Property.Address.Postcode}"
   $scope.dashboard = $scope.list 'dashboard',
     sort: 'i'
   $scope.progressions = $scope.list 'progressions'
@@ -36,8 +33,8 @@ angular.module 'vs-agency'
                 maxIndex = b
                 break
       for property in $scope.properties.items
-        if property.$case and property.$case.item and property.$case.item.milestoneIndex and angular.isDefined(property.$case.item.milestoneIndex[di.progression])
-          if minIndex <= property.$case.item.milestoneIndex[di.progression] <= maxIndex
+        if property and not property.delisted and property.milestoneIndex and angular.isDefined(property.milestoneIndex[di.progression])
+          if minIndex <= property.milestoneIndex[di.progression] <= maxIndex
             if list
               output.push property
             count++
@@ -56,29 +53,36 @@ angular.module 'vs-agency'
     output = []
     if $scope.properties and $scope.properties.items
       for property in $scope.properties.items
-        if property.$case and property.$case.item and property.$case.item.progressions
-          for progression in property.$case.item.progressions
+        if property and property.progressions and property.completeBeforeDelisted
+          for progression in property.progressions
             if progression._id is di.progression
               for branch in progression.milestones
                 for milestone in branch
                   if milestone._id is di.minms
                     if month.start <= milestone.estCompletedTime <= month.end
-                      if list
-                        output.push property
+                      value = 0
+                      if di.status is 'Due'
+                        if not milestone.completed
+                          value += property.role.Commission
+                      if di.status is 'Completed'
+                        if milestone.completed
+                          value += property.role.Commission
+                      if di.status is 'Started'
+                        if milestone.started and not milestone.completed
+                          value += property.role.Commission
                       if di.sumtype is 'Income'
-                        if property.Fees and property.Fees.length and property.Fees[0].FeeValueType
-                          if property.Fees[0].FeeValueType.SystemName is 'Percentage'
-                            count += Math.floor(property.$case.item.offer.Value * (property.Fees[0].DefaultValue / 100))
-                          else if property.Fees[0].FeeValueType.SystemName is 'Absolute'
-                            count += property.Fees[0].DefaultValue
+                        count += value
                       else
-                        count++
+                        if value
+                          count++
+                      if value and list
+                        output.push property
                       break
               break
     if list
       output
     else if di.sumtype is 'Income'
-      $filter('currency')(count, '£', 0)
+      $filter('currency')(count, '£', 2)
     else
       count
   $scope.showInfo = (type, di, month) ->

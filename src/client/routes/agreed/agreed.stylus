@@ -1,0 +1,100 @@
+@import '../../variables'
+.agreed-route
+  .row
+    display flex
+    justify-content space-between
+    align-items baseline
+  .months
+    display flex
+    flex-wrap wrap
+    width 100%
+    hr
+      opacity 0.3
+    .month
+      width calc(33.3333% - 1.02rem)
+      margin .51rem
+      .inner
+        box-sizing border-box
+        padding 1.02rem
+        border 1px solid #ccc
+        border-radius .3rem
+        .month-name
+          min-width 10rem
+          color vs-orange
+          font-size 2rem
+        .target
+          display flex
+          align-items baseline
+          cursor pointer
+          .editor
+            input
+              vs-input()
+              width 4rem
+              cursor default
+          label
+            margin-right 1.02rem
+            color vs-orange
+            cursor pointer
+          .default
+            font-weight bold
+        .actual
+          font-size 2rem
+        .button
+          vs-button()
+        .commission
+          color vs-orange
+          font-size 2rem
+        .properties
+          h5
+            margin 0
+          .property
+            .editor, .default
+              display flex
+              justify-content space-between
+              font-size 1.1rem
+              position relative
+              cursor default
+              .controls
+                position absolute
+                background white
+                top 70%
+                right 0%
+                z-index 1
+                display none
+                a
+                  padding 0.5rem
+                  border 1px solid #ccc
+              &:hover
+                color vs-orange
+                .controls
+                  display block
+              .number
+                width 2rem
+                flex 0
+                position relative
+                &.delisted:after
+                  content '✔'
+                  position absolute
+                  top 0.4rem
+                  color lightseagreen
+              .address
+                margin 0 1.02rem
+                flex 1
+              .fees
+                margin-right 1.02rem
+              .date
+                white-space nowrap
+            .editor
+              input[type='text']
+                vs-input()
+              .address
+                margin-left 0
+                input
+                  width 100%
+              .fees
+                input
+                  width 6rem
+      @media screen and (max-width: 992px)
+        width calc(50% - 1.02rem)
+      @media screen and (max-width: 794px)
+        width 100%

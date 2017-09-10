@@ -7,6 +7,9 @@
       li(ng-class="{selected:state(['cases', 'case'])}")
         a(ui-sref='cases')
           span Cases
+      li(ng-class="{selected:state('agreed')}")
+        a(ui-sref='agreed')
+          span Agreed
       li(ng-class="{selected:state('setup')}", ng-show="auth.checkRoles(['admin', 'superadmin'])")
         a(ui-sref='setup')
           span Setup

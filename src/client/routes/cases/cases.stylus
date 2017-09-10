@@ -31,13 +31,6 @@
         text-decoration underline
     .showing
         text-align right
-  .search
-    input
-      padding 10px 15px
-      width 300px
-      border-radius 5px
-      border 1px solid vs-lightgrey
-      font-size 1.6rem
   table
     border-collapse: collapse;
     thead
@@ -103,6 +96,7 @@
       border-radius 0.5rem
       color vs-orange
       transition all 0.4s ease-in-out
+      cursor pointer
       &:hover
         background vs-orange
         color white

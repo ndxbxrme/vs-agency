@@ -20,6 +20,7 @@ angular.module 'vs-agency'
     route: "#{env.PROPERTY_URL}/search"
   , $scope.propsOpts
   , (properties) ->
+    console.log 'props', properties
     for property in properties.items
       property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
       property.$case = $scope.single 'properties', property.RoleId, (item) ->

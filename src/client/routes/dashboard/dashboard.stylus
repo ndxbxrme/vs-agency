@@ -1,6 +1,10 @@
 @import '../../variables'
 
 .dashboard
+  .currency
+    width 8rem
+    display inline-block
+    text-align right
   table
     width 100%
     border 1px solid vs-grey

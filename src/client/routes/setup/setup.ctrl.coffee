@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'SetupCtrl', ($scope, $http, progressionPopup, alert) ->
+.controller 'SetupCtrl', ($scope, $http, $filter, $timeout, progressionPopup, alert) ->
   $scope.editor = true
   $scope.newUser =
     role: 'agency'
@@ -51,16 +51,23 @@ angular.module 'vs-agency'
     .then (response) ->
       alert.log 'Progressions reset'
   saveDashboard = ->
-    for di, i in $scope.dashboard.items
+    for di, i in $filter('orderBy')($filter('filter')($scope.dashboard.items, {type:'overview'}), 'i')
+      di.i = i
+      $scope.dashboard.save di
+    for di, i in $filter('orderBy')($filter('filter')($scope.dashboard.items, {type:'income'}), 'i')
       di.i = i
       $scope.dashboard.save di
     alert.log 'Dashboard saved'
   $scope.moveDIUp = (di) ->
-    $scope.dashboard.items.moveUp di
-    saveDashboard()
+    $timeout ->
+      di.i -= 1.1
+      #$scope.dashboard.items.moveUp di
+      $timeout saveDashboard
   $scope.moveDIDown = (di) ->
-    $scope.dashboard.items.moveDown di
-    saveDashboard()
+    $timeout ->
+      di.i += 1.1
+      #$scope.dashboard.items.moveDown di
+      $timeout saveDashboard
   $scope.removeDI = (di) ->
     $scope.dashboard.delete di
     $scope.dashboard.items.remove di

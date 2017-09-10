@@ -33,9 +33,9 @@
         .dashboard-item(ng-repeat='item in dashboard.items | filter:{type:"overview"}')
           a.name(ui-sref="dashboardItem({id:item._id,type:'overview'})") {{item.name}}
           .controls(ng-show='auth.checkRoles(["admin","superadmin"])')
-            //a(href='', ng-click='moveDIUp(item)')
+            a(href='', ng-click='moveDIUp(item)')
               i.fa.fa-arrow-circle-o-up(aria-hidden='true')
-            //a(href='', ng-click='moveDIDown(item)')
+            a(href='', ng-click='moveDIDown(item)')
               i.fa.fa-arrow-circle-o-down(aria-hidden='true')
             a(href='', ng-click='removeDI(item)')
               i.fa.fa-times-circle-o(aria-hidden='true')
@@ -43,12 +43,12 @@
           a.add-dashboard-overview(ui-sref="dashboardItem({id:'new',type:'overview'})") Add overview item
       .income
         h3 Income
-        .dashboard-item(ng-repeat='item in dashboard.items | filter:{type:"income"}')
+        .dashboard-item(ng-repeat='item in dashboard.items | filter:{type:"income"} | orderBy:"i"')
           a.name(ui-sref="dashboardItem({id:item._id,type:'income'})") {{item.name}}
           .controls(ng-show='auth.checkRoles(["admin","superadmin"])')
-            //a(href='', ng-click='moveDIUp(item)')
+            a(href='', ng-click='moveDIUp(item)')
               i.fa.fa-arrow-circle-o-up(aria-hidden='true')
-            //a(href='', ng-click='moveDIDown(item)')
+            a(href='', ng-click='moveDIDown(item)')
               i.fa.fa-arrow-circle-o-down(aria-hidden='true')
             a(href='', ng-click='removeDI(item)')
               i.fa.fa-times-circle-o(aria-hidden='true')

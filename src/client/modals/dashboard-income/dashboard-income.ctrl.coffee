@@ -15,4 +15,4 @@ angular.module 'vs-agency'
   $scope.go = (property) ->
     ndxModalInstance.close()
     $state.go 'case',
-      roleId:property.RoleId
+      roleId:property.roleId

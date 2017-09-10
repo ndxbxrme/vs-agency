@@ -1,6 +1,6 @@
 {
   "name": "vs-agency",
-  "version": "0.10.5",
+  "version": "0.10.6",
   "description": "",
   "main": "server/app.js",
   "scripts": {
@@ -38,6 +38,7 @@
   "dependencies": {
     "async": "^2.2.0",
     "crypto-js": "^3.1.9-1",
+    "deep-diff": "^0.3.8",
     "marked": "^0.3.6",
     "ndx-auth": "^0.1.11",
     "ndx-connect": "0.0.6",
@@ -52,7 +53,7 @@
     "ndx-profiler": "^0.1.2",
     "ndx-rest": "^0.5.0",
     "ndx-scheduler": "0.0.10",
-    "ndx-server": "^0.13.8",
+    "ndx-server": "^0.13.11",
     "ndx-socket": "0.0.8",
     "ndx-static-routes": "0.0.13",
     "ndx-superadmin": "^0.1.4",

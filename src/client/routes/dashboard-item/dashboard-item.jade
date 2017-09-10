@@ -6,6 +6,17 @@
     label Progression
     select(ng-model='dashboardItem.item.progression')
       option(ng-repeat='progression in progressions.items', value='{{progression._id}}') {{progression.name}}
+    .col(ng-show="type==='income'")
+      label Sum Type
+      select(ng-model='dashboardItem.item.sumtype')
+        option Count
+        option Income
+    .col(ng-show="type==='income'")
+      label Status
+      select(ng-model='dashboardItem.item.status')
+        option Due
+        option Completed
+        option Started
     label(ng-show="type==='overview'") Start milestone
     label(ng-show="type==='income'") Milestone
     select(ng-model='dashboardItem.item.minms')
@@ -14,11 +25,6 @@
       label End milestone
       select(ng-model='dashboardItem.item.maxms')
         option(ng-repeat='item in getMilestones()', value='{{item._id}}') {{item.title}}
-    .col(ng-show="type==='income'")
-      label Type
-      select(ng-model='dashboardItem.item.sumtype')
-        option Count
-        option Income
     .controls
       input(type='submit', value=' Save ')
       button(ng-click='cancel()') Cancel

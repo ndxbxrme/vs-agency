@@ -134,6 +134,23 @@ module.exports = (ndx) ->
                 ,
                   _id: mycase._id
               callback()
+        , ->
+          ndx.database.select 'properties',
+            delisted: false
+          , (properties) ->
+            if properties and properties.length
+              async.eachSeries properties, (property, propCallback) ->
+                foundRole = false
+                for prop in res.body.Collection
+                  if +property.roleId is +prop.RoleId
+                    foundRole = true
+                    break
+                if not foundRole
+                  ndx.database.update 'properties',
+                    delisted: true
+                  ,
+                    _id: property._id.toString()
+                propCallback()
   setInterval checkNew, 10 * 60 * 1000
   ndx.database.on 'preUpdate', (args, cb) ->
     if args.table is 'properties'
@@ -153,8 +170,10 @@ module.exports = (ndx) ->
               ndx.dezrez.get 'role/{id}', null, id:body.PurchasingRoleId, (err, body) ->
                 if not err
                   if property.role and JSON.stringify(property.role) is JSON.stringify(body)
+                    property.delisted = false
                     return propcb? property
                   else
+                    property.delisted = false
                     property.role = body
                     property.offer = body.AcceptedOffer
                     property.purchaser = body.AcceptedOffer.ApplicantGroup.Name
@@ -177,26 +196,30 @@ module.exports = (ndx) ->
                       telephone: body.AcceptedOffer.VendorGroup.PrimaryMember?.PrimaryTelephone?.Value
                     propcb? property
                 else
-                  throw err
+                  return propcb? null
             else
-              throw err
+              return propcb? null
         
         if property and property.length
           cb? property[0]
           if property[0].modifiedAt + (60 * 60 * 1000) < new Date().valueOf()
             fetchPropertyRole property[0].roleId, property[0], (property) ->
-              ndx.database.update 'properties', property,
-                _id: property._id
+              if property
+                ndx.database.update 'properties', property,
+                  _id: property._id
         else
           property =
             roleId: roleId.toString()
           fetchPropertyRole roleId, property, (property) ->
-            getDefaultProgressions property
-            property.milestone = ''
-            property.milestoneStatus = ''
-            property.milestoneIndex = null
-            property.notes = []
-            property.chainBuyer = []
-            property.chainSeller = []
-            ndx.database.insert 'properties', property
+            if property
+              getDefaultProgressions property
+              property.delisted = false
+              property.milestone = ''
+              property.milestoneStatus = ''
+              property.milestoneIndex = null
+              property.notes = []
+              property.chainBuyer = []
+              property.chainSeller = []
+              property.delisted = false
+              ndx.database.insert 'properties', property
             cb? property
