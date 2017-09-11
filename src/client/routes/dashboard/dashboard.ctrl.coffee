@@ -5,7 +5,7 @@ angular.module 'vs-agency'
   $scope.propsOpts = 
     where:
       delisted: false
-  $scope.properties = $scope.list 'properties', $scope.propsOpts, (properties) ->
+  $scope.properties = $scope.list 'properties', null, (properties) ->
     for property in properties.items
       completeBeforeDelisted = false
       if property.progressions and property.progressions.length
