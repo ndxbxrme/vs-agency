@@ -3,12 +3,12 @@
 angular.module 'vs-agency'
 .controller 'AgreedCtrl', ($scope, $filter, $timeout, $http) ->
   $scope.startDate = 
-    'offer.DateTime': new Date(new Date().getFullYear(), 0, 1)
+    'role.CreatedDate': new Date(new Date().getFullYear(), 0, 1)
   $scope.endDate =
-    'offer.DateTime': new Date()
+    'role.CreatedDate': new Date()
   $scope.months = []
-  testDate = $scope.startDate['offer.DateTime']
-  while testDate < $scope.endDate['offer.DateTime']
+  testDate = $scope.startDate['role.CreatedDate']
+  while testDate < $scope.endDate['role.CreatedDate']
     month =
       date: testDate
       month: $filter('date')(testDate, 'MMMM')
@@ -34,7 +34,7 @@ angular.module 'vs-agency'
     where:
       $gte: $scope.startDate
       $lte: $scope.endDate
-    sort: 'offer.DateTime'
+    sort: 'role.CreatedDate'
     sortDir: 'ASC'
   , (properties) ->
     for month in $scope.months
@@ -44,7 +44,7 @@ angular.module 'vs-agency'
       i = $scope.months.length
       while i-- > 0
         month = $scope.months[i]
-        if new Date(property.offer.DateTime) > month.date
+        if new Date(property.role.CreatedDate) > month.date
           completeBeforeDelisted = false
           if property.progressions and property.progressions.length
             progression = property.progressions[0]
@@ -57,7 +57,7 @@ angular.module 'vs-agency'
               _id: property._id
               address: property.override.address or ("#{property.offer.Property.Address.Number} #{property.offer.Property.Address.Street}, #{property.offer.Property.Address.Locality}")
               commission: property.override.commission or property.role.Commission
-              date: property.override.date or property.offer.DateTime
+              date: property.override.date or property.role.CreatedDate
               roleId: property.roleId
               delisted: property.delisted
               completeBeforeDelisted: completeBeforeDelisted
