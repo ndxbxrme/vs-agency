@@ -51,7 +51,7 @@ angular.module 'vs-agency'
             milestone = progression.milestones[progression.milestones.length-1]
             completeBeforeDelisted = (not milestone[0].completed && property.delisted) || not property.delisted
           property.override = property.override or {}
-          if completeBeforeDelisted and not property.override.deleted
+          if not property.override.deleted
             month.commission += +property.override.commission or property.role.Commission
             month.properties.push
               _id: property._id
