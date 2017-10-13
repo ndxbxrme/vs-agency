@@ -44,6 +44,7 @@
     "ndx-modal": "^0.0.5",
     "ndx-alert": "^0.0.2",
     "ndx-error-redirect": "^0.3.1",
-    "ndx-rest": "^0.2.7"
+    "ndx-rest": "^0.2.7",
+    "interpret-date": "^0.0.3"
   }
 }

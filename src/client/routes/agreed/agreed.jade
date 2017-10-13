@@ -34,11 +34,11 @@
                 input(type='text', ng-model='property.$override.commission')
               input.save(type='button', ng-click='save(property)', value='Save')
               input.cancel(type='button', ng-click='cancel(property)', value='Cancel')
-            .default
+            .default(ng-class='{delisted:property.delisted}')
               .controls(ng-show="auth.checkRoles(['admin', 'superadmin'])")
                 a.edit(href='', ng-click='edit(property)') Edit
                 a.delete(href='', ng-click='delete(property)') Delete
-              .number(ng-class='{delisted:property.delisted}') {{$index + 1}}
+              .number {{$index + 1}}
               .address {{property.address}}
               .fees(ng-bind-html="property.commission | currency:'£' | currencyFormat")
               .date {{property.date | date:'mediumDate'}}

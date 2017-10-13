@@ -32,8 +32,11 @@ angular.module 'vs-agency'
               if milestone._id is di.maxms
                 maxIndex = b
                 break
+      console.log minIndex, maxIndex
       for property in $scope.properties.items
-        if property and not property.delisted and property.milestoneIndex and angular.isDefined(property.milestoneIndex[di.progression])
+        if property.displayAddress.indexOf("260 Church") is 0
+          console.log property
+        if property and property.milestoneIndex and angular.isDefined(property.milestoneIndex[di.progression])
           if minIndex <= property.milestoneIndex[di.progression] <= maxIndex
             if list
               output.push property

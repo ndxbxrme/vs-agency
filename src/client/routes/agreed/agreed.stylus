@@ -54,6 +54,14 @@
               font-size 1.1rem
               position relative
               cursor default
+              &.delisted
+                .address, .fees
+                  font-weight 900
+                .number:after
+                  content '✔'
+                  position absolute
+                  top 0.4rem
+                  color lightseagreen
               .controls
                 position absolute
                 background white
@@ -72,11 +80,6 @@
                 width 2rem
                 flex 0
                 position relative
-                &.delisted:after
-                  content '✔'
-                  position absolute
-                  top 0.4rem
-                  color lightseagreen
               .address
                 margin 0 1.02rem
                 flex 1
