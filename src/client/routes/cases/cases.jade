@@ -13,7 +13,7 @@
     .right
       .search
         input(type='text', ng-model='search', placeholder='Search Cases', ng-change='page=1')
-      .showing Showing {{filterData.length}} of {{totalProps = properties.items.length}} case{{totalProps!==1?'s':''}}
+      .showing Showing {{filterData.length}} of {{totalProps = properties.items.length - nodeleted}} case{{totalProps!==1?'s':''}}
   table.table.table-responsive.small-mobile-hide(ng-show='filterData.length > 0')
     thead
       tr
@@ -23,14 +23,14 @@
         th(width='20%') Purchaser
         th(width='10%') Offer
         th(width='5%') Options
-    tbody(ng-repeat='property in filterData =(properties.items | filter:{"search":search} | filter:{"milestoneStatus":filter}  | orderBy:sort) | limitTo:limit:limit*(page-1)')
+    tbody(ng-repeat='property in filterData =(properties.items | filter:{"deleted":false} | filter:{"search":search} | filter:{"milestoneStatus":filter}  | orderBy:sort) | limitTo:limit:limit*(page-1)')
       tr(ng-click='property.open = !property.open')
         td(ng-class='{"has-request animated pulse infinite":hasRequest(property)}')
           .milestone(ng-class='property.$case.item.cssMilestone', title='{{property.$case.item.milestone.title}}')
             .icon(class='{{ property.$case.item.milestone.icon || "house"}}')
             .title {{property.$case.item.milestone.title}}
         td
-          .address {{property.displayAddress}}
+          .address {{property.displayAddress}} {{property.$case.item.override}}
           .dates(ng-show='property.open')
             .date Last Updated: 
               strong {{property.$case.item.modifiedAt | timeAgo}} 

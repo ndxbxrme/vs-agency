@@ -6,7 +6,12 @@ angular.module 'vs-agency'
     where:
       delisted: false
   $scope.properties = $scope.list 'properties', null, (properties) ->
-    for property in properties.items
+    i = properties.items.length
+    while i-- > 0
+      property = properties.items[i]
+      if property.override and property.override.deleted
+        properties.items.splice i, 1
+        continue
       completeBeforeDelisted = false
       if property.progressions and property.progressions.length
         progression = property.progressions[0]
@@ -32,11 +37,10 @@ angular.module 'vs-agency'
               if milestone._id is di.maxms
                 maxIndex = b
                 break
-      console.log minIndex, maxIndex
       for property in $scope.properties.items
-        if property.displayAddress.indexOf("260 Church") is 0
-          console.log property
         if property and property.milestoneIndex and angular.isDefined(property.milestoneIndex[di.progression])
+          if property.override?.deleted
+            continue
           if minIndex <= property.milestoneIndex[di.progression] <= maxIndex
             if list
               output.push property
@@ -56,6 +60,8 @@ angular.module 'vs-agency'
     output = []
     if $scope.properties and $scope.properties.items
       for property in $scope.properties.items
+        if property.override?.deleted
+          continue
         if property and property.progressions and property.completeBeforeDelisted
           for progression in property.progressions
             if progression._id is di.progression

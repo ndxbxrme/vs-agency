@@ -2,6 +2,7 @@
   h1 Case 
     span.address - {{property.item.displayAddress}}
       span.right {{property.item.$case.item.offer.Value | currency : "£" : 0}}
+  h2(ng-show='property.item.$case.item.override.reason==="fallenThrough"') Fallen through
   .advance-request(ng-repeat='request in property.item.$case.item.advanceRequests | filter:{dismissed:"!true",applied:"!true"}')
     .left Requested to be advanced to {{request.advanceTo | date:'mediumDate'}} by 
       img(gravatar-src='request.user.local.email')
@@ -15,6 +16,7 @@
     li(ng-repeat='progression in progressions.items')
       a(href='', ng-click='addProgression(progression)') {{progression.name}}, {{progression.side}}
   button(ng-hide='auth.checkRoles(["superadmin", "admin"])', ng-click='advanceProgression()') Advance all milestones
+  button(ng-show='auth.checkRoles(["superadmin", "admin"])', ng-click='fallenThrough()') Fallen through
   h2 Chain
   button.view-chain(ng-click='showChain = !showChain') {{showChain?'Hide':'View'}} Chain
   .chain(ng-show='showChain')

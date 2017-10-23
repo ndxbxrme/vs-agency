@@ -1,5 +1,7 @@
 .setup
   h1 Setup
+  .cleanup
+    button.cleanup(ui-sref='cleanup') Clean up
   .progressions
     h2 Progressions
     progression(ng-repeat='progression in progressions.items', data='progression')

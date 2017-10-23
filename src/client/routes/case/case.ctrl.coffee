@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'CaseCtrl', ($scope, $stateParams, $timeout, $window, Auth, progressionPopup, Property, Upload, env, alert) ->
+.controller 'CaseCtrl', ($scope, $stateParams, $state, $timeout, $window, Auth, progressionPopup, Property, Upload, env, alert) ->
   $scope.propsOpts = 
     where:
       RoleStatus: 'OfferAccepted'
@@ -205,5 +205,12 @@ angular.module 'vs-agency'
               milestone.userCompletedTime = advanceTo.valueOf()
     request.applied = true
     $scope.property.item.$case.save()
+  $scope.fallenThrough = ->
+    if window.confirm 'Are you sure you want to flag this property as Fallen through?'
+      $scope.property.item.$case.item.override = $scope.property.item.$case.override or {}
+      $scope.property.item.$case.item.override.deleted = true
+      $scope.property.item.$case.item.override.reason = 'fallenThrough'
+      $scope.property.item.$case.save()
+      $state.go 'cases'
   $scope.$on '$destroy', ->
     progressionPopup.hide()

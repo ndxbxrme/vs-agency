@@ -8,6 +8,7 @@ angular.module 'vs-agency'
     $('html, body').animate
       scrollTop: 0
     , 200
+  $scope.nodeleted = 0
   $scope.propsOpts = 
     where:
       RoleStatus: 'OfferAccepted'
@@ -20,7 +21,6 @@ angular.module 'vs-agency'
     route: "#{env.PROPERTY_URL}/search"
   , $scope.propsOpts
   , (properties) ->
-    console.log 'props', properties
     for property in properties.items
       property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
       property.$case = $scope.single 'properties', property.RoleId, (item) ->
@@ -30,6 +30,9 @@ angular.module 'vs-agency'
           item.$parent.estCompletedTime = item.item.progressions[0].milestones[item.item.progressions[0].milestones.length-1][0].estCompletedTime
         if item.$parent.estCompletedTime < new Date().valueOf()
           item.$parent.needsDate = true
+        item.$parent.deleted = item.item.override?.deleted or false
+        if item.$parent.deleted
+          $scope.nodeleted++
       property.$case.$parent = property
   $scope.hasRequest = (property) ->
     if $scope.auth.checkRoles(['superadmin', 'admin']) and property.$case.item and property.$case.item.advanceRequests and property.$case.item.advanceRequests.length

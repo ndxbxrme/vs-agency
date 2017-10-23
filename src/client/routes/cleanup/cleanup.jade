@@ -1,20 +1,20 @@
 .cleanup-route
   .row
-    h1 Cleanup, {{properties.items.length}}
-  table.properties
+    h1 Cleanup
+    .total(ng-show='properties.items.length') Total: {{properties.items.length}}
+  table.properties(ng-show='properties.items.length')
     tr
       th(ng-click='doSort("offer.Property.Address.Street")') Address
       th Milestone
-      th
       th(ng-click='doSort("exchangeDate")') Est completion date
       th
-    tr(ng-repeat='property in properties.items | orderBy:sort')
+    tr(ng-repeat='property in properties.items | orderBy:sort', ng-class='{disabled:property.processing}')
       td.property {{property.displayAddress}}
       td.ms {{property.milestone.title}}
-      td.mi {{property.milestoneIndex['58e4ec46a32a15f543d72098']}}
       td.ed
         input(name='{{property._id}}', date-input, ng-model='property.exchangeDate')
       td.com
-        button.btn(ng-click='complete(property)') Completed
+        button.btn(ng-click='complete(property)', ng-show='property.exchangeDate') Completed
       td.fal
         button.btn(ng-click='fallenThrough(property)') Fallen Through
+  .loading Loading properties
