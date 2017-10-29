@@ -30,7 +30,7 @@
             .icon(class='{{ property.$case.item.milestone.icon || "house"}}')
             .title {{property.$case.item.milestone.title}}
         td
-          .address {{property.displayAddress}} {{property.$case.item.override}}
+          .address {{property.$case.item.override.address || property.displayAddress}}
           .dates(ng-show='property.open')
             .date Last Updated: 
               strong {{property.$case.item.modifiedAt | timeAgo}} 
