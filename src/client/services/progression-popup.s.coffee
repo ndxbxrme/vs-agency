@@ -74,6 +74,7 @@ angular.module 'vs-agency'
       $http.post '/api/milestone/completed',
         milestone: data._id
         roleId: Property.get().RoleId
+        caseId: Property.get().caseId
       alert.log 'Milestone updated'
   getCompletedTime: ->
     if data
@@ -87,6 +88,7 @@ angular.module 'vs-agency'
       $http.post '/api/milestone/start',
         milestone: data._id
         roleId: Property.get().RoleId
+        caseId: Property.get().caseId
       alert.log 'Milestone started'
   getDate: ->
     if data

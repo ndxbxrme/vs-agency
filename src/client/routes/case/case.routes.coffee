@@ -3,7 +3,7 @@
 angular.module 'vs-agency'
 .config ($stateProvider) ->
   $stateProvider.state 'case',
-    url: '/case/:roleId'
+    url: '/case/:caseId'
     templateUrl: 'routes/case/case.html'
     controller: 'CaseCtrl'
     resolve:

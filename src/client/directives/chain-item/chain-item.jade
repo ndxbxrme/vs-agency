@@ -5,7 +5,7 @@
         label Reference
         input(type='text', ng-model='item.reference')
         select(ng-model='item.property')
-          option(ng-repeat='property in properties.items | orderBy:"Address.Street"', value='{{property.RoleId}}') {{property.displayAddress}}
+          option(ng-repeat='property in properties.items | orderBy:"Address.Street"', value='{{property.caseId}}') {{property.displayAddress}}
         label Notes
         code-mirror(ng-model='item.note', options='{mode:"markdown"}')
         .chain-controls
@@ -14,7 +14,7 @@
         
     .chain-content(ng-hide='$parent.chainEdit===item.side+$index')
       h1 {{item.reference}}
-      a.chain-property(ng-show='item.property', ui-sref='case({roleId:item.property})')
+      a.chain-property(ng-show='item.property', ui-sref='case({caseId:item.property})')
         .image
           img(ng-src='{{item.propDetails.image}}')
         .details

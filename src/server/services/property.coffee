@@ -115,7 +115,9 @@ module.exports = (ndx) ->
     .end (err, res) ->
       if not err and res.body.Collection
         async.eachSeries res.body.Collection, (property, callback) ->
-          ndx.property.fetch property.RoleId.toString(), (mycase) ->
+          roleId = property.RoleId.toString()
+          caseId = roleId + '' + property.DateInstructed.replace(/[-T:Z]/gi,'')
+          ndx.property.fetch caseId, roleId, (mycase) ->
             if not mycase.progressions or not mycase.progressions.length
               ndx.property.getDefaultProgressions mycase
               ndx.database.update 'properties', 
@@ -142,7 +144,7 @@ module.exports = (ndx) ->
               async.eachSeries properties, (property, propCallback) ->
                 foundRole = false
                 for prop in res.body.Collection
-                  if +property.roleId is +prop.RoleId
+                  if property.caseId is prop.RoleId + '' + prop.DateInstructed.replace(/[-T:Z]/gi,'')
                     foundRole = true
                     break
                 if not foundRole
@@ -160,11 +162,13 @@ module.exports = (ndx) ->
   ndx.property =
     getDefaultProgressions: getDefaultProgressions
     checkNew: checkNew
-    fetch: (roleId, cb) ->
+    fetch: (caseId, roleId, cb) ->
+      console.log 'fetch', caseId, roleId
       ndx.database.select 'properties',
-        roleId: roleId.toString()
+        caseId: caseId.toString()
       , (property) ->
         fetchPropertyRole = (roleId, property, propcb) ->
+          console.log 'fetching property role', roleId
           ndx.dezrez.get 'role/{id}', null, id:roleId, (err, body) ->
             if not err
               ndx.dezrez.get 'role/{id}', null, id:body.PurchasingRoleId, (err, body) ->
@@ -176,6 +180,7 @@ module.exports = (ndx) ->
                     property.delisted = false
                     property.role = body
                     property.offer = body.AcceptedOffer
+                    property.caseId = roleId + '' + body.DateInstructed.replace(/[-T:Z]/gi,'')
                     property.purchaser = body.AcceptedOffer.ApplicantGroup.Name
                     property.purchasersContact =
                       role: ''

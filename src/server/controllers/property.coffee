@@ -45,7 +45,8 @@ module.exports = (ndx) ->
       milestones: milestones 
       user: ndx.user
       roleId: req.body.property.roleId
-      link: "#{req.protocol}://#{req.hostname}/case/#{req.body.property.roleId}"
+      caseId: req.body.property.caseId
+      link: "#{req.protocol}://#{req.hostname}/case/#{req.body.property.caseId}"
       displayAddress: req.body.property.displayAddress
       advanceTo: advanceTo.valueOf()
       text: text
@@ -74,14 +75,14 @@ module.exports = (ndx) ->
     ndx.database.update 'properties',
       advanceRequests: req.body.property.advanceRequests
     ,
-      roleId: req.body.property.roleId.toString()
+      caseId: req.body.property.caseId.toString()
     res.end 'OK'
-  ndx.app.get '/api/properties/:roleId', ndx.authenticate(), (req, res, next) ->
-    ndx.property.fetch req.params.roleId, (property) ->
+  ndx.app.get '/api/properties/:caseId', ndx.authenticate(), (req, res, next) ->
+    ndx.property.fetch req.params.caseId, 'null', (property) ->
       res.json property
-  ndx.app.get '/api/properties/:roleId/progressions', ndx.authenticate(), (req, res, next) ->
+  ndx.app.get '/api/properties/:caseId/progressions', ndx.authenticate(), (req, res, next) ->
     ndx.database.select 'properties',
-      roleId: req.params.roleId
+      caseId: req.params.caseId
     , (properties) ->
       if properties and properties.length
         res.json properties[0].progressions
@@ -109,7 +110,9 @@ module.exports = (ndx) ->
           fetchProp = (index) ->
             bar.tick 1
             if index < response.body.Collection.length
-              ndx.property.fetch response.body.Collection[index].RoleId, ->
+              roleId = response.body.Collection[index].RoleId
+              caseId = roleId + '' + response.body.Collection[index].DateInstructed.replace(/[-T:Z]/gi,'')
+              ndx.property.fetch caseId, roleId, ->
                 fetchProp ++index
             else
               console.log '\ndatabase build complete'

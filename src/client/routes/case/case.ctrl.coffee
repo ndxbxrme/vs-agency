@@ -20,11 +20,11 @@ angular.module 'vs-agency'
   $scope.notesPage = 1
   $scope.property = $scope.single
     route: "#{env.PROPERTY_URL}/property"
-  , $stateParams.roleId
+  , $stateParams.caseId
   , (res) ->
     property = res.item
     property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
-    property.$case = $scope.single 'properties', property.RoleId, (item) ->
+    property.$case = $scope.single 'properties', property.caseId, (item) ->
       item.parent.search = "#{item.parent.displayAddress}||#{item.vendor}||#{item.purchaser}"
     property.$case.parent = property
     Property.set property
@@ -131,7 +131,7 @@ angular.module 'vs-agency'
   $scope.saveChain = (item) ->
     if item.property
       for prop in $scope.properties.items
-        if prop.RoleId is +item.property
+        if prop.caseId is item.property
           item.propDetails = objtrans prop,
             id: true
             address: (property) ->
@@ -187,6 +187,7 @@ angular.module 'vs-agency'
       controller: 'AdvanceProgressionCtrl'
       data:
         property: objtrans $scope.property.item,
+          caseId: true
           roleId: 'RoleId'
           displayAddress: true
           advanceRequests: '$case.item.advanceRequests'

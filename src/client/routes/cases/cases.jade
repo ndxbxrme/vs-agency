@@ -43,7 +43,7 @@
           p(ng-show='property.Fees[0].FeeValueType.SystemName==="Absolute"') ({{ property.Fees[0].DefaultValue | currency : "£" : 0 }})
           p(ng-show='property.Fees[0].FeeValueType.SystemName==="Percentage"') ({{ property.$case.item.offer.Value * (property.Fees[0].DefaultValue / 100) | currency : "£" : 0 }})
         td.options
-          a.button(ui-sref='case({roleId:property.RoleId})') View Case
+          a.button(ui-sref='case({caseId:property.caseId})') View Case
   .mobile-table.small-mobile-show
     .case-card(ng-repeat='property in filterData | limitTo:limit:limit*(page-1)')
       .milestone(ng-class='property.$case.item.cssMilestone', title='{{property.$case.item.milestone.title}}')
@@ -57,7 +57,7 @@
         .purchaser Purchaser: 
           strong {{property.$case.item.purchaser}}
         .options
-          a.button(ui-sref='case({roleId:property.RoleId})') View Case
+          a.button(ui-sref='case({caseId:property.caseId})') View Case
   pagination.pagination-sm.pagination(total='filterData.length', ng-model='page', page-size='limit', page-change='pageChange', show-first-last='true')
   .nothing-to-show(ng-show='filterData.length===0')
     h3 Nothing to show

@@ -52,7 +52,8 @@ module.exports = (ndx) ->
         .end (err, res) ->
           if not err
             property = res.body
-            ndx.property.fetch roleId, (mycase) ->
+            caseId = roleId + '' + property.DateInstructed.replace(/[-T:Z]/gi,'')
+            ndx.property.fetch caseId, roleId, (mycase) ->
               property.case = mycase
               processActions actionOn, actions, roleId, property
           else

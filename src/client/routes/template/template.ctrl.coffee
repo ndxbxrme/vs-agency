@@ -32,7 +32,7 @@ angular.module 'vs-agency'
     .then (response) ->
       if response.data and response.data.Collection and response.data.Collection.length
         $scope.defaultData.property = response.data.Collection[0]
-        $http.get "/api/properties/#{$scope.defaultData.property.RoleId}"
+        $http.get "/api/properties/#{$scope.defaultData.property.caseId}"
         .then (response) ->
           if response.data
             $scope.defaultData.property.case = response.data

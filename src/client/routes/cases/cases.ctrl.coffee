@@ -21,9 +21,15 @@ angular.module 'vs-agency'
     route: "#{env.PROPERTY_URL}/search"
   , $scope.propsOpts
   , (properties) ->
+    $scope.nodeleted = 0
     for property in properties.items
       property.displayAddress = "#{property.Address.Number} #{property.Address.Street }, #{property.Address.Locality }, #{property.Address.Town}, #{property.Address.Postcode}"
-      property.$case = $scope.single 'properties', property.RoleId, (item) ->
+      property.$case = $scope.single 'properties', property.RoleId + '' + property.DateInstructed.replace(/[-T:Z]/gi,''), (item) ->
+        if not item.item
+          console.log item.$parent
+          item.$parent.deleted = true
+          $scope.nodeleted++
+          return
         item.$parent.search = "#{item.$parent.displayAddress}||#{item.item.vendor}||#{item.item.purchaser}"
         item.$parent.milestoneStatus = item.item.milestoneStatus
         if item.item.progressions and item.item.progressions.length

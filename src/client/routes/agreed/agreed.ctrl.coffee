@@ -59,6 +59,7 @@ angular.module 'vs-agency'
               commission: property.override.commission or property.role.Commission
               date: property.override.date or property.role.CreatedDate
               roleId: property.roleId
+              caseId: property.caseId
               delisted: property.delisted
               completeBeforeDelisted: completeBeforeDelisted
           break
