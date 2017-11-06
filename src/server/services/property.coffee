@@ -125,13 +125,13 @@ module.exports = (ndx) ->
               , ->
                 callback()
             else
+              #if deleted or completed then check for new offer id
               #check for progression updates
               propClone = JSON.stringify mycase
               calculateMilestones mycase
               if propClone isnt JSON.stringify mycase
-                ndx.database.update 'properties',
-                  modifiedAt: new Date().valueOf()
-                ,
+                mycase.modifiedAt = new Date().valueOf()
+                ndx.database.update 'properties', mycase,
                   _id: mycase._id
               callback()
         , ->
@@ -161,9 +161,11 @@ module.exports = (ndx) ->
     getDefaultProgressions: getDefaultProgressions
     checkNew: checkNew
     fetch: (roleId, cb) ->
+      console.log 'property fetch', roleId
       ndx.database.select 'properties',
         roleId: roleId.toString()
       , (property) ->
+        console.log 'got property', property.length
         fetchPropertyRole = (roleId, property, propcb) ->
           ndx.dezrez.get 'role/{id}', null, id:roleId, (err, body) ->
             if not err
@@ -173,6 +175,9 @@ module.exports = (ndx) ->
                     property.delisted = false
                     return propcb? property
                   else
+                    console.log 'that one'
+                    console.log 'offer    ', property.offer?.Id
+                    console.log 'new offer', body.AcceptedOffer.Id
                     property.delisted = false
                     property.role = body
                     property.offer = body.AcceptedOffer
@@ -201,12 +206,19 @@ module.exports = (ndx) ->
               return propcb? null
         
         if property and property.length
+          offerId = property[0].offer.Id
           cb? property[0]
           if property[0].modifiedAt + (60 * 60 * 1000) < new Date().valueOf()
-            fetchPropertyRole property[0].roleId, property[0], (property) ->
-              if property
-                ndx.database.update 'properties', property,
-                  _id: property._id
+            fetchPropertyRole property[0].roleId, property[0], (prop) ->
+              if prop
+                if prop.offer.Id isnt offerId
+                  ndx.database.update 'properties',
+                    roleId: property[0].roleId + '_' + offerId
+                  ,
+                    roleId: property[0].roleId
+                else
+                  ndx.database.update 'properties', prop,
+                    _id: prop._id
         else
           property =
             roleId: roleId.toString()
