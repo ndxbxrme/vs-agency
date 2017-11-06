@@ -161,11 +161,9 @@ module.exports = (ndx) ->
     getDefaultProgressions: getDefaultProgressions
     checkNew: checkNew
     fetch: (roleId, cb) ->
-      console.log 'property fetch', roleId
       ndx.database.select 'properties',
         roleId: roleId.toString()
       , (property) ->
-        console.log 'got property', property.length
         fetchPropertyRole = (roleId, property, propcb) ->
           ndx.dezrez.get 'role/{id}', null, id:roleId, (err, body) ->
             if not err
@@ -175,9 +173,6 @@ module.exports = (ndx) ->
                     property.delisted = false
                     return propcb? property
                   else
-                    console.log 'that one'
-                    console.log 'offer    ', property.offer?.Id
-                    console.log 'new offer', body.AcceptedOffer.Id
                     property.delisted = false
                     property.role = body
                     property.offer = body.AcceptedOffer
@@ -222,6 +217,7 @@ module.exports = (ndx) ->
         else
           property =
             roleId: roleId.toString()
+            startDate: new Date().valueOf()
           fetchPropertyRole roleId, property, (property) ->
             if property
               getDefaultProgressions property
