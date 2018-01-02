@@ -8,6 +8,7 @@ require 'ndx-server'
   hasInvite: true
   hasForgot: true
   serveUploads: true
+  softDelete: true
   publicUser:
     _id: true
     displayName: true
