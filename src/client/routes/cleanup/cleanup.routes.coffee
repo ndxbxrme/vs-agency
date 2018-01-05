@@ -6,6 +6,8 @@ angular.module 'vs-agency'
     url: '/cleanup'
     templateUrl: 'routes/cleanup/cleanup.html'
     controller: 'CleanupCtrl'
+    data:
+      title: 'Vitalspace Conveyancing - Cleanup'
     resolve:
       user: (Auth) ->
         Auth.getPromise(['admin', 'superadmin'])

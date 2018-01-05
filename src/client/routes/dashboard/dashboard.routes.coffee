@@ -7,6 +7,8 @@ angular.module 'vs-agency'
     url: '/'
     templateUrl: 'routes/dashboard/dashboard.html'
     controller: 'DashboardCtrl'
+    data:
+      title: 'Vitalspace Conveyancing - Dashboard'
     resolve:
       user: (Auth) ->
         Auth.getPromise()

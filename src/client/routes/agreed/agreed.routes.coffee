@@ -6,6 +6,8 @@ angular.module 'vs-agency'
     url: '/agreed'
     templateUrl: 'routes/agreed/agreed.html'
     controller: 'AgreedCtrl'
+    data:
+      title: 'Vitalspace Conveyancing - Agreed'
     resolve:
       user: (Auth) ->
         Auth.getPromise(['agency', 'admin', 'superadmin'])

@@ -6,3 +6,5 @@ angular.module 'vs-agency'
     url: '/invited'
     templateUrl: 'routes/invited/invited.html'
     controller: 'InvitedCtrl'
+    data:
+      title: 'Vitalspace Conveyancing - Invited'
