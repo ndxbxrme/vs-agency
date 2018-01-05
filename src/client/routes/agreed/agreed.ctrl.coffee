@@ -50,7 +50,7 @@ angular.module 'vs-agency'
         i = $scope.months.length
         while i-- > 0
           month = $scope.months[i]
-          if new Date(property.startDate) > month.date
+          if $scope.endDate.startDate > new Date(property.startDate) > month.date
             completeBeforeDelisted = false
             if property.progressions and property.progressions.length
               progression = property.progressions[0]
