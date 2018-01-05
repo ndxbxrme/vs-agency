@@ -45,7 +45,7 @@ angular.module 'vs-agency'
           if not override.deleted
             item.$parent.address = override.address or item.$parent.displayAddress
             item.$parent.commission = override.commission or item.item.role.Commission
-            item.$parent.date = override.date or item.item.startDate or item.item.progressions[0].milestones[0][0].startTime
+            item.$parent.date = new Date(override.date or item.item.startDate or item.item.progressions[0].milestones[0][0].startTime).valueOf()
             solicitor = getSolicitor item.item.purchasersSolicitor?.role
             pushProperty solicitor, item.$parent, 'purchaser'
             solicitor = getSolicitor item.item.vendorsSolicitor?.role

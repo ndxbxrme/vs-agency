@@ -19,7 +19,7 @@
             h5 Address
             h5 Date
           hr
-          .property(ng-repeat='property in solicitor.properties')
+          .property(ng-repeat='property in solicitor.properties | orderBy:"date"')
             .default(ui-sref='case({roleId:property.RoleId})')
               .number {{$index + 1}}
               .address {{property.address}}
