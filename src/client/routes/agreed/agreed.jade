@@ -3,8 +3,10 @@
     h1 Monthly Sales Agreed
     .search
       input(type='text', ng-model='search', placeholder='Search...')
+  .row.years
+    a(href='', ng-click='setDateRange(year)', ng-repeat='year in years', ng-class='{selected:year===currentYear}') {{year}}
   .months
-    .month(ng-repeat='month in months | filter:search | orderBy:"-date"')
+    .month(ng-repeat='month in months | filter:search | orderBy:"date"', ng-class='{disabled:month.date > now}')
       .inner
         .row
           .month-name {{month.month}} 

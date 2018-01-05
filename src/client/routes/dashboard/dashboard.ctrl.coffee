@@ -42,9 +42,20 @@ angular.module 'vs-agency'
           if property.override?.deleted
             continue
           if minIndex <= property.milestoneIndex[di.progression] <= maxIndex
-            if list
-              output.push property
-            count++
+            propertyGood = true
+            if di.min and di.max
+              propertyGood = false
+              for progression in property.progressions
+                if progression._id is di.progression
+                  for branch in progression.milestones
+                    for milestone in branch
+                      if milestone._id is di.minms or milestone._id is di.maxms
+                        if di.min <= milestone.estCompletedTime <= di.max
+                          propertyGood = true
+            if propertyGood
+              if list
+                output.push property
+              count++
     if list
       output
     else

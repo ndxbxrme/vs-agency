@@ -4,6 +4,13 @@
     display flex
     justify-content space-between
     align-items baseline
+  .years
+    justify-content flex-start
+    a
+      padding 0.5rem
+      color vs-orange
+      &.selected
+        font-size 2rem
   .months
     display flex
     flex-wrap wrap
@@ -13,6 +20,8 @@
     .month
       width calc(33.3333% - 1.02rem)
       margin .51rem
+      &.disabled
+        opacity 0.3
       .inner
         box-sizing border-box
         padding 1.02rem

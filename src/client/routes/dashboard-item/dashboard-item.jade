@@ -25,6 +25,10 @@
       label End milestone
       select(ng-model='dashboardItem.item.maxms')
         option(ng-repeat='item in getMilestones()', value='{{item._id}}') {{item.title}}
+    label Minimum date
+    input(type='text', ng-model='dashboardItem.item.min', date-input)
+    label Maximum date
+    input(type='text', ng-model='dashboardItem.item.max', date-input)
     .controls
       input(type='submit', value=' Save ')
       button(ng-click='cancel()') Cancel
