@@ -10,6 +10,9 @@
       li(ng-class="{selected:state('agreed')}")
         a(ui-sref='agreed')
           span Agreed
+      li(ng-class="{selected:state('solicitors')}", ng-show="auth.checkRoles(['admin', 'superadmin', 'agency'])")
+        a(ui-sref='solicitors')
+          span Solicitors
       li(ng-class="{selected:state('setup')}", ng-show="auth.checkRoles(['admin', 'superadmin'])")
         a(ui-sref='setup')
           span Setup

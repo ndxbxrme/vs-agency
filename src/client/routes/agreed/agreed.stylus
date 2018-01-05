@@ -1,5 +1,5 @@
 @import '../../variables'
-.agreed-route
+.agreed-route, .solicitors-route
   .row
     display flex
     justify-content space-between
@@ -11,13 +11,13 @@
       color vs-orange
       &.selected
         font-size 2rem
-  .months
+  .months, .solicitors
     display flex
     flex-wrap wrap
     width 100%
     hr
       opacity 0.3
-    .month
+    .month, .solicitor
       width calc(33.3333% - 1.02rem)
       margin .51rem
       &.disabled
@@ -27,11 +27,11 @@
         padding 1.02rem
         border 1px solid #ccc
         border-radius .3rem
-        .month-name
+        .month-name, .solicitors-name
           min-width 10rem
           color vs-orange
           font-size 2rem
-        .target
+        .target, .cases
           display flex
           align-items baseline
           cursor pointer
@@ -92,8 +92,12 @@
               .address
                 margin 0 1.02rem
                 flex 1
+              .p, .v
+                color vs-orange
+                font-weight bold
               .fees
-                margin-right 1.02rem
+                margin-right 0.6rem
+                margin-left 0.6rem
               .date
                 white-space nowrap
             .editor

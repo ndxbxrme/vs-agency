@@ -20,6 +20,7 @@
       img
         width 195px
     nav.main-menu 
+      margin-left 3rem
       flex 1
       ul.menu
         display flex
@@ -27,7 +28,7 @@
         padding 0
         list-style-type none
         li
-          margin-left 4rem
+          margin-left 1.02rem
           a
             color white
             text-transform uppercase
