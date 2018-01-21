@@ -207,10 +207,16 @@ module.exports = (ndx) ->
             fetchPropertyRole property[0].roleId, property[0], (prop) ->
               if prop
                 if prop.offer.Id isnt offerId
-                  ndx.database.update 'properties',
-                    roleId: property[0].roleId + '_' + offerId
-                  ,
-                    roleId: property[0].roleId
+                  if property[0].delisted
+                    ndx.database.update 'properties',
+                      roleId: property[0].roleId + '_' + offerId
+                    ,
+                      roleId: property[0].roleId
+                  else
+                    ndx.database.update 'properties',
+                      offer: prop.offer
+                    ,
+                      roleId: property[0].roleId
                 else
                   ndx.database.update 'properties', prop,
                     _id: prop._id

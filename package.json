@@ -1,6 +1,6 @@
 {
   "name": "vs-agency",
-  "version": "0.10.30",
+  "version": "0.10.31",
   "description": "",
   "main": "server/app.js",
   "scripts": {
