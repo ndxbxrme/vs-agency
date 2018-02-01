@@ -152,6 +152,7 @@ module.exports = (ndx) ->
                     _id: property._id.toString()
                 propCallback()
   setInterval checkNew, 10 * 60 * 1000
+  checkNew()
   ndx.database.on 'preUpdate', (args, cb) ->
     if args.table is 'properties'
       property = args.obj
@@ -203,7 +204,12 @@ module.exports = (ndx) ->
         if property and property.length
           offerId = property[0].offer.Id
           cb? property[0]
-          if property[0].modifiedAt + (60 * 60 * 1000) < new Date().valueOf()
+          if property[0].override?.deleted and property[0].roleId.toString().indexOf('_') is -1
+            ndx.database.update 'properties',
+              roleId: property[0].roleId + '_' + property[0].offer.Id
+            ,
+              roleId: property[0].roleId
+          else if property[0].modifiedAt + (60 * 60 * 1000) < new Date().valueOf()
             fetchPropertyRole property[0].roleId, property[0], (prop) ->
               if prop
                 if prop.offer.Id isnt offerId
