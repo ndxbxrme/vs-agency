@@ -5,7 +5,10 @@ angular.module 'vs-agency'
   $scope.propsOpts = 
     where:
       delisted: false
-  $scope.properties = $scope.list 'properties', null, (properties) ->
+  $scope.properties = $scope.list 'properties', 
+    where: null
+    transformer: 'dashboard/properties'
+  , (properties) ->
     i = properties.items.length
     while i-- > 0
       property = properties.items[i]
@@ -18,7 +21,6 @@ angular.module 'vs-agency'
         milestone = progression.milestones[progression.milestones.length-1]
         completeBeforeDelisted = (not milestone[0].completed && property.delisted) || not property.delisted
       property.completeBeforeDelisted = completeBeforeDelisted
-      property.displayAddress = "#{property.offer.Property.Address.Number} #{property.offer.Property.Address.Street }, #{property.offer.Property.Address.Locality }, #{property.offer.Property.Address.Town}, #{property.offer.Property.Address.Postcode}"
   $scope.dashboard = $scope.list 'dashboard',
     sort: 'i'
   $scope.progressions = $scope.list 'progressions'

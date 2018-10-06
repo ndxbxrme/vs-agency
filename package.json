@@ -1,6 +1,6 @@
 {
   "name": "vs-agency",
-  "version": "0.10.33",
+  "version": "0.10.34",
   "description": "",
   "main": "server/app.js",
   "scripts": {
@@ -51,15 +51,16 @@
     "ndx-passport": "^0.4.17",
     "ndx-permissions": "^0.3.3",
     "ndx-profiler": "^0.1.2",
-    "ndx-rest": "^0.5.0",
+    "ndx-rest": "^0.7.1",
     "ndx-scheduler": "0.0.10",
-    "ndx-server": "^0.13.24",
+    "ndx-server": "^0.16.9",
     "ndx-short-token": "0.0.6",
-    "ndx-socket": "0.0.8",
+    "ndx-socket": "^0.1.1",
     "ndx-static-routes": "0.0.13",
     "ndx-superadmin": "^0.1.4",
     "ndx-user-roles": "^0.4.0",
     "ndx-zensend": "0.0.6",
+    "ndxdb": "^1.10.11",
     "progress": "^1.1.8",
     "superagent": "^3.5.0"
   }

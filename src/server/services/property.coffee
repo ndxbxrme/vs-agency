@@ -3,6 +3,15 @@ superagent = require 'superagent'
 async = require 'async'
 
 module.exports = (ndx) ->
+  ndx.database.on 'ready', ->
+    ndx.database.select 'properties',
+      override:
+        deleted: true
+    , (props) ->
+      for prop in props
+        ndx.database.delete 'properties',
+          _id: prop._id
+        console.log 'deleted', prop._id
   getDefaultProgressions = (property) ->
     property.progressions = []
     ndx.database.select 'progressions',
@@ -170,6 +179,9 @@ module.exports = (ndx) ->
             if not err
               ndx.dezrez.get 'role/{id}', null, id:body.PurchasingRoleId, (err, body) ->
                 if not err
+                  if body.RoleStatus?.SystemName isnt 'OfferAccepted'
+                    property.badProp = true
+                    return propcb? property
                   if property.role and JSON.stringify(property.role) is JSON.stringify(body)
                     property.delisted = false
                     return propcb? property
@@ -231,7 +243,7 @@ module.exports = (ndx) ->
             roleId: roleId.toString()
             startDate: new Date().valueOf()
           fetchPropertyRole roleId, property, (property) ->
-            if property
+            if property and not property.badProp
               getDefaultProgressions property
               property.delisted = false
               property.milestone = ''

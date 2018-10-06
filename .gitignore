@@ -16,3 +16,4 @@ uploads
 logs
 .DS_Store
 encrypt.bat
+package-lock.json

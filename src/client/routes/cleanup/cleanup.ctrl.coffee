@@ -2,6 +2,7 @@
 
 angular.module 'vs-agency'
 .controller 'CleanupCtrl', ($scope, $filter, $timeout, $http) ->
+  $scope.loading = true
   $scope.progressions = $scope.list 'progressions',
     isdefault: true
   , (progressions) ->
@@ -18,6 +19,7 @@ angular.module 'vs-agency'
             continue
         if property.exchangeDate > new Date().valueOf() or property.override?.deleted
           properties.items.splice i, 1
+      $scope.loading = false
   $scope.sort = 'offer.Property.Address.Street'
   $scope.doSort = (field) ->
     if not $scope.sort
