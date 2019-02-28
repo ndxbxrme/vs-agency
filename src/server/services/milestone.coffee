@@ -114,7 +114,7 @@ module.exports = (ndx) ->
                 , (res) ->
                   if res and res.length
                     for contact in contacts
-                      ndx.zensend.send
+                      ndx.sms.send
                         originator: 'VitalSpace'
                         numbers: [contact.telephone]
                         body: res[0].body
