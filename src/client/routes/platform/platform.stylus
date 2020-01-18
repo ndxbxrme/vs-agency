@@ -1,0 +1,34 @@
+@import '../../variables'
+.platform
+  h2
+    color vs-orange
+    text-align center
+  .platform-links
+    margin 30px auto
+    display flex
+    justify-content center
+    align-items flex-end
+    a
+      display flex
+      flex-direction column
+      font-size 1.8rem
+      color vs-grey
+      padding 30px
+      svg 
+        font-size 6rem
+        text-align center
+        margin 20px auto
+        .fa-primary
+          fill vs-grey
+          transition all 0.4s ease-in-out
+        .fa-secondary
+          fill vs-lightgrey 
+          transition all 0.4s ease-in-out
+      &:hover
+        color vs-orange 
+        svg
+          .fa-primary
+            fill vs-orange
+          .fa-secondary
+            fill vs-grey 
+        

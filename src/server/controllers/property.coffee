@@ -76,6 +76,54 @@ module.exports = (ndx) ->
     ,
       roleId: req.body.property.roleId.toString()
     res.end 'OK'
+  ndx.app.post '/api/properties/send-new-sales-email', ndx.authenticate(), (req, res, next) ->
+    if ndx.email
+      user = ndx.user
+      ndx.database.select 'emailtemplates',
+        name: 'New Sales Instruction Email - Garry'
+      , (templates) ->
+        if templates and templates.length
+          templates[0].newSales = req.body.newSales
+          templates[0].user = user
+          templates[0].to = 'garry@vitalspace.co.uk'
+          ndx.email.send templates[0]
+    res.end 'OK'
+  ndx.app.post '/api/properties/send-new-sales-email', ndx.authenticate(), (req, res, next) ->
+    if ndx.email
+      user = ndx.user
+      ndx.database.select 'emailtemplates',
+        name: 'New Sales Instruction Email'
+      , (templates) ->
+        if templates and templates.length
+          templates[0].newSales = req.body.newSales
+          templates[0].user = user
+          templates[0].to = 'allusers@vitalspace.co.uk'
+          ndx.email.send templates[0]
+    res.end 'OK'
+  ndx.app.post '/api/properties/send-reduction-email', ndx.authenticate(), (req, res, next) ->
+    if ndx.email
+      user = ndx.user
+      ndx.database.select 'emailtemplates',
+        name: 'Price Reduction Email - Garry' 
+      , (templates) ->
+        if templates and templates.length
+          templates[0].reduction = req.body.reduction
+          templates[0].user = user
+          templates[0].to = 'garry@vitalspace.co.uk'
+          ndx.email.send templates[0]
+    res.end 'OK'
+  ndx.app.post '/api/properties/send-reduction-email', ndx.authenticate(), (req, res, next) ->
+    if ndx.email
+      user = ndx.user
+      ndx.database.select 'emailtemplates',
+        name: 'Price Reduction Email' 
+      , (templates) ->
+        if templates and templates.length
+          templates[0].reduction = req.body.reduction
+          templates[0].user = user
+          templates[0].to = 'allusers@vitalspace.co.uk'
+          ndx.email.send templates[0]
+    res.end 'OK'
   ndx.app.get '/api/properties/:roleId', ndx.authenticate(), (req, res, next) ->
     ndx.property.fetch req.params.roleId, (property) ->
       res.json property

@@ -1,0 +1,68 @@
+.marketing
+  h1 Marketing
+  .marketing-forms
+    .m-form
+      h2 New Sales Instruction Form
+      form(name='newSalesEmail', novalidate, ng-submit='submit()', ng-hide='salesEmailSent')
+        .row
+          .input-holder
+            label Property Address
+            textarea(name='address', ng-model='newSales.address')
+        .row
+          .input-holder.third
+            label Property Price
+            input(type='text', name='newSalesPropertyPrice', ng-model='newSales.newSalesPropertyPrice', placeholder='£', required)
+            .error(ng-show='submitted && newSalesEmail.newSalesPropertyPrice.$invalid') Please add the Property Price
+          .input-holder.third
+            label Bedrooms
+            select(name='bedrooms', ng-model='newSales.bedrooms', required)
+              option(value='', selected) Please Select
+              option(value='1') 1
+              option(value='2') 2
+              option(value='3') 3
+              option(value='4') 4
+              option(value='5') 5
+              option(value='6') 6
+            .error(ng-show='submitted && newSalesEmail.bedrooms.$invalid') Please select the amount of bedrooms
+          .input-holder.third
+            label Property Type
+            select(name='propertyType', ng-model='newSales.propertyType', required)
+              option(value='', selected) Please Select
+              option(value='Apartment') Apartment
+              option(value='Terrace') Terrace
+              option(value='Semi Detached') Semi Detached
+              option(value='Detached') Detached
+            .error(ng-show='submitted && newSalesEmail.propertyType.$invalid') Please select the property Type
+        .row
+          .input-holder.half
+            label VitalSpace URL
+            input(type='text', name='newSalesPropertyUrl', ng-model='newSales.newSalesPropertyUrl', placeholder='https://...')
+        .row
+          .input-holder
+            label Access Arrangements
+            textarea(name='access', ng-model='newSales.access')
+        .row
+          .controls.right
+            button(type='button', ng-click='cancel()') Cancel
+            input(type='submit', value='Submit')
+        .success(ng-show='salesEmailSent')
+          h2 Form Submitted Successfully
+    
+    .m-form
+      h2 Price Reduction Form
+      form(name='reductionEmail', novalidate, ng-submit='submit()', ng-hide='reductionEmailSent')
+        .row
+          .input-holder
+            label Property Address
+            textarea(name='address', ng-model='reduction.address')
+        .row
+          .input-holder.half
+            label New Property Price
+            input(type='text', name='reductionPropertyPrice', ng-model='reduction.reductionPropertyPrice', placeholder='£', required)
+            .error(ng-show='submitted && reductionEmail.reductionPropertyPrice.$invalid') Please add the Property Price
+        .row
+          .controls.right
+            button(type='button', ng-click='cancel()') Cancel
+            input(type='submit', value='Submit')
+        .success(ng-show='reductionEmailSent')
+          h2 Form Submitted Successfully
