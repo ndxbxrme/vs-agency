@@ -3,15 +3,19 @@
 angular.module 'vs-agency'
 .controller 'MarketingCtrl', ($scope, $state, env, $http) ->
   hideMenu = $state.current.data.hideMenu
-  $scope.submit = ->
+  $scope.submitNewSales = ->
     $scope.submitted = true
     if $scope.newSalesEmail.$valid
       $http.post '/api/properties/send-new-sales-email',
         newsalesemail: $scope.newSalesEmail
       .then ->
-        $scope.emailSent = true
+        $scope.salesEmailSent = true
+        $scope.submitted = false
+  $scope.submitReduction = ->
+    $scope.submitted = true
     if $scope.reductionEmail.$valid
       $http.post '/api/properties/send-reduction-email',
         reductionemail: $scope.reductionEmailEmail
       .then ->
-        $scope.emailSent = true
+        $scope.reductionEmailSent = true
+        $scope.submitted = false

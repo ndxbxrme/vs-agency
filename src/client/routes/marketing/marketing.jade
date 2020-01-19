@@ -3,7 +3,7 @@
   .marketing-forms
     .m-form
       h2 New Sales Instruction Form
-      form(name='newSalesEmail', novalidate, ng-submit='submit()', ng-hide='salesEmailSent')
+      ng-form(name='newSalesEmail', novalidate, ng-submit='submitNewSales()', ng-hide='salesEmailSent')
         .row
           .input-holder
             label Property Address
@@ -45,12 +45,12 @@
           .controls.right
             button(type='button', ng-click='cancel()') Cancel
             input(type='submit', value='Submit')
-        .success(ng-show='salesEmailSent')
-          h2 Form Submitted Successfully
+      .success(ng-show='salesEmailSent')
+        h2 Form Submitted Successfully
     
     .m-form
       h2 Price Reduction Form
-      form(name='reductionEmail', novalidate, ng-submit='submit()', ng-hide='reductionEmailSent')
+      ng-form(name='reductionEmail', novalidate, ng-submit='submitReduction()', ng-hide='reductionEmailSent')
         .row
           .input-holder
             label Property Address
@@ -64,5 +64,5 @@
           .controls.right
             button(type='button', ng-click='cancel()') Cancel
             input(type='submit', value='Submit')
-        .success(ng-show='reductionEmailSent')
-          h2 Form Submitted Successfully
+      .success(ng-show='reductionEmailSent')
+        h2 Form Submitted Successfully

@@ -23,6 +23,15 @@ angular.module 'vs-agency'
     displayAddress: "Apt 19 St Lawrence Street, Hulme, Manchester, M15 4DY"
     text: marked "## Advance Progression Request  \n#### Milestone  \n`Searches Completed`  \n#### Advance to  \n`Wed May 24 2017`  \n#### Requested by  \n`Dawn Wetherill`  \n#### Reason  \nA reason  \n"
     link: "https://conveyancing.vitalspace.co.uk/case/4653108"
+    newSales:
+      address: "Apt 19 St Lawrence Street, Hulme, Manchester, M15 4DY"
+      bedrooms: "3"
+      propertyType: "Apartment"
+      access: "Access Instructions"
+      newSalesPropertyUrl: "https://conveyancing.vitalspace.co.uk/case/4653108"
+    reduction:
+      address: "Apt 19 St Lawrence Street, Hulme, Manchester, M15 4DY"
+      reductionPropertyPrice: "1000000"
   fetchDefaultProp = ->
     $http.post "#{env.PROPERTY_URL}/search",
       RoleStatus: 'OfferAccepted'
