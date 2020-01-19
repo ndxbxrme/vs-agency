@@ -1,13 +1,12 @@
 'use strict'
 
 angular.module 'vs-agency'
-.controller 'MarketingCtrl', ($scope, $state, env, $http) ->
-  hideMenu = $state.current.data.hideMenu
+.controller 'MarketingCtrl', ($scope, $http) ->
   $scope.submitNewSales = ->
     $scope.submitted = true
     if $scope.newSalesEmail.$valid
       $http.post '/api/properties/send-new-sales-email',
-        newsalesemail: $scope.newSalesEmail
+        newSales: $scope.newSales
       .then ->
         $scope.salesEmailSent = true
         $scope.submitted = false
@@ -15,7 +14,7 @@ angular.module 'vs-agency'
     $scope.submitted = true
     if $scope.reductionEmail.$valid
       $http.post '/api/properties/send-reduction-email',
-        reductionemail: $scope.reductionEmailEmail
+        reduction: $scope.reduction
       .then ->
         $scope.reductionEmailSent = true
         $scope.submitted = false
