@@ -1,8 +1,8 @@
 .marketing
-  h1 Marketing
+  h1 Marketing Forms
   .marketing-forms
-    .m-form
-      h2 New Sales Instruction Form
+    h2(ng-click='status_new=!status_new') New Sales Instruction Form
+    .m-form(ng-class="status_new ? 'open' : 'closed'")
       form(name='newSalesEmail', novalidate, ng-submit='submitNewSales()', ng-hide='salesEmailSent')
         .row
           .input-holder
@@ -48,8 +48,8 @@
       .success(ng-show='salesEmailSent')
         h2 Form Submitted Successfully
     
-    .m-form
-      h2 Price Reduction Form
+    h2(ng-click='status_reduction=!status_reduction') Price Reduction Form
+    .m-form(ng-class="status_reduction ? 'open' : 'closed'")
       form(name='reductionEmail', novalidate, ng-submit='submitReduction()', ng-hide='reductionEmailSent')
         .row
           .input-holder

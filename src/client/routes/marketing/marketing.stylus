@@ -2,6 +2,13 @@
 .marketing
   h2
     color vs-orange
+    border-bottom 1px solid #f1f1f1
+    padding-bottom 20px
+  .m-form
+    &.closed
+      display none
+    &.open
+      display block
   form
     border-bottom 2px solid vs-orange
     margin-bottom 40px
