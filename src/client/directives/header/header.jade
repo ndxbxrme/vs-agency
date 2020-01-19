@@ -3,10 +3,10 @@
     .branding
       a.logo(href="/")
         img.logo(src="public/img/VitalSpaceLogo-2016.svg")
-    nav.main-menu.mobile-hide(ng-show='auth.getUser()', ng-hide='hideMenu()')
-      ul.menu
+    nav.main-menu.mobile-hide(ng-show='auth.getUser()')
+      ul.menu(ng-hide='hideMenu()')
         li(ng-class="{selected:state('dashboard')}")
-          a(href='dashboard')
+          a(ui-sref='dashboard')
             span Dashboard
         li(ng-class="{selected:state(['cases', 'case'])}")
           a(ui-sref='cases')
