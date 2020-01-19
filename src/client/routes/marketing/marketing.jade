@@ -3,7 +3,7 @@
   .marketing-forms
     .m-form
       h2 New Sales Instruction Form
-      ng-form(name='newSalesEmail', novalidate, ng-submit='submitNewSales()', ng-hide='salesEmailSent')
+      form(name='newSalesEmail', novalidate, ng-submit='submitNewSales()', ng-hide='salesEmailSent')
         .row
           .input-holder
             label Property Address
@@ -50,7 +50,7 @@
     
     .m-form
       h2 Price Reduction Form
-      ng-form(name='reductionEmail', novalidate, ng-submit='submitReduction()', ng-hide='reductionEmailSent')
+      form(name='reductionEmail', novalidate, ng-submit='submitReduction()', ng-hide='reductionEmailSent')
         .row
           .input-holder
             label Property Address

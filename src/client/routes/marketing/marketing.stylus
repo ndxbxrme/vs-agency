@@ -33,11 +33,6 @@
             -webkit-appearance radio
           label
             font-weight 500
-    .feesbox
-      width 100%
-      display flex
-      input[type=text]
-        width 98%
       
   .controls.right
     float right
@@ -52,3 +47,6 @@
   input[type=submit]
     background vs-orange
     color white
+  .success h2 
+    color vs-grey
+    font-weight 300

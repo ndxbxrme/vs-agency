@@ -28,6 +28,7 @@ angular.module 'vs-agency'
       bedrooms: "3"
       propertyType: "Apartment"
       access: "Access Instructions"
+      newSalesPropertyPrice: "200 000"
       newSalesPropertyUrl: "https://conveyancing.vitalspace.co.uk/case/4653108"
     reduction:
       address: "Apt 19 St Lawrence Street, Hulme, Manchester, M15 4DY"
