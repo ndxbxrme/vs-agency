@@ -33,6 +33,92 @@ angular.module 'vs-agency'
     reduction:
       address: "Apt 19 St Lawrence Street, Hulme, Manchester, M15 4DY"
       reductionPropertyPrice: "1000000"
+    unknowns: [
+      {
+        address: '18 Balmain Road, Urmston, Manchester, M41 5TF',
+        id: '4426117',
+        purchasingSolicitor: true,
+        vendingSolicitor: false
+      },
+      {
+        address: '345d Stretford Road, Hulme, Manchester, M15 4AY',
+        id: '8364494',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: ' Crampton Lane, Carrington , Manchester, M31 4WY',
+        id: '11861854',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '17 Carisbrook Avenue, Urmston, Manchester, M41 9DF',
+        id: '15949225',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '8 Moss Lane, Partington, Manchester, M31 4EB',
+        id: '16456203',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '37 Tintern Avenue, Flixton, Manchester, M41 6FH',
+        id: '16456122',
+        purchasingSolicitor: false,
+        vendingSolicitor: true
+      },
+      {
+        address: '35 Sutherland Road, Firswood, Manchester, M16 0HY',
+        id: '16693966',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '11 Falcon Avenue, Urmston, Manchester, M41 9AR',
+        id: '16973039',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '11 Elizabeth Road, Partington, Manchester, M31 4PU',
+        id: '16087713',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '1 Broom Road, Partington, Manchester, M31 4FJ',
+        id: '17004161',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '26 Rothiemay Road, Flixton, Manchester, M41 6LP',
+        id: '17055271',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '3 Minster Drive, Urmston, Manchester, M41 5HA',
+        id: '15875450',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: 'Apt 206 Castle Quay, Castlefield, Manchester, M15 4NT',
+        id: '17114680',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      },
+      {
+        address: '39 Russell Road, Partington, Manchester, M31 4DY',
+        id: '17072807',
+        purchasingSolicitor: true,
+        vendingSolicitor: true
+      }
+    ]
   fetchDefaultProp = ->
     $http.post "#{env.PROPERTY_URL}/search",
       RoleStatus: 'OfferAccepted'

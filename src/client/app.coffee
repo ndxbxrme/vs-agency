@@ -8,11 +8,13 @@ angular.module 'vs-agency', [
   'ui.gravatar'
   'ngFileUpload'
 ]
-.config (gravatarServiceProvider) ->
+.config (gravatarServiceProvider, AuthProvider) ->
   gravatarServiceProvider.defaults =
     size: 16
     "default": 'mm'
     rating: 'pg'
+  AuthProvider.config
+    redirect: 'platform'
 .run ($rootScope, $state, progressionPopup, $http, $transitions, ndxModal, env) ->
   $http.defaults.headers.common.Authorization = "Bearer #{env.PROPERTY_TOKEN}"
   $rootScope.state = (route) ->
