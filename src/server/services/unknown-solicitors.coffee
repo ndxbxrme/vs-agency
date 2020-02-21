@@ -38,7 +38,7 @@ module.exports = (ndx) ->
                   if users and users.length
                     for user in users
                       console.log 'sending to', user.local?.email
-                      templates[0].properties = myproperties
+                      templates[0].unknowns = myproperties
                       templates[0].user = user
                       templates[0].to = user.local?.email
                       ndx.email.send templates[0]
