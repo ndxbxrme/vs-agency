@@ -11,4 +11,4 @@ angular.module 'vs-agency'
       hideMenu: true
     resolve:
       user: (Auth) ->
-        Auth.getPromise(['agency', 'admin', 'superadmin'])
+        Auth.getPromise()
