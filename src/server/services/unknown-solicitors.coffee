@@ -4,9 +4,7 @@ module.exports = (ndx) ->
     sendUnknownSolicitorEmails = ->
       ndx.database.select 'properties', 
         where:
-          RoleStatus: 'OfferAccepted'
-          RoleType: 'Selling'
-          IncludeStc: true
+          delisted: false
       , (properties) ->
         solicitors = []
         myproperties = []
