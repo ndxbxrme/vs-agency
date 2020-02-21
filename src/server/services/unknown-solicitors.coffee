@@ -2,7 +2,12 @@ module.exports = (ndx) ->
   ndx.database.on 'ready', ->
     nextSendTime = null
     sendUnknownSolicitorEmails = ->
-      ndx.database.select 'properties', null, (properties) ->
+      ndx.database.select 'properties', 
+        where:
+          RoleStatus: 'OfferAccepted'
+          RoleType: 'Selling'
+          IncludeStc: true
+      , (properties) ->
         solicitors = []
         myproperties = []
         reduce = (name) ->
@@ -45,12 +50,13 @@ module.exports = (ndx) ->
             , true
       , true
     resetNextSendTime = ->
-      nextSendTime = new Date(new Date(new Date().toDateString()).setHours(8))
+      nextSendTime = new Date(new Date(new Date().toDateString()).setHours(10))
       nextSendTime = new Date(nextSendTime.setDate(nextSendTime.getDate() + 1))
     resetNextSendTime()
     nextSendTime = new Date()
     setInterval ->
       if new Date() > nextSendTime
-        sendUnknownSolicitorEmails()
+        if 0 < nextSendTime < 6
+          sendUnknownSolicitorEmails()
         resetNextSendTime()
     , 10000
