@@ -30,16 +30,28 @@ module.exports = (ndx) ->
           if ndx.email
             ndx.database.select 'emailtemplates',
               name: 'Unknown Solicitors'
-            , (template) ->
-              if template and templates.length
-                templates[0].properties = myproperties
-                templates[0].user = user
-                templates[0].to = user.local?.email
-                ndx.email.send templates[0]
+            , (templates) ->
+              if templates and templates.length
+                ndx.database.select 'users',
+                  roles:
+                    agency:
+                      $nnull: true
+                  deleted: null
+                , (users) ->
+                  if users and users.length
+                    for user in users
+                      console.log 'sending to', user.local?.email
+                      templates[0].properties = myproperties
+                      templates[0].user = user
+                      templates[0].to = user.local?.email
+                      ndx.email.send templates[0]
+            , true
+      , true
     resetNextSendTime = ->
       nextSendTime = new Date(new Date(new Date().toDateString()).setHours(8))
       nextSendTime = new Date(nextSendTime.setDate(nextSendTime.getDate() + 1))
     resetNextSendTime()
+    nextSendTime = new Date(new Date().setMinutes(new Date().getMinutes() + 10))
     setInterval ->
       if new Date() > nextSendTime
         sendUnknownSolicitorEmails()
