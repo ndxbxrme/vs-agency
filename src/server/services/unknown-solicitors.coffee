@@ -54,7 +54,7 @@ module.exports = (ndx) ->
     nextSendTime = new Date()
     setInterval ->
       if new Date() > nextSendTime
-        if 0 < nextSendTime < 6
+        if 0 < nextSendTime.getDay() < 6
           sendUnknownSolicitorEmails()
         resetNextSendTime()
     , 10000
