@@ -48,7 +48,7 @@ module.exports = (ndx) ->
       nextSendTime = new Date(new Date(new Date().toDateString()).setHours(8))
       nextSendTime = new Date(nextSendTime.setDate(nextSendTime.getDate() + 1))
     resetNextSendTime()
-    nextSendTime = new Date(new Date().setMinutes(new Date().getMinutes() + 10))
+    nextSendTime = new Date()
     setInterval ->
       if new Date() > nextSendTime
         sendUnknownSolicitorEmails()
