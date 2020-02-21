@@ -33,9 +33,6 @@ module.exports = (ndx) ->
             , (templates) ->
               if templates and templates.length
                 ndx.database.select 'users',
-                  roles:
-                    agency:
-                      $nnull: true
                   deleted: null
                 , (users) ->
                   if users and users.length
