@@ -1,6 +1,6 @@
 'use strict'
 superagent = require 'superagent'
-async = require 'async'
+asy = require 'async'
 
 module.exports = (ndx) ->
   ndx.database.on 'ready', ->
@@ -113,7 +113,64 @@ module.exports = (ndx) ->
           completed: property.milestone.completed
           progressing: property.milestone.progressing
           overdue: property.milestoneStatus is 'overdue'
+  fetchClientManagementProperties = ->
+    new Promise (resolve) ->
+      opts = 
+        RoleStatus: 'InstructionToSell'
+        RoleType: 'Selling'
+        IncludeStc: true
+      superagent.post "#{process.env.PROPERTY_URL}/search"
+      .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
+      .send opts
+      .end (err, res) ->
+        if not err and res.body.Collection
+          now = new Date().getTime()
+          await Promise.all res.body.Collection.map (property) ->
+            new Promise (propRes) ->
+              property.viewings = await new Promise (res) -> 
+                ndx.dezrez.get 'role/{id}/viewingsbasic', null, id:property.RoleId, (err, body) -> 
+                  res(body)
+              property.extendedData = await new Promise (res) -> 
+                ndx.dezrez.get 'property/{id}', null, id:property.PropertyId, (err, body) -> 
+                  res(body)
+              property.role = await new Promise (res) -> 
+                ndx.dezrez.get 'role/{id}', null, id:property.RoleId, (err, body) ->
+                  res(body)
+              property.vendor = await new Promise (res) -> 
+                ndx.dezrez.get 'property/{id}/owners', null, id:property.PropertyId, (err, body) ->
+                  res(body)
+              property.rightmove = await new Promise (res) -> 
+                ndx.dezrez.get 'stats/rightmove/{id}', null, id:property.RoleId, (err, body) ->
+                  res(body)
+              property.offers = await new Promise (res) -> 
+                ndx.dezrez.get 'role/{id}/offers', null, id:property.RoleId, (err, body) ->
+                  res(body)
+              property.events = await new Promise (res) -> 
+                ndx.dezrez.get 'role/{id}/events', {pageSize:2000}, id:property.RoleId, (err, body) ->
+                  res(body)
+              property.active = true
+              property.now = now
+              dbprop = await new Promise (res) ->
+                ndx.database.select 'clientmanagement',
+                  RoleId: property.RoleId
+                , (items) -> res items[0]
+              if dbprop
+                property._id = dbprop._id
+                property.notes = dbprop.notes
+                ndx.database.upsert 'clientmanagement', property
+              else
+                property.notes = []
+                ndx.database.insert 'clientmanagement', property
+              propRes()
+          ndx.database.update 'clientmanagement',
+            active: false
+          ,
+            now: $lt: now
+          resolve()
+        else
+          resolve()
   checkNew = ->
+    fetchClientManagementProperties()
     opts = 
       RoleStatus: 'OfferAccepted'
       RoleType: 'Selling'
@@ -122,8 +179,9 @@ module.exports = (ndx) ->
     .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
     .send opts
     .end (err, res) ->
+      console.log 'superagent post returned'
       if not err and res.body.Collection
-        async.eachSeries res.body.Collection, (property, callback) ->
+        asy.eachSeries res.body.Collection, (property, callback) ->
           ndx.property.fetch property.RoleId.toString(), (mycase) ->
             if not mycase.progressions or not mycase.progressions.length
               ndx.property.getDefaultProgressions mycase
@@ -148,7 +206,7 @@ module.exports = (ndx) ->
             delisted: false
           , (properties) ->
             if properties and properties.length
-              async.eachSeries properties, (property, propCallback) ->
+              asy.eachSeries properties, (property, propCallback) ->
                 foundRole = false
                 for prop in res.body.Collection
                   if +property.roleId is +prop.RoleId
@@ -160,8 +218,9 @@ module.exports = (ndx) ->
                   ,
                     _id: property._id.toString()
                 propCallback()
-  setInterval checkNew, 10 * 60 * 1000
-  checkNew()
+  ndx.database.on 'ready', ->
+    setInterval checkNew, 10 * 60 * 1000
+    checkNew()
   ndx.database.on 'preUpdate', (args, cb) ->
     if args.table is 'properties'
       property = args.obj

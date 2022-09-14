@@ -4,7 +4,7 @@
       a.logo(href="/")
         img.logo(src="public/img/VitalSpaceLogo-2016.svg")
     nav.main-menu.mobile-hide(ng-show='auth.getUser()')
-      ul.menu(ng-hide='hideMenu()')
+      ul.menu(ng-hide='hideMenu() || state(["client-management-details","client-management-list"])')
         li(ng-class="{selected:state('dashboard')}")
           a(ui-sref='dashboard')
             span Dashboard
@@ -23,6 +23,10 @@
         li(ng-class="{selected:state('cleanup')}", ng-show="auth.checkRoles(['admin', 'superadmin'])")
           a(ui-sref='cleanup')
             span Cleanup
+      ul.menu(ng-hide='hideMenu() || !state(["client-management-details","client-management-list"])')
+        li(ng-class="{selected:state('client-management-list')}")
+          a(ui-sref='client-management-list')
+            span Available
     .user.mobile-hide
       a(ui-sref='profile') {{auth.getUser().displayName || auth.getUser().local.email}} 
       a(href='/api/logout', target='_self') 

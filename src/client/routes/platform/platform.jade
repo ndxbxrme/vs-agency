@@ -7,3 +7,6 @@
     a(href='dashboard')
       i.fad.fa-handshake
       | Conveyancing
+    a(href='client-management', ng-show="auth.checkRoles(['superadmin'])")
+      i.fad.fa-money-check-edit
+      | Client Management
