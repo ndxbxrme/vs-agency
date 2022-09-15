@@ -10,4 +10,4 @@ angular.module 'vs-agency'
       title: 'Vitalspace Conveyancing - Client Management'
     resolve:
       user: (Auth) ->
-        Auth.getPromise(['admin', 'superadmin'])
+        Auth.getPromise(['agency', 'admin', 'superadmin'])
