@@ -125,48 +125,54 @@ module.exports = (ndx) ->
       .end (err, res) ->
         if not err and res.body.Collection
           now = new Date().getTime()
-          await Promise.all res.body.Collection.map (property) ->
+          Promise.all res.body.Collection.map (property) ->
             new Promise (propRes) ->
-              property.viewings = await new Promise (res) -> 
-                ndx.dezrez.get 'role/{id}/viewingsbasic', null, id:property.RoleId, (err, body) -> 
-                  res(body)
-              property.extendedData = await new Promise (res) -> 
-                ndx.dezrez.get 'property/{id}', null, id:property.PropertyId, (err, body) -> 
-                  res(body)
-              property.role = await new Promise (res) -> 
-                ndx.dezrez.get 'role/{id}', null, id:property.RoleId, (err, body) ->
-                  res(body)
-              property.vendor = await new Promise (res) -> 
-                ndx.dezrez.get 'property/{id}/owners', null, id:property.PropertyId, (err, body) ->
-                  res(body)
-              property.rightmove = await new Promise (res) -> 
-                ndx.dezrez.get 'stats/rightmove/{id}', null, id:property.RoleId, (err, body) ->
-                  res(body)
-              property.offers = await new Promise (res) -> 
-                ndx.dezrez.get 'role/{id}/offers', null, id:property.RoleId, (err, body) ->
-                  res(body)
-              property.events = await new Promise (res) -> 
-                ndx.dezrez.get 'role/{id}/events', {pageSize:2000}, id:property.RoleId, (err, body) ->
-                  res(body)
-              property.active = true
-              property.now = now
-              dbprop = await new Promise (res) ->
-                ndx.database.select 'clientmanagement',
-                  RoleId: property.RoleId
-                , (items) -> res items[0]
-              if dbprop
-                property._id = dbprop._id
-                property.notes = dbprop.notes
-                ndx.database.upsert 'clientmanagement', property
-              else
-                property.notes = []
-                ndx.database.insert 'clientmanagement', property
-              propRes()
-          ndx.database.update 'clientmanagement',
-            active: false
-          ,
-            now: $lt: now
-          resolve()
+              Promise.all [
+                new Promise (res) -> 
+                  ndx.dezrez.get 'role/{id}/viewingsbasic', null, id:property.RoleId, (err, body) -> 
+                    property.viewings = body
+                    res(body)
+                  , ndx.dezrez.get 'property/{id}', null, id:property.PropertyId, (err, body) -> 
+                    property.extendedData = body
+                    res(body)
+                  , ndx.dezrez.get 'role/{id}', null, id:property.RoleId, (err, body) -> 
+                    property.role = body
+                    res(body)
+                  , ndx.dezrez.get 'property/{id}/owners', null, id:property.PropertyId, (err, body) -> 
+                    property.vendor = body
+                    res(body)
+                  , ndx.dezrez.get 'stats/rightmove/{id}', null, id:property.RoleId, (err, body) -> 
+                    property.rightmove = body
+                    res(body)
+                  , ndx.dezrez.get 'role/{id}/offers', null, id:property.RoleId, (err, body) -> 
+                    property.offers = body
+                    res(body)
+                  , ndx.dezrez.get 'role/{id}/events', {pageSize:2000}, id:property.RoleId, (err, body) -> 
+                    property.events = body
+                    res(body)
+              ]
+              .then ->
+                property.active = true
+                property.now = now
+                new Promise (res) ->
+                  ndx.database.select 'clientmanagement',
+                    RoleId: property.RoleId
+                  , (items) -> res items[0]
+                .then (dbprop) ->
+                  if dbprop
+                    property._id = dbprop._id
+                    property.notes = dbprop.notes
+                    ndx.database.upsert 'clientmanagement', property
+                  else
+                    property.notes = []
+                    ndx.database.insert 'clientmanagement', property
+                  propRes()
+          .then ->
+            ndx.database.update 'clientmanagement',
+              active: false
+            ,
+              now: $lt: now
+            resolve()
         else
           resolve()
   checkNew = ->
