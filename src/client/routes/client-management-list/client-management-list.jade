@@ -17,7 +17,7 @@
         th(width='15%') Vendor
         th(width='40%') Viewing Arrangements
         th(width='10%') Listed
-    tbody(ng-repeat='property in filterData =(properties.items  | orderBy:sort) | limitTo:limit:limit*(page-1)')
+    tbody(ng-repeat='property in filterData =(properties.items | filter:{"SearchField":search} | orderBy:sort) | limitTo:limit:limit*(page-1)')
       tr(ng-click='property.open = !property.open')
         td(ng-class='{"has-request animated pulse infinite":hasRequest(property)}')
           img.image(src='{{property.Images[0].Url}}?width=200', width='100') 
