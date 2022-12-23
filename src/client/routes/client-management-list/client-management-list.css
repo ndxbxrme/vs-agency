@@ -1,0 +1,207 @@
+svg {
+  --fa-primary-color: #f15b25;
+  --fa-secondary-color: #464e53;
+}
+.client-management-list .controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.client-management-list .controls .order-item,
+.client-management-list .controls .filter-item {
+  display: inline-block;
+  position: relative;
+  color: #f15b25;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+.client-management-list .controls .order-item.icon-green,
+.client-management-list .controls .filter-item.icon-green,
+.client-management-list .controls .order-item.icon-red,
+.client-management-list .controls .filter-item.icon-red,
+.client-management-list .controls .order-item.icon-orange,
+.client-management-list .controls .filter-item.icon-orange {
+  padding-left: 2rem;
+}
+.client-management-list .controls .order-item.icon-green:before,
+.client-management-list .controls .filter-item.icon-green:before,
+.client-management-list .controls .order-item.icon-red:before,
+.client-management-list .controls .filter-item.icon-red:before,
+.client-management-list .controls .order-item.icon-orange:before,
+.client-management-list .controls .filter-item.icon-orange:before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  background: #25f15c;
+  border-radius: 50%;
+}
+.client-management-list .controls .order-item.icon-red:before,
+.client-management-list .controls .filter-item.icon-red:before {
+  background: #f12540;
+}
+.client-management-list .controls .order-item.icon-orange:before,
+.client-management-list .controls .filter-item.icon-orange:before {
+  background: #ffa500;
+}
+.client-management-list .controls .order-item.selected,
+.client-management-list .controls .filter-item.selected {
+  text-decoration: underline;
+}
+.client-management-list .controls .showing {
+  text-align: right;
+}
+.client-management-list table {
+  border-collapse: collapse;
+}
+.client-management-list table thead tr th {
+  padding: 10px;
+  background: #f15b25;
+  text-align: left;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 100;
+  border-bottom: 1px solid #464e53;
+}
+.client-management-list table td {
+  border-bottom: 1px solid #ccc;
+  vertical-align: top;
+  padding: 15px;
+}
+.client-management-list table td .address {
+  color: #f15b25;
+  font-weight: bold;
+}
+.client-management-list table td .dates {
+  font-size: 1.1rem;
+}
+.client-management-list table td .dates .date {
+  margin-top: 0.5rem;
+}
+.client-management-list table td .milestone {
+  transform: translateY(1rem);
+}
+.client-management-list table td.offer {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+.client-management-list table td.offer p {
+  font-weight: 300;
+  font-size: 1.4rem;
+  margin-top: 0;
+}
+.client-management-list table td.has-request {
+  font-weight: 600;
+}
+.client-management-list table td img.image {
+  float: left;
+  margin-right: 1em;
+}
+.client-management-list table td .title {
+  font-weight: bold;
+}
+.client-management-list table td.listed {
+  white-space: nowrap;
+}
+.client-management-list table td.listed a {
+  color: #f15b25;
+}
+.client-management-list table td .rental-price {
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+.client-management-list .mobile-table {
+  border: 1px solid #ccc;
+}
+.client-management-list .mobile-table .case-card {
+  border-bottom: 1px solid #ccc;
+  padding: 1rem;
+  display: flex;
+}
+.client-management-list .mobile-table .case-card .address-row {
+  display: flex;
+  flex-direction: column;
+}
+.client-management-list .mobile-table .case-card .address-row .address {
+  color: #f15b25;
+  font-weight: bold;
+}
+.client-management-list .mobile-table .case-card .address-row .offer {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+.client-management-list .mobile-table .case-card .milestone {
+  flex: 0;
+  margin-right: 2rem;
+}
+.client-management-list .mobile-table .case-card .milestone .title {
+  min-height: 0 !important;
+}
+.client-management-list .options a.button {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  color: #f15b25;
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+}
+.client-management-list .options a.button:hover {
+  background: #f15b25;
+  color: #fff;
+}
+.client-management-list .pagination-holder {
+  display: flex;
+  justify-content: center;
+}
+.client-management-list .pagination-holder .pagination a {
+  color: #f15b25;
+}
+.client-management-list .pagination-holder .pagination a:hover {
+  color: #f15b25;
+}
+.client-management-list .pagination-holder .pagination li.active a {
+  background: #f15b25;
+  border-color: #f15b25;
+  color: #fff;
+}
+.client-management-list .pagination {
+  justify-content: center;
+  margin: 20px 0;
+  text-align: center;
+}
+.client-management-list .pagination .page {
+  padding: 5px 10px 3px 10px;
+  border: 1px solid #ccc;
+  border-left: none;
+  transition: all 0.4s ease-in-out;
+}
+.client-management-list .pagination .page:first-of-type {
+  border-left: 1px solid #ccc;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.client-management-list .pagination .page:last-of-type {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.client-management-list .pagination .page.last,
+.client-management-list .pagination .page.first {
+  padding: 5px 20px 3px 20px;
+}
+.client-management-list .pagination .page.selected,
+.client-management-list .pagination .page:hover {
+  background: #f15b25;
+  color: #fff;
+}
+.mobile .cases .controls .order-item,
+.mobile .cases .controls .filter-item {
+  margin-left: 1rem;
+}
+.mobile .cases .mobile-table .address-row {
+  flex: 1;
+}

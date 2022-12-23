@@ -20,7 +20,7 @@
     tbody(ng-repeat='property in filterData =(properties.items | filter:{"SearchField":search} | orderBy:sort) | limitTo:limit:limit*(page-1)')
       tr(ng-click='property.open = !property.open')
         td(ng-class='{"has-request animated pulse infinite":hasRequest(property)}')
-          img.image(src='{{property.Images[0].Url}}?width=200', width='100') 
+          img.image(src='{{property.Images[0].Url}}&width=200', width='100') 
           .address {{property.displayAddress}}
           .rental-price {{property.Price.PriceValue | currency : "£" : 0}} ({{property | getFees | currency : "£" : 0}})
         td.vendor {{property.vendor.Name}}

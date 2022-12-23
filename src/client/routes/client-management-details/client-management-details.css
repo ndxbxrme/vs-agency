@@ -1,0 +1,274 @@
+svg {
+  --fa-primary-color: #f15b25;
+  --fa-secondary-color: #464e53;
+}
+.client-management-details .header1 {
+  text-align: center;
+  margin: 0 0 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.client-management-details .header1 .info {
+  width: 320px;
+  padding: 20px 20px 0;
+  border-bottom: 1px solid #ccc;
+}
+.client-management-details .header1 .info i.mortgage {
+  background: url("../../public/img/icons/vs-icons2.png") no-repeat;
+  background-position: -1px -81px;
+  vertical-align: middle;
+}
+.client-management-details .header1 .info h2 {
+  margin-bottom: 0;
+  padding: 0;
+}
+.client-management-details .header1 .info p {
+  text-align: center;
+}
+.client-management-details .header1 .info p span {
+  color: #f15b25;
+}
+.client-management-details .results,
+.client-management-details .stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.client-management-details .results .ic50,
+.client-management-details .stats .ic50 {
+  display: inline-block;
+  zoom: 0.5;
+}
+.client-management-details .property-item {
+  display: flex;
+  align-items: center;
+  background: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 55px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+.client-management-details .property-item .item {
+  display: flex;
+  align-items: baseline;
+}
+.client-management-details .property-item .property-status {
+  flex: 1;
+}
+.client-management-details .property-item .property-marketing .item {
+  justify-content: flex-end;
+}
+.client-management-details .property-item h4 {
+  margin: 0;
+  margin-left: 2em;
+  color: #f15b25;
+}
+.client-management-details .property-image {
+  width: 9em;
+  height: 6em;
+}
+.client-management-details .property-image {
+  width: 12em;
+  height: 8em;
+  background: #eee;
+  background-position: center;
+  background-size: cover;
+  margin-right: 2rem;
+  box-shadow: 0 2px 2px #000;
+}
+.client-management-details .results,
+.client-management-details .stats {
+  text-align: center;
+}
+.client-management-details .results .col-sm-6,
+.client-management-details .stats .col-sm-6 {
+  margin-bottom: 30px;
+}
+.client-management-details .results .col-sm-6 p,
+.client-management-details .stats .col-sm-6 p {
+  font-size: 2rem;
+  line-height: 1;
+  padding-bottom: 0;
+  color: #f15b25;
+}
+.client-management-details .results .col-sm-6 p.small,
+.client-management-details .stats .col-sm-6 p.small {
+  font-size: 1.4rem;
+  color: #464e53;
+}
+.client-management-details .results .col-sm-6 i,
+.client-management-details .stats .col-sm-6 i {
+  background: url("../../public/img/icons/vs_icons.png") no-repeat;
+  width: 80px;
+  height: 80px;
+}
+.client-management-details .results .col-sm-6 i.vs-iconsale,
+.client-management-details .stats .col-sm-6 i.vs-iconsale {
+  background-position: -340px -252px;
+}
+.client-management-details .results .col-sm-6 i.vs-iconstaff,
+.client-management-details .stats .col-sm-6 i.vs-iconstaff {
+  background-position: -256px -336px;
+}
+.client-management-details .results .col-sm-6 i.guarantor,
+.client-management-details .stats .col-sm-6 i.guarantor {
+  background: url("../../public/img/icons/icons3.png") no-repeat;
+  background-position: -2px -82px;
+}
+.client-management-details .results .col-sm-6 i.mail,
+.client-management-details .stats .col-sm-6 i.mail {
+  background: url("../../public/img/icons/vs_mail.png") no-repeat;
+  display: inline-block;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+}
+.client-management-details .results .col-sm-6 i.vs-iconphoto,
+.client-management-details .stats .col-sm-6 i.vs-iconphoto {
+  background-position: -340px -168px;
+}
+.client-management-details .results .col-sm-6 i.vs-iconvideo,
+.client-management-details .stats .col-sm-6 i.vs-iconvideo {
+  background-position: -4px -420px;
+}
+.client-management-details .results .col-sm-6 i.offer,
+.client-management-details .stats .col-sm-6 i.offer {
+  background: url("../../public/img/icons/vs-icons2.png") no-repeat;
+  background-position: -82px -81px;
+}
+.client-management-details .results .col-sm-6 i.vs-iconsearch,
+.client-management-details .stats .col-sm-6 i.vs-iconsearch {
+  background-position: -4px -336px;
+}
+.client-management-details .results .col-sm-6 i.vs-icondocument,
+.client-management-details .stats .col-sm-6 i.vs-icondocument {
+  background-position: -88px -84px;
+}
+.client-management-details .results .col-sm-6 i.reserving,
+.client-management-details .stats .col-sm-6 i.reserving {
+  background: url("../../public/img/icons/icons3.png") no-repeat;
+  background-position: -84px -82px;
+}
+.client-management-details .results .col-sm-6 i.vs-iconthumb,
+.client-management-details .stats .col-sm-6 i.vs-iconthumb {
+  background-position: -340px -336px;
+}
+.client-management-details .rightmove-stats {
+  text-align: center;
+  margin: 60px 0 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.client-management-details .rightmove-stats .info {
+  width: 320px;
+  padding: 20px 20px 0;
+  border-bottom: 1px solid #ccc;
+}
+.client-management-details .rightmove-stats .info p span {
+  color: #f15b25;
+}
+.client-management-details sup {
+  background: #f15b25;
+  border-radius: 50%;
+  padding: 4px 7px 2px 7px;
+  color: #fff;
+}
+.client-management-details .dropdown {
+  box-shadow: 2px 2px 25px rgba(200,200,200,0.8);
+}
+.client-management-details .dropdown a {
+  color: #464e53;
+}
+.client-management-details .address {
+  font-size: 1.8rem;
+  font-weight: 100;
+}
+.client-management-details .address span.right {
+  float: right;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #999;
+}
+.client-management-details .contacts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.client-management-details button {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  color: #f15b25;
+  background: #fff;
+  transition: all 0.4s ease-in-out;
+  outline: none;
+  cursor: default;
+}
+.client-management-details button:hover {
+  background: #f15b25;
+  color: #fff;
+}
+.client-management-details .orange {
+  color: #f15b25;
+  font-weight: 500;
+}
+.client-management-details .case-notes {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 20px 0;
+  padding: 10px 20px 20px 20px;
+}
+.client-management-details .case-notes .case-note {
+  border: 1px solid #f1f1f1;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.client-management-details .case-notes .case-note .date {
+  font-weight: 600;
+}
+.client-management-details .case-notes .case-note .date .edit,
+.client-management-details .case-notes .case-note .date .delete {
+  display: inline;
+  float: right;
+  color: #f15b25;
+  margin-left: 1rem;
+}
+.client-management-details .case-notes .case-note p,
+.client-management-details .case-notes .case-note h1,
+.client-management-details .case-notes .case-note h2,
+.client-management-details .case-notes .case-note h3,
+.client-management-details .case-notes .case-note h4,
+.client-management-details .case-notes .case-note h5,
+.client-management-details .case-notes .case-note h6 {
+  margin: 0 0 0px 0;
+}
+.client-management-details .case-notes .case-note img {
+  margin-right: 5px;
+}
+.client-management-details .add-note .CodeMirror {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f1f1f1;
+  padding-left: 15px;
+  height: 120px;
+}
+.client-management-details .add-note .CodeMirror pre {
+  font-size: 1.8rem;
+}
+.client-management-details .add-note button {
+  position: relative;
+  z-index: 5000;
+  margin-top: 15px;
+  background: #f15b25;
+  color: #fff;
+  border: #f15b25;
+}
+.client-management-details .add-note button:hover {
+  background: #464e53;
+}
