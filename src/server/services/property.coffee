@@ -147,7 +147,7 @@ module.exports = (ndx) ->
                   , ndx.dezrez.get 'role/{id}/offers', null, id:property.RoleId, (err, body) -> 
                     property.offers = body
                     res(body)
-                  , ndx.dezrez.get 'role/{id}/events', {pageSize:2000}, id:property.RoleId, (err, body) -> 
+                  , ndx.dezrez.get 'role/{id}/events', {pageSize:200}, id:property.RoleId, (err, body) -> 
                     property.events = body
                     res(body)
               ]
@@ -175,8 +175,10 @@ module.exports = (ndx) ->
             resolve()
         else
           resolve()
+  checkCount = 0
   checkNew = ->
-    fetchClientManagementProperties()
+    if checkCount++ % 12 is 0
+      fetchClientManagementProperties()
     opts = 
       RoleStatus: 'OfferAccepted'
       RoleType: 'Selling'
