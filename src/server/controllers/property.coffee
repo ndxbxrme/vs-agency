@@ -115,6 +115,8 @@ module.exports = (ndx) ->
         res.json properties[0].progressions
       else
         res.json []
+  ndx.app.get '/webhook', (req, res, next) ->
+    res.end 'hi'
   #startup
   ndx.database.on 'ready', ->
     if not ndx.database.count 'properties'
