@@ -227,8 +227,8 @@ module.exports = (ndx) ->
                     _id: property._id.toString()
                 propCallback()
   ndx.database.on 'ready', ->
-    setInterval checkNew, 10 * 60 * 1000
-    checkNew()
+    #setInterval checkNew, 10 * 60 * 1000
+    #checkNew()
   ndx.database.on 'preUpdate', (args, cb) ->
     if args.table is 'properties'
       property = args.obj
