@@ -177,8 +177,7 @@ module.exports = (ndx) ->
           resolve()
   checkCount = 0
   checkNew = ->
-    if checkCount++ % 12 is 0
-      fetchClientManagementProperties()
+    fetchClientManagementProperties()
     opts = 
       RoleStatus: 'OfferAccepted'
       RoleType: 'Selling'
@@ -229,6 +228,9 @@ module.exports = (ndx) ->
   ndx.database.on 'ready', ->
     #setInterval checkNew, 10 * 60 * 1000
     #checkNew()
+  ndx.app.post '/api/webhook', (req, res, next) ->
+    checkNew()
+    res.end 'ok'
   ndx.database.on 'preUpdate', (args, cb) ->
     if args.table is 'properties'
       property = args.obj
