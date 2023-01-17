@@ -235,7 +235,7 @@ module.exports = (ndx) ->
     checkNew()
     res.end 'ok'
   ndx.app.post '/status', (req, res, next) ->
-    res.end webhookCalls: webhookCalls
+    res.json webhookCalls: webhookCalls
   ndx.database.on 'preUpdate', (args, cb) ->
     if args.table is 'properties'
       property = args.obj
