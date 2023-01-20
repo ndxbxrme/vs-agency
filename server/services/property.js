@@ -236,7 +236,8 @@
                 }
               }
               ndx.database.delete('clientmanagement', { now: { $lt: now } });
-
+              console.log('finished fetching');
+              resolve();
             }
           })
       })

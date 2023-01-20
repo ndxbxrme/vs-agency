@@ -9,16 +9,16 @@
     if (process.env.REZI_ID && process.env.REZI_SECRET) {
       envUrls = {
         dev: {
-          auth: 'https://server.vitalspace.com/dezrez/token/',
-          api: 'https://server.vitalspace.com/dezrez/'
+          auth: 'https://server.vitalspace.co.uk/dezrez/token/',
+          api: 'https://server.vitalspace.co.uk/dezrez/'
         },
         production: {
-          auth: 'https://server.vitalspace.com/dezrez/token/',
-          api: 'https://server.vitalspace.com/dezrez/'
+          auth: 'https://server.vitalspace.co.uk/dezrez/token/',
+          api: 'https://server.vitalspace.co.uk/dezrez/'
         },
         live: {
-          auth: 'https://server.vitalspace.com/dezrez/token/',
-          api: 'https://server.vitalspace.com/dezrez/'
+          auth: 'https://server.vitalspace.co.uk/dezrez/token/',
+          api: 'https://server.vitalspace.co.uk/dezrez/'
         }
       };
       urls = envUrls[process.env.NODE_ENV || 'dev'];
