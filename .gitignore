@@ -5,8 +5,6 @@ backup
 .tmp
 build
 env.bat
-server
-!src/server
 dist
 env.sh
 key.pem
