@@ -218,10 +218,10 @@
                 property.extendedData = await new Promise(res => ndx.dezrez.get('property/{id}', null, { id: property.PropertyId }, (err, body) => res(body)));
                 property.role = await new Promise(res => ndx.dezrez.get('role/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
                 property.vendor = await new Promise(res => ndx.dezrez.get('property/{id}/owners', null, { id: property.PropertyId }, (err, body) => res(body)));
-                property.rightmove = await new Promise(res => ndx.dezrez.get('stats/rightmove/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
-                property.offers = await new Promise(res => ndx.dezrez.get('role/{id}/offers', null, { id: property.RoleId }, (err, body) => res(body)));
+                //property.rightmove = await new Promise(res => ndx.dezrez.get('stats/rightmove/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
+                property.offers = (await new Promise(res => ndx.dezrez.get('role/{id}/offers', null, { id: property.RoleId }, (err, body) => res(body)))).Collection;
                 console.log(property.offers ? property.offers.length : 'no offers');
-                property.events = await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)));
+                property.events = (await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)))).Collection;
                 property.active = true;
                 property.now = now;
                 const dbprop = await ndx.database.selectOne('clientmanagement', { RoleId: property.RoleId });
@@ -234,7 +234,7 @@
                   property.notes = [];
                   ndx.database.insert('clientmanagement', property);
                 }
-                await new Promise(res => setTimeout(res, 10000));
+                await new Promise(res => setTimeout(res, 1000));
               }
               ndx.database.delete('clientmanagement', { now: { $lt: now } });
               console.log('finished fetching');
