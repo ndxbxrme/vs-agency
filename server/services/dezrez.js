@@ -23,8 +23,9 @@
       };
       urls = envUrls[process.env.NODE_ENV || 'dev'];
       accessToken = null;
-      tokenExpires = 0;
+      tokenExpires = Math.;
       refreshToken = function(cb) {
+        return cb();
         var authCode, grantType, scopes;
         if (tokenExpires < new Date().valueOf()) {
           authCode = new Buffer(process.env.REZI_ID + ':' + process.env.REZI_SECRET).toString('base64');
