@@ -236,10 +236,6 @@
                   await ndx.database.insert('clientmanagement', property);
                   console.log('inserting', property.RoleId);
                 }
-                const testprop = await ndx.database.selectOne('clientmanagement', { RoleId: property.RoleId });
-                if(testprop) {
-                  console.log('testprop', testprop.offers)
-                }
                 await new Promise(res => setTimeout(res, 100));
               }
               await ndx.database.delete('clientmanagement', { now: { $lt: now } });
