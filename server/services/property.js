@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   var asy, superagent;
 
@@ -6,14 +6,14 @@
 
   asy = require('async');
 
-  module.exports = function(ndx) {
+  module.exports = function (ndx) {
     var calculateMilestones, checkCount, checkNew, fetchClientManagementProperties, getDefaultProgressions, webhookCalls;
-    ndx.database.on('ready', function() {
+    ndx.database.on('ready', function () {
       return ndx.database.select('properties', {
         override: {
           deleted: true
         }
-      }, function(props) {
+      }, function (props) {
         var j, len, prop, results;
         results = [];
         for (j = 0, len = props.length; j < len; j++) {
@@ -26,11 +26,11 @@
         return results;
       });
     });
-    getDefaultProgressions = function(property) {
+    getDefaultProgressions = function (property) {
       property.progressions = [];
       return ndx.database.select('progressions', {
         isdefault: true
-      }, function(progressions) {
+      }, function (progressions) {
         var j, len, progression, results;
         results = [];
         for (j = 0, len = progressions.length; j < len; j++) {
@@ -48,13 +48,13 @@
         return results;
       });
     };
-    calculateMilestones = function(property) {
+    calculateMilestones = function (property) {
       var b, branch, gotOverdue, j, k, l, len, len1, len2, milestone, p, progression, ref, ref1, updateEstDays;
       if (property.progressions && property.progressions.length) {
-        updateEstDays = function(progressions) {
+        updateEstDays = function (progressions) {
           var aday, b, branch, fetchMilestoneById, i, j, k, l, len, len1, len2, len3, len4, len5, len6, m, milestone, n, needsCompleting, o, prev, progStart, progression, q, ref, results, testMilestone;
           aday = 24 * 60 * 60 * 1000;
-          fetchMilestoneById = function(id, progressions) {
+          fetchMilestoneById = function (id, progressions) {
             var j, k, l, len, len1, len2, mybranch, mymilestone, myprogression, ref;
             for (j = 0, len = progressions.length; j < len; j++) {
               myprogression = progressions[j];
@@ -106,7 +106,7 @@
                     try {
                       milestone.estCompletedTime = new Date(milestone.userCompletedTime).valueOf();
                       continue;
-                    } catch (undefined) {}
+                    } catch (undefined) { }
                   }
                   if (!milestone.estAfter) {
                     prev = progression.milestones[b - 2][0];
@@ -197,113 +197,62 @@
         }
       }
     };
-    fetchClientManagementProperties = function() {
-      return new Promise(function(resolve) {
+    fetchClientManagementProperties = function () {
+      return new Promise(function (resolve) {
+        console.log('fetching client management', process.env.PROPERTY_URL + "/search");
         var opts;
         opts = {
           RoleStatus: 'InstructionToSell',
           RoleType: 'Selling',
           IncludeStc: true
         };
-        return superagent.post(process.env.PROPERTY_URL + "/search").set('Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN).send(opts).end(function(err, res) {
-          var now;
-          if (!err && res.body.Collection) {
-            now = new Date().getTime();
-            return Promise.all(res.body.Collection.map(function(property) {
-              return new Promise(function(propRes) {
-                return Promise.all([
-                  new Promise(function(res) {
-                    return ndx.dezrez.get('role/{id}/viewingsbasic', null, {
-                      id: property.RoleId
-                    }, function(err, body) {
-                      property.viewings = body;
-                      return res(body);
-                    }, ndx.dezrez.get('property/{id}', null, {
-                      id: property.PropertyId
-                    }, function(err, body) {
-                      property.extendedData = body;
-                      return res(body);
-                    }, ndx.dezrez.get('role/{id}', null, {
-                      id: property.RoleId
-                    }, function(err, body) {
-                      property.role = body;
-                      return res(body);
-                    }, ndx.dezrez.get('property/{id}/owners', null, {
-                      id: property.PropertyId
-                    }, function(err, body) {
-                      property.vendor = body;
-                      return res(body);
-                    }, ndx.dezrez.get('stats/rightmove/{id}', null, {
-                      id: property.RoleId
-                    }, function(err, body) {
-                      property.rightmove = body;
-                      return res(body);
-                    }, ndx.dezrez.get('role/{id}/offers', null, {
-                      id: property.RoleId
-                    }, function(err, body) {
-                      property.offers = body;
-                      return res(body);
-                    }, ndx.dezrez.get('role/{id}/events', {
-                      pageSize: 200
-                    }, {
-                      id: property.RoleId
-                    }, function(err, body) {
-                      property.events = body;
-                      return res(body);
-                    })))))));
-                  })
-                ]).then(function() {
-                  property.active = true;
-                  property.now = now;
-                  return new Promise(function(res) {
-                    return ndx.database.select('clientmanagement', {
-                      RoleId: property.RoleId
-                    }, function(items) {
-                      return res(items[0]);
-                    });
-                  }).then(function(dbprop) {
-                    if (dbprop) {
-                      property._id = dbprop._id;
-                      property.notes = dbprop.notes;
-                      ndx.database.upsert('clientmanagement', property);
-                    } else {
-                      property.notes = [];
-                      ndx.database.insert('clientmanagement', property);
-                    }
-                    return propRes();
-                  });
-                });
-              });
-            })).then(function() {
-              ndx.database.update('clientmanagement', {
-                active: false
-              }, {
-                now: {
-                  $lt: now
+        return superagent.post(process.env.PROPERTY_URL + "/search")
+          .set('Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN)
+          .send(opts).end(async function (err, res) {
+            var now;
+            if (!err && res.body.Collection) {
+              now = new Date().getTime();
+              for (let p = 0; p < res.body.Collection.length; p++) {
+                const property = res.body.Collection[p];
+                property.viewings = await new Promise(res => ndx.dezrez.get('role/{id}/viewingsbasic', null, { id: property.RoleId }, (err, body) => res(body)));
+                property.extendedData = await new Promise(res => ndx.dezrez.get('property/{id}', null, { id: property.PropertyId }, (err, body) => res(body)));
+                property.role = await new Promise(res => ndx.dezrez.get('role/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
+                property.vendor = await new Promise(res => ndx.dezrez.get('property/{id}/owners', null, { id: property.PropertyId }, (err, body) => res(body)));
+                property.rightmove = await new Promise(res => ndx.dezrez.get('stats/rightmove/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
+                property.offers = await new Promise(res => ndx.dezrez.get('role/{id}/offers', null, { id: property.RoleId }, (err, body) => res(body)));
+                property.events = await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)));
+                property.active = true;
+                property.now = now;
+                const dbprop = await ndx.database.selectOne('clientmanagement', { RoleId: property.RoleId });
+                if (dbprop) {
+                  property._id = dbprop._id;
+                  property.notes = dbprop.notes;
+                  ndx.database.upsert('clientmanagement', property);
                 }
-              });
-              return resolve();
-            });
-          } else {
-            return resolve();
-          }
-        });
-      });
+                else {
+                  property.notes = [];
+                  ndx.database.insert('clientmanagement', property);
+                }
+              }
+              ndx.database.delete('clientmanagement', { now: { $lt: now } });
+
+            }
+          })
+      })
     };
     checkCount = 0;
-    checkNew = function() {
+    checkNew = function () {
       var opts;
-      fetchClientManagementProperties();
       opts = {
         RoleStatus: 'OfferAccepted',
         RoleType: 'Selling',
         IncludeStc: true
       };
-      return superagent.post(process.env.PROPERTY_URL + "/search").set('Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN).send(opts).end(function(err, res) {
+      return superagent.post(process.env.PROPERTY_URL + "/search").set('Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN).send(opts).end(function (err, res) {
         console.log('superagent post returned');
         if (!err && res.body.Collection) {
-          return asy.eachSeries(res.body.Collection, function(property, callback) {
-            return ndx.property.fetch(property.RoleId.toString(), function(mycase) {
+          return asy.eachSeries(res.body.Collection, function (property, callback) {
+            return ndx.property.fetch(property.RoleId.toString(), function (mycase) {
               var propClone;
               if (!mycase.progressions || !mycase.progressions.length) {
                 ndx.property.getDefaultProgressions(mycase);
@@ -311,7 +260,7 @@
                   progressions: mycase.progressions
                 }, {
                   _id: mycase._id
-                }, function() {
+                }, function () {
                   return callback();
                 });
               } else {
@@ -326,12 +275,12 @@
                 return callback();
               }
             });
-          }, function() {
+          }, function () {
             return ndx.database.select('properties', {
               delisted: false
-            }, function(properties) {
+            }, function (properties) {
               if (properties && properties.length) {
-                return asy.eachSeries(properties, function(property, propCallback) {
+                return asy.eachSeries(properties, function (property, propCallback) {
                   var foundRole, j, len, prop, ref;
                   foundRole = false;
                   ref = res.body.Collection;
@@ -357,20 +306,23 @@
         }
       });
     };
-    ndx.database.on('ready', function() {});
+    ndx.database.on('ready', function () { 
+      setInterval(fetchClientManagementProperties, 15 * 60 * 1000);
+      fetchClientManagementProperties();
+    });
     webhookCalls = 0;
-    ndx.app.post('/webhook', function(req, res, next) {
+    ndx.app.post('/webhook', function (req, res, next) {
       console.log('WEBHOOK CALLED');
       webhookCalls++;
       checkNew();
       return res.end('ok');
     });
-    ndx.app.post('/status', function(req, res, next) {
+    ndx.app.post('/status', function (req, res, next) {
       return res.json({
         webhookCalls: webhookCalls
       });
     });
-    ndx.database.on('preUpdate', function(args, cb) {
+    ndx.database.on('preUpdate', function (args, cb) {
       var property;
       if (args.table === 'properties') {
         property = args.obj;
@@ -381,19 +333,19 @@
     return ndx.property = {
       getDefaultProgressions: getDefaultProgressions,
       checkNew: checkNew,
-      fetch: function(roleId, cb) {
+      fetch: function (roleId, cb) {
         return ndx.database.select('properties', {
           roleId: roleId.toString()
-        }, function(property) {
+        }, function (property) {
           var fetchPropertyRole, offerId, ref;
-          fetchPropertyRole = function(roleId, property, propcb) {
+          fetchPropertyRole = function (roleId, property, propcb) {
             return ndx.dezrez.get('role/{id}', null, {
               id: roleId
-            }, function(err, body) {
+            }, function (err, body) {
               if (!err) {
                 return ndx.dezrez.get('role/{id}', null, {
                   id: body.PurchasingRoleId
-                }, function(err, body) {
+                }, function (err, body) {
                   var contact, j, len, ref, ref1, ref10, ref11, ref12, ref13, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
                   if (!err) {
                     if (((ref = body.RoleStatus) != null ? ref.SystemName : void 0) !== 'OfferAccepted') {
@@ -454,7 +406,7 @@
                 roleId: property[0].roleId
               });
             } else if (property[0].modifiedAt + (60 * 60 * 1000) < new Date().valueOf()) {
-              return fetchPropertyRole(property[0].roleId, property[0], function(prop) {
+              return fetchPropertyRole(property[0].roleId, property[0], function (prop) {
                 if (prop) {
                   if (prop.offer.Id !== offerId) {
                     if (property[0].delisted) {
@@ -483,7 +435,7 @@
               roleId: roleId.toString(),
               startDate: new Date().valueOf()
             };
-            return fetchPropertyRole(roleId, property, function(property) {
+            return fetchPropertyRole(roleId, property, function (property) {
               if (property && !property.badProp) {
                 getDefaultProgressions(property);
                 property.delisted = false;

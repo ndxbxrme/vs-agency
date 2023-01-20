@@ -62,6 +62,7 @@
             }
             query = query || {};
             query.agencyId = process.env.AGENCY_ID || 37;
+            console.log('getting:', urls.api + route);
             return superagent.get(urls.api + route).set('Rezi-Api-Version', '1.0').set('Content-Type', 'application/json').set('Authorization', 'Bearer ' + accessToken).query(query).send().end(function(err, response) {
               if (err) {
                 return doCallback(err);
