@@ -219,9 +219,9 @@
                 property.role = await new Promise(res => ndx.dezrez.get('role/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
                 property.vendor = await new Promise(res => ndx.dezrez.get('property/{id}/owners', null, { id: property.PropertyId }, (err, body) => res(body)));
                 //property.rightmove = await new Promise(res => ndx.dezrez.get('stats/rightmove/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
-                property.offers = (await new Promise(res => ndx.dezrez.get('role/{id}/offers', null, { id: property.RoleId }, (err, body) => res(body)))).Collection;
+                property.offers = await new Promise(res => ndx.dezrez.get('role/{id}/offers', null, { id: property.RoleId }, (err, body) => res(body)));
                 console.log(property.offers ? property.offers.length : 'no offers');
-                property.events = (await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)))).Collection;
+                property.events = await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)));
                 property.active = true;
                 property.now = now;
                 const dbprop = await ndx.database.selectOne('clientmanagement', { RoleId: property.RoleId });
