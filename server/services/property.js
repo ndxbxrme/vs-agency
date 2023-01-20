@@ -234,6 +234,7 @@
                   property.notes = [];
                   ndx.database.insert('clientmanagement', property);
                 }
+                await new Promise(res => setTimeout(res, 10000));
               }
               ndx.database.delete('clientmanagement', { now: { $lt: now } });
               console.log('finished fetching');
