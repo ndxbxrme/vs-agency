@@ -23,7 +23,7 @@
       };
       urls = envUrls[process.env.NODE_ENV || 'dev'];
       accessToken = null;
-      tokenExpires = Math.;
+      tokenExpires = 0;
       refreshToken = function(cb) {
         return cb();
         var authCode, grantType, scopes;
