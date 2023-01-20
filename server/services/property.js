@@ -220,7 +220,7 @@
                 property.vendor = await new Promise(res => ndx.dezrez.get('property/{id}/owners', null, { id: property.PropertyId }, (err, body) => res(body)));
                 //property.rightmove = await new Promise(res => ndx.dezrez.get('stats/rightmove/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
                 property.offers = await new Promise(res => ndx.dezrez.get('role/{id}/offers', null, { id: property.RoleId }, (err, body) => res(body)));
-                console.log(property.offers ? property.offers.length : 'no offers');
+                console.log(property.offers ? property.offers.TotalCount : 'no offers');
                 property.events = await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)));
                 property.active = true;
                 property.now = now;
@@ -228,15 +228,17 @@
                 if (dbprop) {
                   property._id = dbprop._id;
                   property.notes = dbprop.notes;
-                  ndx.database.upsert('clientmanagement', property);
+                  await ndx.database.upsert('clientmanagement', property);
+                  console.log('updating', property._id);
                 }
                 else {
                   property.notes = [];
-                  ndx.database.insert('clientmanagement', property);
+                  await ndx.database.insert('clientmanagement', property);
+                  console.log('inserting', property.RoleId);
                 }
-                await new Promise(res => setTimeout(res, 1000));
+                await new Promise(res => setTimeout(res, 100));
               }
-              ndx.database.delete('clientmanagement', { now: { $lt: now } });
+              await ndx.database.delete('clientmanagement', { now: { $lt: now } });
               console.log('finished fetching');
               resolve();
             }
