@@ -318,14 +318,14 @@
       });
     };
     ndx.database.on('ready', function () { 
-      setInterval(fetchClientManagementProperties, 15 * 60 * 1000);
-      fetchClientManagementProperties();
+      //setInterval(fetchClientManagementProperties, 15 * 60 * 1000);
     });
     webhookCalls = 0;
     ndx.app.post('/webhook', function (req, res, next) {
       console.log('WEBHOOK CALLED');
       webhookCalls++;
       checkNew();
+      fetchClientManagementProperties();
       return res.end('ok');
     });
     ndx.app.post('/status', function (req, res, next) {
