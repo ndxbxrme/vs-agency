@@ -177,7 +177,7 @@ module.exports = (ndx) ->
           resolve()
   checkCount = 0
   checkNew = ->
-    fetchClientManagementProperties()
+    #fetchClientManagementProperties()
     opts = 
       RoleStatus: 'OfferAccepted'
       RoleType: 'Selling'
