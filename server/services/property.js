@@ -8,6 +8,7 @@
 
   module.exports = function (ndx) {
     var calculateMilestones, checkCount, checkNew, fetchClientManagementProperties, getDefaultProgressions, webhookCalls;
+    let debugInfo = {};
     ndx.database.on('ready', function () {
       return ndx.database.select('properties', {
         override: {
@@ -198,6 +199,11 @@
       }
     };
     fetchClientManagementProperties = function () {
+      debugInfo = {
+        updated: 0,
+        inserted: 0,
+        errors: 0
+      };
       return new Promise(function (resolve) {
         console.log('fetching client management', process.env.PROPERTY_URL + "/search");
         var opts;
@@ -212,21 +218,28 @@
             var now;
             if (!err && res.body.Collection) {
               now = new Date().getTime();
+              debugInfo.time = now;
+              debugInfo.col = res.body.Collection.length;
               for (let p = 0; p < res.body.Collection.length; p++) {
                 const property = res.body.Collection[p];
-                property.viewings = await new Promise(res => ndx.dezrez.get('role/{id}/viewingsbasic', null, { id: property.RoleId }, (err, body) => res(body)));
-                property.extendedData = await new Promise(res => ndx.dezrez.get('property/{id}', null, { id: property.PropertyId }, (err, body) => res(body)));
-                property.role = await new Promise(res => ndx.dezrez.get('role/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
-                property.vendor = await new Promise(res => ndx.dezrez.get('property/{id}/owners', null, { id: property.PropertyId }, (err, body) => res(body)));
-                //property.rightmove = await new Promise(res => ndx.dezrez.get('stats/rightmove/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
-                property.offers = await new Promise(res => ndx.dezrez.get('role/{id}/offers', null, { id: property.RoleId }, (err, body) => res(body)));
-                if(property.offers) {
-                  property.offers.Collection = [];
-                }
-                console.log(property.offers ? property.offers.TotalCount : 'no offers');
-                property.events = await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)));
-                if(property.events) {
-                  property.events.Collection = property.events.Collection.map(event => ({EventType:{Name:event.EventType.Name}}));
+                try {
+                  property.viewings = await new Promise(res => ndx.dezrez.get('role/{id}/viewingsbasic', null, { id: property.RoleId }, (err, body) => res(body)));
+                  property.extendedData = await new Promise(res => ndx.dezrez.get('property/{id}', null, { id: property.PropertyId }, (err, body) => res(body)));
+                  property.role = await new Promise(res => ndx.dezrez.get('role/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
+                  property.vendor = await new Promise(res => ndx.dezrez.get('property/{id}/owners', null, { id: property.PropertyId }, (err, body) => res(body)));
+                  //property.rightmove = await new Promise(res => ndx.dezrez.get('stats/rightmove/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
+                  property.offers = await new Promise(res => ndx.dezrez.get('role/{id}/offers', null, { id: property.RoleId }, (err, body) => res(body)));
+                  if(property.offers) {
+                    property.offers.Collection = [];
+                  }
+                  console.log(property.offers ? property.offers.TotalCount : 'no offers');
+                  property.events = await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)));
+                  if(property.events) {
+                    property.events.Collection = property.events.Collection.map(event => ({EventType:{Name:event.EventType.Name}}));
+                  }
+                } catch(e) {
+                  debugInfo.errors++;
+                  debugInfo.errorText = e;
                 }
                 property.active = true;
                 property.now = now;
@@ -236,11 +249,13 @@
                   property.notes = dbprop.notes;
                   await ndx.database.upsert('clientmanagement', property);
                   console.log('updating', property._id);
+                  debugInfo.updated++;
                 }
                 else {
                   property.notes = [];
                   await ndx.database.insert('clientmanagement', property);
                   console.log('inserting', property.RoleId);
+                  debugInfo.inserted++
                 }
                 await new Promise(res => setTimeout(res, 100));
               }
@@ -328,9 +343,10 @@
       fetchClientManagementProperties();
       return res.end('ok');
     });
-    ndx.app.post('/status', function (req, res, next) {
+    ndx.app.get('/status', function (req, res, next) {
       return res.json({
-        webhookCalls: webhookCalls
+        webhookCalls: webhookCalls,
+        debugInfo: debugInfo
       });
     });
     ndx.database.on('preUpdate', function (args, cb) {
