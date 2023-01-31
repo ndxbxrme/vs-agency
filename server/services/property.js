@@ -223,7 +223,7 @@
               for (let p = 0; p < res.body.Collection.length; p++) {
                 const property = res.body.Collection[p];
                 try {
-                  property.viewings = await new Promise(res => ndx.dezrez.get('role/{id}/viewingsbasic', null, { id: property.RoleId }, (err, body) => res(body)));
+                  property.viewings = await new Promise(res => ndx.dezrez.get('role/{id}/viewings', null, { id: property.RoleId }, (err, body) => res(body)));
                   property.extendedData = await new Promise(res => ndx.dezrez.get('property/{id}', null, { id: property.PropertyId }, (err, body) => res(body)));
                   property.role = await new Promise(res => ndx.dezrez.get('role/{id}', null, { id: property.RoleId }, (err, body) => res(body)));
                   property.vendor = await new Promise(res => ndx.dezrez.get('property/{id}/owners', null, { id: property.PropertyId }, (err, body) => res(body)));
