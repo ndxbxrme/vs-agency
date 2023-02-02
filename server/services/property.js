@@ -10,7 +10,7 @@
     var calculateMilestones, checkCount, checkNew, fetchClientManagementProperties, getDefaultProgressions, webhookCalls;
     let debugInfo = {};
     ndx.database.on('ready', function () {
-      return ndx.database.select('properties', {
+      /*return ndx.database.select('properties', {
         override: {
           deleted: true
         }
@@ -25,7 +25,7 @@
           results.push(console.log('deleted', prop._id));
         }
         return results;
-      });
+      });*/
     });
     getDefaultProgressions = function (property) {
       property.progressions = [];
@@ -233,10 +233,10 @@
                     property.offers.Collection = [];
                   }
                   console.log(property.offers ? property.offers.TotalCount : 'no offers');
-                  property.events = await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)));
+                  /*property.events = await new Promise(res => ndx.dezrez.get('role/{id}/events', { pageSize: 200 }, { id: property.RoleId }, (err, body) => res(body)));
                   if(property.events) {
                     property.events.Collection = property.events.Collection.map(event => ({EventType:{Name:event.EventType.Name}}));
-                  }
+                  }*/
                 } catch(e) {
                   debugInfo.errors++;
                   debugInfo.errorText = e;
