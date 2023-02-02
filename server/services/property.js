@@ -9,6 +9,9 @@
   module.exports = function (ndx) {
     var calculateMilestones, checkCount, checkNew, fetchClientManagementProperties, getDefaultProgressions, webhookCalls;
     let debugInfo = {};
+    let processed = {
+      commissions: 0
+    }
     ndx.database.on('ready', function () {
       /*return ndx.database.select('properties', {
         override: {
@@ -290,6 +293,24 @@
                   return callback();
                 });
               } else {
+                const role = mycases.role;
+                if(role) {
+                  if(!role.Commission) {
+                    processed.commissionProp = property;
+                    if(property && property.Fees && property.Fees.length) {
+                      processed.commissions++;
+                      const fee = property.Fees[0];
+                      if(fee.FeeValueType && fee.FeeValueType.SystemName === 'Absolute') {
+                        role.Commission = property.Fees[0].DefaultValue;
+                      }
+                      else {
+                        if(role.AcceptedOffer) {
+                          role.Commission = role.AcceptedOffer.Value * (property.Fees[0].DefaultValue / 100);
+                        }
+                      }
+                    }
+                  }
+                }
                 propClone = JSON.stringify(mycase);
                 calculateMilestones(mycase);
                 if (propClone !== JSON.stringify(mycase)) {
@@ -346,7 +367,8 @@
     ndx.app.get('/status', function (req, res, next) {
       return res.json({
         webhookCalls: webhookCalls,
-        debugInfo: debugInfo
+        debugInfo: debugInfo,
+        processed: processed
       });
     });
     ndx.database.on('preUpdate', function (args, cb) {
