@@ -293,10 +293,9 @@
                   return callback();
                 });
               } else {
-                const role = mycases.role;
+                const role = mycase.role;
                 if(role) {
                   if(!role.Commission) {
-                    processed.commissionProp = property;
                     if(property && property.Fees && property.Fees.length) {
                       processed.commissions++;
                       const fee = property.Fees[0];
