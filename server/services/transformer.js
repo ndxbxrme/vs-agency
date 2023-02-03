@@ -26,6 +26,7 @@
         "override": true,
         "progressions": true,
         "displayAddress": function(obj) {
+          if(!obj || !obj.offer || !obj.offer.Property || !obj.offer.Property.Address) return 'Bad address';
           return obj.offer.Property.Address.Number + " " + obj.offer.Property.Address.Street + ", " + obj.offer.Property.Address.Locality + ", " + obj.offer.Property.Address.Town + ", " + obj.offer.Property.Address.Postcode;
         },
         "milestoneIndex": true,
