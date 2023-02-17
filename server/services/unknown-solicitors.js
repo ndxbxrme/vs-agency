@@ -1,6 +1,6 @@
 (function() {
   module.exports = function(ndx) {
-    const millisecondsUntil10am = () {
+    const millisecondsUntil10am = () => {
       const now = new Date();
       const tenAM = new Date();
       tenAM.setHours(10, 0, 0, 0);
