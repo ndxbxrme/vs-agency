@@ -1,10 +1,19 @@
 (function() {
   module.exports = function(ndx) {
+    const millisecondsUntil10am = () {
+      const now = new Date();
+      const tenAM = new Date();
+      tenAM.setHours(10, 0, 0, 0);
+    
+      if (now.getHours() >= 10) {
+        tenAM.setDate(tenAM.getDate() + 1);
+      }
+    
+      return tenAM.getTime() - now.getTime();
+    }
     return ndx.database.on('ready', function() {
-      var nextSendTime, resetNextSendTime, sendUnknownSolicitorEmails;
-      nextSendTime = null;
-      sendUnknownSolicitorEmails = function() {
-        return ndx.database.select('properties', {
+      const sendUnknownSolicitorEmails = function() {
+        ndx.database.select('properties', {
           where: {
             delisted: false
           }
@@ -53,14 +62,13 @@
                 name: 'Unknown Solicitors'
               }, function(templates) {
                 if (templates && templates.length) {
-                  return ndx.database.select('users', {
-                    deleted: null
-                  }, function(users) {
+                  return ndx.database.select('users', {sendEmail:true}, function(users) {
                     var j, len1, ref12, ref13, results, user;
                     if (users && users.length) {
                       results = [];
                       for (j = 0, len1 = users.length; j < len1; j++) {
                         user = users[j];
+                        if(user.deleted) continue;
                         console.log('sending to', (ref12 = user.local) != null ? ref12.email : void 0);
                         templates[0].unknowns = myproperties;
                         templates[0].user = user;
@@ -75,22 +83,9 @@
             }
           }
         }, true);
+        setTimeout(sendUnknownSolicitorEmails, millisecondsUntil10am());
       };
-      resetNextSendTime = function() {
-        nextSendTime = new Date(new Date(new Date().toDateString()).setHours(10));
-        return nextSendTime = new Date(nextSendTime.setDate(nextSendTime.getDate() + 1));
-      };
-      resetNextSendTime();
-      nextSendTime = new Date();
-      return setInterval(function() {
-        var ref;
-        if (new Date() > nextSendTime) {
-          if ((0 < (ref = nextSendTime.getDay()) && ref < 6)) {
-            sendUnknownSolicitorEmails();
-          }
-          return resetNextSendTime();
-        }
-      }, 10000);
+      setTimeout(sendUnknownSolicitorEmails, millisecondsUntil10am());
     });
   };
 

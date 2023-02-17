@@ -121,7 +121,7 @@
       var user;
       if (ndx.email) {
         user = ndx.user;
-        ndx.database.select('users', null, function(users) {
+        ndx.database.select('users', {sendEmail:true}, function(users) {
           var i, len, results;
           results = [];
           for (i = 0, len = users.length; i < len; i++) {
@@ -147,7 +147,7 @@
       var user;
       if (ndx.email) {
         user = ndx.user;
-        ndx.database.select('users', null, function(users) {
+        ndx.database.select('users', {sendEmail:true}, function(users) {
           var i, len, results;
           results = [];
           for (i = 0, len = users.length; i < len; i++) {
