@@ -84,6 +84,7 @@
         }, function(templates) {
           if (templates && templates.length) {
             return ndx.database.select('users', {
+			  sendEmail: true,
               roles: {
                 admin: {
                   $nnull: true
