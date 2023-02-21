@@ -24,7 +24,7 @@
             });
           }
           if (contact === 'allagency') {
-            ndx.database.select('users', null, function(res) {
+            ndx.database.select('users', {sendEmail:true}, function(res) {
               var k, len1, results, user;
               if (res && res.length) {
                 results = [];
@@ -46,7 +46,7 @@
             });
           }
           if (contact === 'alladmin') {
-            ndx.database.select('users', null, function(res) {
+            ndx.database.select('users', {sendEmail:true}, function(res) {
               var k, len1, results, user;
               if (res && res.length) {
                 results = [];
