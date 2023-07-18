@@ -9,73 +9,85 @@
     fetchContacts = function(action, property) {
       var contact, contacts, j, len, negotiator, ref;
       contacts = [];
-      ref = action.to;
-      for (j = 0, len = ref.length; j < len; j++) {
-        contact = ref[j];
-        console.log('contact', contact);
-        if (contact.indexOf('all') === 0) {
-          if (contact === 'negotiator') {
-            negotiator = property["case"].offer.Negotiators[0];
-            contacts.push({
-              name: negotiator.ContactName,
-              role: negotiator.JobTitle,
-              email: negotiator.PrimaryEmail.Value,
-              telephone: negotiator.PrimaryTelephone.Value
+      if (action.specificUser) {
+        ndx.database.select('users', {
+          _id: action.specificUser
+        }, function(res) {
+          if (res && res.length) {
+            return contacts.push({
+              email: res[0].email || res[0].local.email
             });
           }
-          if (contact === 'allagency') {
-            ndx.database.select('users', {sendEmail:true}, function(res) {
-              var k, len1, results, user;
-              if (res && res.length) {
-                results = [];
-                for (k = 0, len1 = res.length; k < len1; k++) {
-                  user = res[k];
-                  if (user.roles && user.roles.agency) {
-                    results.push(contacts.push({
-                      name: user.displayName || user.local.email,
-                      role: 'Agency',
-                      email: user.email || user.local.email,
-                      telephone: user.telephone
-                    }));
-                  } else {
-                    results.push(void 0);
+        });
+      } else {
+        ref = action.to;
+        for (j = 0, len = ref.length; j < len; j++) {
+          contact = ref[j];
+          console.log('contact', contact);
+          if (contact.indexOf('all') === 0) {
+            if (contact === 'negotiator') {
+              negotiator = property["case"].offer.Negotiators[0];
+              contacts.push({
+                name: negotiator.ContactName,
+                role: negotiator.JobTitle,
+                email: negotiator.PrimaryEmail.Value,
+                telephone: negotiator.PrimaryTelephone.Value
+              });
+            }
+            if (contact === 'allagency') {
+              ndx.database.select('users', {sendEmail:true}, function(res) {
+                var k, len1, results, user;
+                if (res && res.length) {
+                  results = [];
+                  for (k = 0, len1 = res.length; k < len1; k++) {
+                    user = res[k];
+                    if (user.roles && user.roles.agency) {
+                      results.push(contacts.push({
+                        name: user.displayName || user.local.email,
+                        role: 'Agency',
+                        email: user.email || user.local.email,
+                        telephone: user.telephone
+                      }));
+                    } else {
+                      results.push(void 0);
+                    }
                   }
+                  return results;
                 }
-                return results;
-              }
-            });
-          }
-          if (contact === 'alladmin') {
-            ndx.database.select('users', {sendEmail:true}, function(res) {
-              var k, len1, results, user;
-              if (res && res.length) {
-                results = [];
-                for (k = 0, len1 = res.length; k < len1; k++) {
-                  user = res[k];
-                  console.log('checking', user);
-                  if (user.roles && user.roles.admin) {
-                    results.push(contacts.push({
-                      name: user.displayName || user.local.email,
-                      role: 'Admin',
-                      email: user.email || user.local.email,
-                      telephone: user.telephone
-                    }));
-                  } else {
-                    results.push(void 0);
+              });
+            }
+            if (contact === 'alladmin') {
+              ndx.database.select('users', {sendEmail:true}, function(res) {
+                var k, len1, results, user;
+                if (res && res.length) {
+                  results = [];
+                  for (k = 0, len1 = res.length; k < len1; k++) {
+                    user = res[k];
+                    console.log('checking', user);
+                    if (user.roles && user.roles.admin) {
+                      results.push(contacts.push({
+                        name: user.displayName || user.local.email,
+                        role: 'Admin',
+                        email: user.email || user.local.email,
+                        telephone: user.telephone
+                      }));
+                    } else {
+                      results.push(void 0);
+                    }
                   }
+                  return results;
                 }
-                return results;
-              }
-            });
-          }
-        } else {
-          if (property["case"][contact]) {
-            contacts.push(property["case"][contact]);
+              });
+            }
           } else {
-            console.log('could not find contact', contact);
+            if (property["case"][contact]) {
+              contacts.push(property["case"][contact]);
+            } else {
+              console.log('could not find contact', contact);
+            }
           }
+          console.log('contacts', contacts);
         }
-        console.log('contacts', contacts);
       }
       return contacts;
     };

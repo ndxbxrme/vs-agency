@@ -125,10 +125,11 @@
         ndx.database.select('users', {sendEmail:true}, function(users) {
           var i, len, results;
           results = [];
+          const template = req.body.template ? req.body.template : 'Sales';
           for (i = 0, len = users.length; i < len; i++) {
             user = users[i];
             results.push(ndx.database.select('emailtemplates', {
-              name: 'New Sales Instruction Email'
+              name: `New ${template} Instruction Email`
             }, function(templates) {
               var ref;
               if (templates && templates.length) {

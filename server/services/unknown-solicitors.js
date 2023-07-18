@@ -1,16 +1,29 @@
+const { zonedTimeToUtc, utcToZonedTime, format } = require('date-fns-tz');
 (function() {
   module.exports = function(ndx) {
     const millisecondsUntil10am = () => {
       const now = new Date();
-      const tenAM = new Date();
+      const timeZone = 'Europe/London'; // Time zone for the United Kingdom
+    
+      // Convert the current time to the UK time zone
+      const nowInUKTimeZone = utcToZonedTime(now, timeZone);
+    
+      const tenAM = new Date(nowInUKTimeZone);
       tenAM.setHours(10, 0, 0, 0);
     
-      if (now.getHours() >= 10) {
+      if (nowInUKTimeZone.getHours() >= 10 || nowInUKTimeZone.getTime() > tenAM.getTime()) {
         tenAM.setDate(tenAM.getDate() + 1);
       }
     
-      return tenAM.getTime() - now.getTime();
-    }
+      // Format the dates for display
+      const formatOptions = { timeZone, hour: '2-digit', minute: '2-digit' };
+      const tenAMString = format(tenAM, 'HH:mm', formatOptions);
+      const nowString = format(nowInUKTimeZone, 'HH:mm', formatOptions);
+    
+      console.log(`The next email will be sent at 10 AM UK time. Current time: ${nowString}, Next email time: ${tenAMString}`);
+    
+      return tenAM.getTime() - nowInUKTimeZone.getTime();
+    };
     return ndx.database.on('ready', function() {
       const sendUnknownSolicitorEmails = function() {
         ndx.database.select('properties', {
