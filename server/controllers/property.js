@@ -145,6 +145,20 @@
       }
       return res.end('OK');
     });
+    ndx.app.post('/api/properties/send-new-lettings-email', ndx.authenticate(), async function(req, res, next) {
+      var user;
+      if (ndx.email) {
+        user = ndx.user;
+        const templateName = req.body.template ? req.body.template : 'Lettings';
+        const template = await ndx.database.selectOne('emailtemplates', {name: `New ${templateName} Instruction Email`});
+        if(template) {
+          template.newLettings = req.body.newLettings;
+          template.user = user;
+          template.to = 'lettings@vitalspace.co.uk';
+        }
+      }
+      return res.end('OK');
+    });
     ndx.app.post('/api/properties/send-reduction-email', ndx.authenticate(), function(req, res, next) {
       var user;
       if (ndx.email) {
