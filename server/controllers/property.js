@@ -155,6 +155,7 @@
           template.newLettings = req.body.newLettings;
           template.user = user;
           template.to = 'lettings@vitalspace.co.uk';
+          ndx.email.send(template);
         }
       }
       return res.end('OK');
