@@ -2,7 +2,7 @@
   'use strict';
   require('ndx-server').config({
     database: 'db',
-    tables: ['users', 'properties', 'progressions', 'emailtemplates', 'smstemplates', 'dashboard', 'targets', 'shorttoken', 'clientmanagement'],
+    tables: ['users', 'properties', 'progressions', 'emailtemplates', 'smstemplates', 'dashboard', 'targets', 'shorttoken', 'clientmanagement', 'birthdays'],
     localStorage: './data',
     hasInvite: true,
     hasForgot: true,
