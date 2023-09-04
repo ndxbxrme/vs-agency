@@ -38,9 +38,14 @@ const { zonedTimeToUtc, utcToZonedTime, format } = require('date-fns-tz');
           if(birthdays && birthdays.length) {
             birthdays.forEach(async birthday => {
               const age = now.getFullYear() - birthday.year;
-              const template = await ndx.database.selectOne('emailtemplates', {
+              let template = await ndx.database.selectOne('emailtemplates', {
                 name: `Birthday ${age} Year${age===1?'':'s'}`
               });
+              if(!template) {
+                template = await ndx.database.selectOne('emailtemplates', {
+                  name: `Birthday`
+                });
+              }
               if(template) {
                 template.birthday = birthday;
                 template.to = birthday.email;
