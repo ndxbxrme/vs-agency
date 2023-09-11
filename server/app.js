@@ -17,8 +17,8 @@
       roles: true
     }
   }).use(ndx => {
-    ndx.addPublicRoute('/api/birthday-unsubscribe');
-    ndx.app.post('/api/birthday-unsubscribe', function(req, res, next) {
+    ndx.addPublicRoute('/birthday-unsubscribe');
+    ndx.app.post('/birthday-unsubscribe', function(req, res, next) {
       try {
         const id = req.body.id;
         ndx.database.delete('birthdays', {_id:id});
