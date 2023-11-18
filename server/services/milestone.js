@@ -41,7 +41,7 @@
                   results = [];
                   for (k = 0, len1 = res.length; k < len1; k++) {
                     user = res[k];
-                    if (user.roles && user.roles.agency) {
+                    if(!user.deleted && user.local && user.local.sites && user.local.sites.main && user.local.sites.main.role && user.local.sites.main.role==='agency') {
                       results.push(contacts.push({
                         name: user.displayName || user.local.email,
                         role: 'Agency',
@@ -64,7 +64,9 @@
                   for (k = 0, len1 = res.length; k < len1; k++) {
                     user = res[k];
                     console.log('checking', user);
-                    if (user.roles && user.roles.admin) {
+                    if(!user.deleted && user.local && user.local.sites && user.local.sites.main 
+                      && user.local.sites.main.role && ['superadmin', 'admin'].includes(user.local.sites.main.role) 
+                      && user.local.email && user.local.email!=='superadmin@admin.com') {
                       results.push(contacts.push({
                         name: user.displayName || user.local.email,
                         role: 'Admin',
