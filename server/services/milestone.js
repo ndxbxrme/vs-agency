@@ -252,7 +252,7 @@
         results = [];
         for (j = 0, len = progressions.length; j < len; j++) {
           progression = progressions[j];
-
+          if(progression.deleted) continue;
           /*
           for milestone in progression.milestones[0]
             milestone.progressing = false

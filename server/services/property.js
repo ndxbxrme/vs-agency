@@ -39,7 +39,7 @@
         results = [];
         for (j = 0, len = progressions.length; j < len; j++) {
           progression = progressions[j];
-
+          if(progression.deleted) continue;
           /*
           for milestone in progression.milestones[0]
             milestone.progressing = false
@@ -495,6 +495,7 @@
                 property.chainSeller = [];
                 property.delisted = false;
                 ndx.database.insert('properties', property);
+                //ndx.database.insert('propertyadmin', {RoleId:property.roleId});
               }
               return typeof cb === "function" ? cb(property) : void 0;
             });
