@@ -93,7 +93,7 @@
       }
       return contacts;
     };
-    processActions = async function(actionOn, actions, roleId, property) {
+    processActions = function(actionOn, actions, roleId, property) {
       var action, branch, contacts, isStarted, j, len, milestone, progression, results;
       if (actions && actions.length) {
         if (!property) {
@@ -179,31 +179,35 @@
                   break;
                 case 'Email':
                   contacts = fetchContacts(action, property);
-                  let template = await ndx.database.selectOne('emailtemplates', {_id: action.template});
-                  if(template) {
-                    if(property.pipeline) {
-                      let pipelineTemplate = await ndx.database.selectOne('emailtemplates', {name:`${property.pipeline}:${template.name}`});
-                      if(pipelineTemplate) {
-                        template = pipelineTemplate;
-                        for(let k = 0; k < contacts.length; k++) {
-                          const contact = contacts[k];
-                          if(contact && contact.email && template.subject && template.body && template.from) {
-                            if(process.env.EMAIL_OVERRIDE) {
-                              template.subject = `${template.subject} <${contact.email}>`;
-                            }
-                            ndx.email.send({
-                              to: contact.email,
-                              subject: template.subject,
-                              body: template.body,
-                              from: template.from,
-                              contact: contact,
-                              property: property
-                            })
+                  results.push(ndx.database.select('emailtemplates', {
+                    _id: action.template
+                  }, function(res) {
+                    var contact, k, len1, results1;
+                    if (res && res.length) {
+                      results1 = [];
+                      for (k = 0, len1 = contacts.length; k < len1; k++) {
+                        contact = contacts[k];
+                        if (contact && contact.email && res[0].subject && res[0].body && res[0].from) {
+                          if (process.env.EMAIL_OVERRIDE) {
+                            res[0].subject = res[0].subject + " <" + contact.email + ">";
                           }
+                          results1.push(ndx.email.send({
+                            to: contact.email,
+                            subject: res[0].subject,
+                            body: res[0].body,
+                            from: res[0].from,
+                            contact: contact,
+                            property: property
+                          }));
+                        } else {
+                          console.log('bad email template');
+                          console.log(res[0]);
+                          results1.push(console.log(contact));
                         }
                       }
+                      return results1;
                     }
-                  }
+                  }));
                   break;
                 case 'Sms':
                   contacts = fetchContacts(action, property);
