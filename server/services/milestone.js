@@ -1,18 +1,18 @@
-(function() {
+(function () {
   'use strict';
   var superagent;
 
   superagent = require('superagent');
 
-  module.exports = function(ndx) {
+  module.exports = function (ndx) {
     var calculateMilestones, fetchContacts, getDefaultProgressions, processActions;
-    fetchContacts = function(action, property) {
+    fetchContacts = function (action, property) {
       var contact, contacts, j, len, negotiator, ref;
       contacts = [];
       if (action.specificUser) {
         ndx.database.select('users', {
           _id: action.specificUser
-        }, function(res) {
+        }, function (res) {
           if (res && res.length) {
             return contacts.push({
               email: res[0].email || res[0].local.email
@@ -35,13 +35,13 @@
               });
             }
             if (contact === 'allagency') {
-              ndx.database.select('users', {sendEmail:true}, function(res) {
+              ndx.database.select('users', { sendEmail: true }, function (res) {
                 var k, len1, results, user;
                 if (res && res.length) {
                   results = [];
                   for (k = 0, len1 = res.length; k < len1; k++) {
                     user = res[k];
-                    if(!user.deleted && user.local && user.local.sites && user.local.sites.main && user.local.sites.main.role && user.local.sites.main.role==='agency') {
+                    if (!user.deleted && user.local && user.local.sites && user.local.sites.main && user.local.sites.main.role && user.local.sites.main.role === 'agency') {
                       results.push(contacts.push({
                         name: user.displayName || user.local.email,
                         role: 'Agency',
@@ -57,16 +57,16 @@
               });
             }
             if (contact === 'alladmin') {
-              ndx.database.select('users', {sendEmail:true}, function(res) {
+              ndx.database.select('users', { sendEmail: true }, function (res) {
                 var k, len1, results, user;
                 if (res && res.length) {
                   results = [];
                   for (k = 0, len1 = res.length; k < len1; k++) {
                     user = res[k];
                     console.log('checking', user);
-                    if(!user.deleted && user.local && user.local.sites && user.local.sites.main 
-                      && user.local.sites.main.role && ['superadmin', 'admin'].includes(user.local.sites.main.role) 
-                      && user.local.email && user.local.email!=='superadmin@admin.com') {
+                    if (!user.deleted && user.local && user.local.sites && user.local.sites.main
+                      && user.local.sites.main.role && ['superadmin', 'admin'].includes(user.local.sites.main.role)
+                      && user.local.email && user.local.email !== 'superadmin@admin.com') {
                       results.push(contacts.push({
                         name: user.displayName || user.local.email,
                         role: 'Admin',
@@ -93,14 +93,14 @@
       }
       return contacts;
     };
-    processActions = async function(actionOn, actions, roleId, property) {
+    processActions = function (actionOn, actions, roleId, property) {
       var action, branch, contacts, isStarted, j, len, milestone, progression, results;
       if (actions && actions.length) {
         if (!property) {
-          return superagent.get(process.env.PROPERTY_URL + "/property/" + roleId).set('Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN).send().end(function(err, res) {
+          return superagent.get(process.env.PROPERTY_URL + "/property/" + roleId).set('Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN).send().end(function (err, res) {
             if (!err) {
               property = res.body;
-              return ndx.property.fetch(roleId, function(mycase) {
+              return ndx.property.fetch(roleId, function (mycase) {
                 property["case"] = mycase;
                 return processActions(actionOn, actions, roleId, property);
               });
@@ -115,19 +115,19 @@
             if (action.on === actionOn) {
               switch (action.type) {
                 case 'Trigger':
-                  results.push((function() {
+                  results.push((function () {
                     var k, len1, ref, results1;
                     ref = property["case"].progressions;
                     results1 = [];
                     for (k = 0, len1 = ref.length; k < len1; k++) {
                       progression = ref[k];
-                      results1.push((function() {
+                      results1.push((function () {
                         var l, len2, ref1, results2;
                         ref1 = progression.milestones;
                         results2 = [];
                         for (l = 0, len2 = ref1.length; l < len2; l++) {
                           branch = ref1[l];
-                          results2.push((function() {
+                          results2.push((function () {
                             var len3, m, results3;
                             results3 = [];
                             for (m = 0, len3 = branch.length; m < len3; m++) {
@@ -179,37 +179,48 @@
                   break;
                 case 'Email':
                   contacts = fetchContacts(action, property);
-                  let template = await ndx.database.selectOne('emailtemplates', {_id: action.template});
-                  if(template) {
-                    if(property.pipeline) {
-                      let pipelineTemplate = await ndx.database.selectOne('emailtemplates', {name:`${property.pipeline}:${template.name}`});
-                      if(pipelineTemplate) {
-                        template = pipelineTemplate;
-                      }
-                    }
-                    for(let k = 0; k < contacts.length; k++) {
-                      const contact = contacts[k];
-                      if(contact && contact.email && template.subject && template.body && template.from) {
-                        if(process.env.EMAIL_OVERRIDE) {
-                          template.subject = `${template.subject} <${contact.email}>`;
+                  results.push(ndx.database.select('emailtemplates', {
+                    _id: action.template
+                  }, function (res) {
+                    var contact, k, len1, results1;
+                    if (res && res.length) {
+                      ndx.database.select('emailtemplates', {
+                        name: property.pipeline + ':' + res[0].name
+                      }, function (ppres) {
+                        if (ppres && ppres.length) {
+                          res = ppres;
                         }
-                        ndx.email.send({
-                          to: contact.email,
-                          subject: template.subject,
-                          body: template.body,
-                          from: template.from,
-                          contact: contact,
-                          property: property
-                        })
-                      }
+                        results1 = [];
+                        for (k = 0, len1 = contacts.length; k < len1; k++) {
+                          contact = contacts[k];
+                          if (contact && contact.email && res[0].subject && res[0].body && res[0].from) {
+                            if (process.env.EMAIL_OVERRIDE) {
+                              res[0].subject = res[0].subject + " <" + contact.email + ">";
+                            }
+                            results1.push(ndx.email.send({
+                              to: contact.email,
+                              subject: res[0].subject,
+                              body: res[0].body,
+                              from: res[0].from,
+                              contact: contact,
+                              property: property
+                            }));
+                          } else {
+                            console.log('bad email template');
+                            console.log(res[0]);
+                            results1.push(console.log(contact));
+                          }
+                        }
+                        return results1;
+                      });
                     }
-                  }
+                  }));
                   break;
                 case 'Sms':
                   contacts = fetchContacts(action, property);
                   results.push(ndx.database.select('smstemplates', {
                     _id: action.template
-                  }, function(res) {
+                  }, function (res) {
                     var contact, k, len1, results1;
                     if (res && res.length) {
                       results1 = [];
@@ -239,16 +250,16 @@
         }
       }
     };
-    getDefaultProgressions = function(property) {
+    getDefaultProgressions = function (property) {
       property.progressions = [];
       return ndx.database.select('progressions', {
         isdefault: true
-      }, function(progressions) {
+      }, function (progressions) {
         var j, len, progression, results;
         results = [];
         for (j = 0, len = progressions.length; j < len; j++) {
           progression = progressions[j];
-          if(progression.deleted) continue;
+          if (progression.deleted) continue;
           /*
           for milestone in progression.milestones[0]
             milestone.progressing = false
@@ -261,13 +272,13 @@
         return results;
       });
     };
-    calculateMilestones = function(property) {
+    calculateMilestones = function (property) {
       var b, branch, gotOverdue, j, k, l, len, len1, len2, milestone, p, progression, ref, ref1, updateEstDays;
       if (property.progressions && property.progressions.length) {
-        updateEstDays = function(progressions) {
+        updateEstDays = function (progressions) {
           var aday, b, branch, fetchMilestoneById, i, j, k, l, len, len1, len2, len3, len4, len5, len6, m, milestone, n, needsCompleting, o, prev, progStart, progression, q, ref, results, testMilestone;
           aday = 24 * 60 * 60 * 1000;
-          fetchMilestoneById = function(id, progressions) {
+          fetchMilestoneById = function (id, progressions) {
             var j, k, l, len, len1, len2, mybranch, mymilestone, myprogression, ref;
             for (j = 0, len = progressions.length; j < len; j++) {
               myprogression = progressions[j];
@@ -319,7 +330,7 @@
                     try {
                       milestone.estCompletedTime = new Date(milestone.userCompletedTime).valueOf();
                       continue;
-                    } catch (undefined) {}
+                    } catch (undefined) { }
                   }
                   if (!milestone.estAfter) {
                     prev = progression.milestones[b - 2][0];
