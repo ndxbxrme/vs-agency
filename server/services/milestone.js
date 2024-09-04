@@ -223,19 +223,28 @@
                   }, function (res) {
                     var contact, k, len1, results1;
                     if (res && res.length) {
-                      results1 = [];
-                      for (k = 0, len1 = contacts.length; k < len1; k++) {
-                        contact = contacts[k];
-                        results1.push(ndx.sms.send({
-                          originator: 'VitalSpace',
-                          numbers: [contact.telephone],
-                          body: res[0].body
-                        }, {
-                          contact: contact,
-                          property: property
-                        }));
-                      }
-                      return results1;
+                      ndx.database.select('smstemplates', {
+                        name: property.pipeline + ':' + res[0].name
+                      }, function (ppres) {
+                        if (ppres && ppres.length) {
+                          res = ppres;
+                        }
+                        if (res && res.length) {
+                          results1 = [];
+                          for (k = 0, len1 = contacts.length; k < len1; k++) {
+                            contact = contacts[k];
+                            results1.push(ndx.sms.send({
+                              originator: 'VitalSpace',
+                              numbers: [contact.telephone],
+                              body: res[0].body
+                            }, {
+                              contact: contact,
+                              property: property
+                            }));
+                          }
+                          return results1;
+                        }
+                      });
                     }
                   }));
                   break;
