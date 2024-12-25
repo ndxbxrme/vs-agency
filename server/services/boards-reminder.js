@@ -28,6 +28,9 @@ module.exports = (ndx) => {
             const users = await ndx.database.select('users');
             if(users && users.length) {
               for(const user of users) {
+                if(user.local.email==='superadmin@admin.com') {
+                  continue;
+                }
                 template.to = user.local.email;
                 ndx.email.send(template);
               }
