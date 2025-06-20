@@ -34,7 +34,8 @@
         "roleId": true,
         "purchasersSolicitor": true,
         "vendorsSolicitor": true,
-        "pipeline": true
+        "pipeline": true,
+        "consultant": true
       }
     };
   };

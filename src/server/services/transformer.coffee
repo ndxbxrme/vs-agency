@@ -20,6 +20,8 @@ module.exports = (ndx) ->
         "#{obj.offer.Property.Address.Number} #{obj.offer.Property.Address.Street }, #{obj.offer.Property.Address.Locality }, #{obj.offer.Property.Address.Town}, #{obj.offer.Property.Address.Postcode}"
       "milestoneIndex": true
       "role": true
-      "roleId": true,
-      "purchasersSolicitor": true,
+      "roleId": true
+      "purchasersSolicitor": true
       "vendorsSolicitor": true
+      "pipeline": true
+      "consultant": true
