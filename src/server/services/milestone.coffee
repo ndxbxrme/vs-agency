@@ -114,13 +114,13 @@ module.exports = (ndx) ->
                 , (res) ->
                   if res and res.length
                     for contact in contacts
-                      ndx.sms.send
-                        originator: 'VitalSpace'
-                        numbers: [contact.telephone]
-                        body: res[0].body
-                      ,
-                        contact: contact
-                        property: property
+                      # ndx.sms.send
+                      #   originator: 'VitalSpace'
+                      #   numbers: [contact.telephone]
+                      #   body: res[0].body
+                      # ,
+                      #   contact: contact
+                      #   property: property
   getDefaultProgressions = (property) ->
     property.progressions = []
     ndx.database.select 'progressions',
