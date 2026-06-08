@@ -95,168 +95,173 @@
     };
     processActions = function (actionOn, actions, roleId, property) {
       var action, branch, contacts, isStarted, j, len, milestone, progression, results;
-      if (actions && actions.length) {
-        if (!property) {
-          return superagent.get(process.env.PROPERTY_URL + "/property/" + roleId).set('Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN).send().end(function (err, res) {
-            if (!err) {
-              property = res.body;
-              return ndx.property.fetch(roleId, function (mycase) {
-                property["case"] = mycase;
-                return processActions(actionOn, actions, roleId, property);
-              });
-            } else {
-              throw err;
-            }
-          });
-        } else {
-          results = [];
-          for (j = 0, len = actions.length; j < len; j++) {
-            action = actions[j];
-            if (action.on === actionOn) {
-              switch (action.type) {
-                case 'Trigger':
-                  results.push((function () {
-                    var k, len1, ref, results1;
-                    ref = property["case"].progressions;
-                    results1 = [];
-                    for (k = 0, len1 = ref.length; k < len1; k++) {
-                      progression = ref[k];
-                      results1.push((function () {
-                        var l, len2, ref1, results2;
-                        ref1 = progression.milestones;
-                        results2 = [];
-                        for (l = 0, len2 = ref1.length; l < len2; l++) {
-                          branch = ref1[l];
-                          results2.push((function () {
-                            var len3, m, results3;
-                            results3 = [];
-                            for (m = 0, len3 = branch.length; m < len3; m++) {
-                              milestone = branch[m];
-                              if (milestone._id === action.milestone) {
-                                if (action.triggerAction === 'complete') {
-                                  if (!milestone.completed) {
-                                    isStarted = milestone.startTime;
-                                    milestone.completed = true;
-                                    milestone.progressing = false;
-                                    milestone.completedTime = new Date().valueOf();
-                                    if (!isStarted) {
-                                      milestone.startTime = new Date().valueOf();
+      try {
+        if (actions && actions.length) {
+          if (!property) {
+            return superagent.get(process.env.PROPERTY_URL + "/property/" + roleId).set('Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN).send().end(function (err, res) {
+              if (!err) {
+                property = res.body;
+                return ndx.property.fetch(roleId, function (mycase) {
+                  property["case"] = mycase;
+                  return processActions(actionOn, actions, roleId, property);
+                });
+              } else {
+                throw err;
+              }
+            });
+          } else {
+            results = [];
+            for (j = 0, len = actions.length; j < len; j++) {
+              action = actions[j];
+              if (action.on === actionOn) {
+                switch (action.type) {
+                  case 'Trigger':
+                    results.push((function () {
+                      var k, len1, ref, results1;
+                      ref = property["case"].progressions;
+                      results1 = [];
+                      for (k = 0, len1 = ref.length; k < len1; k++) {
+                        progression = ref[k];
+                        results1.push((function () {
+                          var l, len2, ref1, results2;
+                          ref1 = progression.milestones;
+                          results2 = [];
+                          for (l = 0, len2 = ref1.length; l < len2; l++) {
+                            branch = ref1[l];
+                            results2.push((function () {
+                              var len3, m, results3;
+                              results3 = [];
+                              for (m = 0, len3 = branch.length; m < len3; m++) {
+                                milestone = branch[m];
+                                if (milestone._id === action.milestone) {
+                                  if (action.triggerAction === 'complete') {
+                                    if (!milestone.completed) {
+                                      isStarted = milestone.startTime;
+                                      milestone.completed = true;
+                                      milestone.progressing = false;
+                                      milestone.completedTime = new Date().valueOf();
+                                      if (!isStarted) {
+                                        milestone.startTime = new Date().valueOf();
+                                      }
+                                      ndx.database.update('properties', property["case"], {
+                                        _id: property["case"]._id
+                                      });
+                                      if (!isStarted) {
+                                        processActions('Start', milestone.actions, roleId, property);
+                                      }
+                                      results3.push(processActions('Complete', milestone.actions, roleId, property));
+                                    } else {
+                                      results3.push(void 0);
                                     }
-                                    ndx.database.update('properties', property["case"], {
-                                      _id: property["case"]._id
-                                    });
-                                    if (!isStarted) {
-                                      processActions('Start', milestone.actions, roleId, property);
-                                    }
-                                    results3.push(processActions('Complete', milestone.actions, roleId, property));
                                   } else {
-                                    results3.push(void 0);
+                                    if (!milestone.startTime) {
+                                      milestone.progressing = true;
+                                      milestone.startTime = new Date().valueOf();
+                                      ndx.database.update('properties', property["case"], {
+                                        _id: property["case"]._id
+                                      });
+                                      results3.push(processActions('Start', milestone.actions, roleId, property));
+                                    } else {
+                                      results3.push(void 0);
+                                    }
                                   }
                                 } else {
-                                  if (!milestone.startTime) {
-                                    milestone.progressing = true;
-                                    milestone.startTime = new Date().valueOf();
-                                    ndx.database.update('properties', property["case"], {
-                                      _id: property["case"]._id
-                                    });
-                                    results3.push(processActions('Start', milestone.actions, roleId, property));
-                                  } else {
-                                    results3.push(void 0);
-                                  }
+                                  results3.push(void 0);
                                 }
-                              } else {
-                                results3.push(void 0);
                               }
-                            }
-                            return results3;
-                          })());
-                        }
-                        return results2;
-                      })());
-                    }
-                    return results1;
-                  })());
-                  break;
-                case 'Email':
-                  contacts = fetchContacts(action, property);
-                  results.push(ndx.database.select('emailtemplates', {
-                    _id: action.template
-                  }, function (res) {
-                    var contact, k, len1, results1;
-                    if (res && res.length) {
-                      ndx.database.select('emailtemplates', {
-                        name: property.pipeline + ':' + res[0].name
-                      }, function (ppres) {
-                        if (ppres && ppres.length) {
-                          res = ppres;
-                        }
-                        results1 = [];
-                        for (k = 0, len1 = contacts.length; k < len1; k++) {
-                          contact = contacts[k];
-                          if (contact && contact.email && res[0].subject && res[0].body && res[0].from) {
-                            if (process.env.EMAIL_OVERRIDE) {
-                              res[0].subject = res[0].subject + " <" + contact.email + ">";
-                            }
-                            results1.push(ndx.email.send({
-                              to: contact.email,
-                              subject: res[0].subject,
-                              body: res[0].body,
-                              from: res[0].from,
-                              contact: contact,
-                              property: property
-                            }));
-                          } else {
-                            console.log('bad email template');
-                            console.log(res[0]);
-                            results1.push(console.log(contact));
+                              return results3;
+                            })());
                           }
-                        }
-                        return results1;
-                      });
-                    }
-                  }));
-                  break;
-                case 'Sms':
-                  contacts = fetchContacts(action, property);
-                  results.push(ndx.database.select('smstemplates', {
-                    _id: action.template
-                  }, function (res) {
-                    var contact, k, len1, results1;
-                    if (res && res.length) {
-                      ndx.database.select('smstemplates', {
-                        name: property.pipeline + ':' + res[0].name
-                      }, function (ppres) {
-                        if (ppres && ppres.length) {
-                          res = ppres;
-                        }
-                        if (res && res.length) {
+                          return results2;
+                        })());
+                      }
+                      return results1;
+                    })());
+                    break;
+                  case 'Email':
+                    contacts = fetchContacts(action, property);
+                    results.push(ndx.database.select('emailtemplates', {
+                      _id: action.template
+                    }, function (res) {
+                      var contact, k, len1, results1;
+                      if (res && res.length) {
+                        ndx.database.select('emailtemplates', {
+                          name: property.pipeline + ':' + res[0].name
+                        }, function (ppres) {
+                          if (ppres && ppres.length) {
+                            res = ppres;
+                          }
                           results1 = [];
                           for (k = 0, len1 = contacts.length; k < len1; k++) {
                             contact = contacts[k];
-                            results1.push(ndx.sms.send({
-                              originator: 'VitalSpace',
-                              numbers: [contact.telephone],
-                              body: res[0].body
-                            }, {
-                              contact: contact,
-                              property: property
-                            }));
+                            if (contact && contact.email && res[0].subject && res[0].body && res[0].from) {
+                              if (process.env.EMAIL_OVERRIDE) {
+                                res[0].subject = res[0].subject + " <" + contact.email + ">";
+                              }
+                              results1.push(ndx.email.send({
+                                to: contact.email,
+                                subject: res[0].subject,
+                                body: res[0].body,
+                                from: res[0].from,
+                                contact: contact,
+                                property: property
+                              }));
+                            } else {
+                              console.log('bad email template');
+                              console.log(res[0]);
+                              results1.push(console.log(contact));
+                            }
                           }
                           return results1;
-                        }
-                      });
-                    }
-                  }));
-                  break;
-                default:
-                  results.push(void 0);
+                        });
+                      }
+                    }));
+                    break;
+                  case 'Sms':
+                    contacts = fetchContacts(action, property);
+                    results.push(ndx.database.select('smstemplates', {
+                      _id: action.template
+                    }, function (res) {
+                      var contact, k, len1, results1;
+                      if (res && res.length) {
+                        ndx.database.select('smstemplates', {
+                          name: property.pipeline + ':' + res[0].name
+                        }, function (ppres) {
+                          if (ppres && ppres.length) {
+                            res = ppres;
+                          }
+                          if (res && res.length) {
+                            results1 = [];
+                            for (k = 0, len1 = contacts.length; k < len1; k++) {
+                              contact = contacts[k];
+                              // results1.push(ndx.sms.send({
+                              //   originator: 'VitalSpace',
+                              //   numbers: [contact.telephone],
+                              //   body: res[0].body
+                              // }, {
+                              //   contact: contact,
+                              //   property: property
+                              // }));
+                            }
+                            return results1;
+                          }
+                        });
+                      }
+                    }));
+                    break;
+                  default:
+                    results.push(void 0);
+                }
+              } else {
+                results.push(void 0);
               }
-            } else {
-              results.push(void 0);
             }
+            return results;
           }
-          return results;
         }
+      }
+      catch(e) {
+        return e.toString();
       }
     };
     getDefaultProgressions = function (property) {
