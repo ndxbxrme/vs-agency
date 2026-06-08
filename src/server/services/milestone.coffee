@@ -43,84 +43,88 @@ module.exports = (ndx) ->
       console.log 'contacts', contacts
     contacts
   processActions = (actionOn, actions, roleId, property) ->
-    if actions and actions.length
-      if not property
-        #grab property and case details
-        superagent.get "#{process.env.PROPERTY_URL}/property/#{roleId}"
-        .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
-        .send()
-        .end (err, res) ->
-          if not err
-            property = res.body
-            ndx.property.fetch roleId, (mycase) ->
-              property.case = mycase
-              processActions actionOn, actions, roleId, property
-          else
-            throw err
-      else
-        for action in actions
-          if action.on is actionOn
-            switch action.type
-              when 'Trigger'
-                for progression in property.case.progressions
-                  for branch in progression.milestones
-                    for milestone in branch
-                      if milestone._id is action.milestone
-                        if action.triggerAction is 'complete'
-                          if not milestone.completed
-                            isStarted = milestone.startTime
-                            milestone.completed = true
-                            milestone.progressing = false
-                            milestone.completedTime = new Date().valueOf()
-                            if not isStarted
+    try
+      if actions and actions.length
+        if not property
+          #grab property and case details
+          superagent.get "#{process.env.PROPERTY_URL}/property/#{roleId}"
+          .set 'Authorization', 'Bearer ' + process.env.PROPERTY_TOKEN
+          .send()
+          .end (err, res) ->
+            if not err
+              property = res.body
+              ndx.property.fetch roleId, (mycase) ->
+                property.case = mycase
+                processActions actionOn, actions, roleId, property
+            else
+              throw err
+        else
+          for action in actions
+            if action.on is actionOn
+              switch action.type
+                when 'Trigger'
+                  for progression in property.case.progressions
+                    for branch in progression.milestones
+                      for milestone in branch
+                        if milestone._id is action.milestone
+                          if action.triggerAction is 'complete'
+                            if not milestone.completed
+                              isStarted = milestone.startTime
+                              milestone.completed = true
+                              milestone.progressing = false
+                              milestone.completedTime = new Date().valueOf()
+                              if not isStarted
+                                milestone.startTime = new Date().valueOf()
+                              ndx.database.update 'properties', property.case,
+                                _id: property.case._id
+                              if not isStarted
+                                processActions 'Start', milestone.actions, roleId, property
+                              processActions 'Complete', milestone.actions, roleId, property
+                          else
+                            if not milestone.startTime
+                              milestone.progressing = true
                               milestone.startTime = new Date().valueOf()
-                            ndx.database.update 'properties', property.case,
-                              _id: property.case._id
-                            if not isStarted
+                              ndx.database.update 'properties', property.case,
+                                _id: property.case._id
                               processActions 'Start', milestone.actions, roleId, property
-                            processActions 'Complete', milestone.actions, roleId, property
+                when 'Email'
+                  contacts = fetchContacts action, property
+                  ndx.database.select 'emailtemplates',
+                    _id: action.template
+                  , (res) ->
+                    if res and res.length
+                      for contact in contacts
+                        if contact and contact.email and res[0].subject and res[0].body and res[0].from
+                          if process.env.EMAIL_OVERRIDE
+                            res[0].subject = "#{res[0].subject} <#{contact.email}>"
+                          ndx.email.send
+                            to: contact.email
+                            subject: res[0].subject
+                            body: res[0].body
+                            from: res[0].from
+                            contact: contact
+                            property: property
                         else
-                          if not milestone.startTime
-                            milestone.progressing = true
-                            milestone.startTime = new Date().valueOf()
-                            ndx.database.update 'properties', property.case,
-                              _id: property.case._id
-                            processActions 'Start', milestone.actions, roleId, property
-              when 'Email'
-                contacts = fetchContacts action, property
-                ndx.database.select 'emailtemplates',
-                  _id: action.template
-                , (res) ->
-                  if res and res.length
-                    for contact in contacts
-                      if contact and contact.email and res[0].subject and res[0].body and res[0].from
-                        if process.env.EMAIL_OVERRIDE
-                          res[0].subject = "#{res[0].subject} <#{contact.email}>"
-                        ndx.email.send
-                          to: contact.email
-                          subject: res[0].subject
-                          body: res[0].body
-                          from: res[0].from
-                          contact: contact
-                          property: property
-                      else
-                        console.log 'bad email template'
-                        console.log res[0]
-                        console.log  contact
-              when 'Sms'
-                contacts = fetchContacts action, property
-                ndx.database.select 'smstemplates',
-                  _id: action.template
-                , (res) ->
-                  if res and res.length
-                    for contact in contacts
-                      # ndx.sms.send
-                      #   originator: 'VitalSpace'
-                      #   numbers: [contact.telephone]
-                      #   body: res[0].body
-                      # ,
-                      #   contact: contact
-                      #   property: property
+                          console.log 'bad email template'
+                          console.log res[0]
+                          console.log  contact
+                when 'Sms'
+                  contacts = fetchContacts action, property
+                  ndx.database.select 'smstemplates',
+                    _id: action.template
+                  , (res) ->
+                    if res and res.length
+                      for contact in contacts
+                        # ndx.sms.send
+                        #   originator: 'VitalSpace'
+                        #   numbers: [contact.telephone]
+                        #   body: res[0].body
+                        # ,
+                        #   contact: contact
+                        #   property: property
+    catch e
+      console.log 'action error'
+      return e.message
   getDefaultProgressions = (property) ->
     property.progressions = []
     ndx.database.select 'progressions',

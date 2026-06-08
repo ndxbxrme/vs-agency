@@ -17,5 +17,5 @@ module.exports = (ndx) ->
       triggerAction: 'complete'
       milestone: req.body.milestone
     }]
-    ndx.milestone.processActions 'Complete', actions, req.body.roleId
-    res.end 'OK'
+    result = ndx.milestone.processActions 'Complete', actions, req.body.roleId
+    res.end result or 'OK'
